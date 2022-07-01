@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on 热爱生活与梦想</title><link>https://murphyhanxu.github.io/tags/python/</link><description>Recent content in Python on 热爱生活与梦想</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 12 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://murphyhanxu.github.io/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python中list、tuple、dict和set的对比小结</title><link>https://murphyhanxu.github.io/post/python-list/</link><pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-list/</guid><description>&lt;p>对Python中list、turple、dict和set这四种数据类型进行对比总结。&lt;/p>
+&lt;h2 id="概览">概览&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>列表list&lt;/th>
+&lt;th>元组tuple&lt;/th>
+&lt;th>字典dict&lt;/th>
+&lt;th>集合set&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>读写要求&lt;/td>
+&lt;td>读写&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>读写&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>读取方式&lt;/td>
+&lt;td>索引&lt;/td>
+&lt;td>索引&lt;/td>
+&lt;td>键key&lt;/td>
+&lt;td>只能遍历&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>值是否重复&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>键不能重复，值可以&lt;/td>
+&lt;td>否&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>数据存储&lt;/td>
+&lt;td>连续、静态&lt;/td>
+&lt;td>连续、静态&lt;/td>
+&lt;td>不连续、动态&lt;/td>
+&lt;td>不连续、动态&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>是否有序&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>否（自动正序）&lt;/td>
+&lt;td>否&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>初始化&lt;/td>
+&lt;td>[lvalue1, lvalue2]&lt;/td>
+&lt;td>(tvalue1, tvalue2)&lt;/td>
+&lt;td>{key1:value1, key2:value2}&lt;/td>
+&lt;td>{svalue1, svalue2}&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>增&lt;/td>
+&lt;td>list.append(value)&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>dict[key1] = value1&lt;/td>
+&lt;td>set.add(value1)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>删&lt;/td>
+&lt;td>del list[2]&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>del dict[key]&lt;/td>
+&lt;td>set.remove(value1)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>改&lt;/td>
+&lt;td>list[2]=newValue&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>dict[key1] = newValue&lt;/td>
+&lt;td>set.update(value)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>查&lt;/td>
+&lt;td>list[2:]&lt;/td>
+&lt;td>tuple[1:5]&lt;/td>
+&lt;td>dict[key]&lt;/td>
+&lt;td>value in set&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>应用场景&lt;/td>
+&lt;td>非结构化数据存储&lt;/td>
+&lt;td>稳定的数据存储&lt;/td>
+&lt;td>结构化数据存储&lt;/td>
+&lt;td>数据剔重&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>Python中print小结</title><link>https://murphyhanxu.github.io/post/python-print/</link><pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-print/</guid><description>&lt;p>对Python中print函数的使用进行总结。包括：&lt;/p>
+&lt;ul>
+&lt;li>print方法的基本语法格式。&lt;/li>
+&lt;li>使用多种方式进行打印格式化。&lt;/li>
+&lt;/ul></description></item></channel></rss>

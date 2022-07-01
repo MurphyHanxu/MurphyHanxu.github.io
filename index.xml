@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on 热爱生活与梦想</title><link>https://murphyhanxu.github.io/</link><description>Recent content in Home on 热爱生活与梦想</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 30 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://murphyhanxu.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Mysql-use notes</title><link>https://murphyhanxu.github.io/post/mysql-use/</link><pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/mysql-use/</guid><description>&lt;p>学习Mysql&lt;a href="https://www.bilibili.com/video/BV12b411K7Zu?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=b3b5aca8a2675b381887886fba026f67">视频&lt;/a>记录的笔记
+整理MySQL最常用的SQL语句（增删改查CRUD）。
+更多的命令可参考：https://www.runoob.com/mysql/mysql-select-database.html&lt;/p></description></item><item><title>Win 10环境下安装MySQL 5.7</title><link>https://murphyhanxu.github.io/post/mysql-install/</link><pubDate>Mon, 23 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/mysql-install/</guid><description>&lt;p>记录在Win 10下安装、配置MySQL 5.7的过程。&lt;/p></description></item><item><title>Python中list、tuple、dict和set的对比小结</title><link>https://murphyhanxu.github.io/post/python-list/</link><pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-list/</guid><description>&lt;p>对Python中list、turple、dict和set这四种数据类型进行对比总结。&lt;/p>
+&lt;h2 id="概览">概览&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>列表list&lt;/th>
+&lt;th>元组tuple&lt;/th>
+&lt;th>字典dict&lt;/th>
+&lt;th>集合set&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>读写要求&lt;/td>
+&lt;td>读写&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>读写&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>读取方式&lt;/td>
+&lt;td>索引&lt;/td>
+&lt;td>索引&lt;/td>
+&lt;td>键key&lt;/td>
+&lt;td>只能遍历&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>值是否重复&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>键不能重复，值可以&lt;/td>
+&lt;td>否&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>数据存储&lt;/td>
+&lt;td>连续、静态&lt;/td>
+&lt;td>连续、静态&lt;/td>
+&lt;td>不连续、动态&lt;/td>
+&lt;td>不连续、动态&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>是否有序&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>是&lt;/td>
+&lt;td>否（自动正序）&lt;/td>
+&lt;td>否&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>初始化&lt;/td>
+&lt;td>[lvalue1, lvalue2]&lt;/td>
+&lt;td>(tvalue1, tvalue2)&lt;/td>
+&lt;td>{key1:value1, key2:value2}&lt;/td>
+&lt;td>{svalue1, svalue2}&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>增&lt;/td>
+&lt;td>list.append(value)&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>dict[key1] = value1&lt;/td>
+&lt;td>set.add(value1)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>删&lt;/td>
+&lt;td>del list[2]&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>del dict[key]&lt;/td>
+&lt;td>set.remove(value1)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>改&lt;/td>
+&lt;td>list[2]=newValue&lt;/td>
+&lt;td>只读&lt;/td>
+&lt;td>dict[key1] = newValue&lt;/td>
+&lt;td>set.update(value)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>查&lt;/td>
+&lt;td>list[2:]&lt;/td>
+&lt;td>tuple[1:5]&lt;/td>
+&lt;td>dict[key]&lt;/td>
+&lt;td>value in set&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>应用场景&lt;/td>
+&lt;td>非结构化数据存储&lt;/td>
+&lt;td>稳定的数据存储&lt;/td>
+&lt;td>结构化数据存储&lt;/td>
+&lt;td>数据剔重&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>定制个人博客</title><link>https://murphyhanxu.github.io/post/setup-blog/</link><pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-blog/</guid><description>&lt;p>昨天&lt;a href="https://murphyhanxu.github.io/post/setup-hugo/">使用Hugo部署的网站框架&lt;/a>里部署的还是themes带的样例页面。今天进行个性化定制，包括修改页面上的图片、链接等，并放入自己的博文。&lt;/p></description></item><item><title>使用Hugo创建个人博客框架</title><link>https://murphyhanxu.github.io/post/setup-hugo/</link><pubDate>Sun, 24 Apr 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-hugo/</guid><description>&lt;p>       在已经跑通了&lt;a href="https://murphyhanxu.github.io/post/setup-helloworld/">使用GitHub Pages建了自己的第一个hello world页面&lt;/a>的前提下，今天尝试使用Hugo来建一个完整的静态网站框架。&lt;/p>
+&lt;p>       这里先介绍如何安装Hugo，使用Hugo创建站点，并引入一个主题。按照本文操作完，站点的页面还是themes带的样例页面。我将在下一篇文章中总结如何加入自己的博文，以及修改网站的其他个人信息。&lt;/p></description></item><item><title>Python中print小结</title><link>https://murphyhanxu.github.io/post/python-print/</link><pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-print/</guid><description>&lt;p>对Python中print函数的使用进行总结。包括：&lt;/p>
+&lt;ul>
+&lt;li>print方法的基本语法格式。&lt;/li>
+&lt;li>使用多种方式进行打印格式化。&lt;/li>
+&lt;/ul></description></item><item><title>创建第一个GitHub Page</title><link>https://murphyhanxu.github.io/post/setup-helloworld/</link><pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-helloworld/</guid><description>&lt;p>如果想把自己日常的学习心得记录下来，可以创建一个个人博客网站。经过几天的研究比较，发现使用GitHub提供的Pages功能，可以满足基本要求。&lt;/p>
+&lt;p>参照网上的多个总结，今天完成了我自己个人博客首页的创建（虽然只是一个hello world）。&lt;/p>
+&lt;p>建议先花半天时间，看看&lt;a href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰大神的git总结&lt;/a>和&lt;a href="https://pages.github.com/">GitHub Pages官方文档&lt;/a>，系统了解一下git、GitHub等的关系，以及GitHub Pages的创建方法，搞清楚背景知识，实际动手会更顺利。&lt;/p></description></item><item><title>关于我</title><link>https://murphyhanxu.github.io/about.html</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/about.html</guid><description>Hugo是用Go编写的一个开放源代码静态站点生成器，可在Apache许可证2.0下使用。 Hugo支持TOML, YAML和JSON数据文件类型</description></item></channel></rss>

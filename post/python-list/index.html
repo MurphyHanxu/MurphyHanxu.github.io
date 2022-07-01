@@ -1,0 +1,554 @@
+<!doctype html><html lang=zh-cn dir=content/zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=content-security-policy content="upgrade-insecure-requests"><title>Python中list、tuple、dict和set的对比小结 - 热爱生活与梦想</title><meta name=keywords content="博客,程序员,架构师,思考,读书,笔记,技术,分享,大数据,产品"><meta name=author content="Murphy"><meta property="og:title" content="Python中list、tuple、dict和set的对比小结"><meta property="og:site_name" content="热爱生活与梦想"><meta property="og:image" content="/img/author.jpg"><meta name=title content="Python中list、tuple、dict和set的对比小结 - 热爱生活与梦想"><meta name=description content="Summary of list, tuple, dict and set"><link rel="shortcut icon" href=/img/favicon.ico><link rel=apple-touch-icon href=/img/apple-touch-icon.png><link rel=apple-touch-icon-precomposed href=/img/apple-touch-icon.png><link href=//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css rel=stylesheet type=text/css><link href=//cdn.bootcdn.net/ajax/libs/imageviewer/0.1.0/viewer.min.css rel=stylesheet><link href=/css/main.css rel=stylesheet type=text/css><link href=/css/syntax.css rel=stylesheet type=text/css></head><body itemscope itemtype=http://schema.org/WebPage lang=zh-hans><div class="container one-collumn sidebar-position-left page-home"><div class=headband></div><header id=header class=header itemscope itemtype=http://schema.org/WPHeader><div class=header-inner><div class=site-brand-container><div class=site-nav-toggle><div class=toggle role=button style=opacity:1;top:0><span class=toggle-line></span>
+<span class=toggle-line></span>
+<span class=toggle-line></span></div></div><div class=site-meta><div class=multi-lang-switch><i class="fa fa-fw fa-language" style=margin-right:5px></i>
+<a class=lang-link id=zh-cn href=#>中文</a></div><div class=custom-logo-site-title><a href=/ class=brand rel=start><span class=logo-line-before><i></i></span>
+<span class=site-title>热爱生活与梦想</span>
+<span class=logo-line-after><i></i></span></a></div><p class=site-subtitle>但远山长，云山乱，晓山青。</p></div><div class=site-nav-right><div class="toggle popup-trigger" style=opacity:1;top:0><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class=site-nav><ul id=menu class=menu><li class=menu-item><a href=/ rel=section><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class=menu-item><a href=/post rel=section><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li><li class=menu-item><a href=/about.html rel=section><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于我</a></li><li class=menu-item><a href=/404.html rel=section><i class="menu-item-icon fa fa-fw fa-heartbeat"></i><br>公益404</a></li><li class="menu-item menu-item-search"><a href=javascript:; class=popup-trigger><i class="menu-item-icon fa fa-search fa-fw"></i><br>搜索</a></li></ul><div class=site-search><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class=search-icon><i class="fa fa-search"></i></span>
+<span class=popup-btn-close><i class="fa fa-times-circle"></i></span><div class=local-search-input-wrapper><input autocomplete=off placeholder=搜索关键字... spellcheck=false type=text id=local-search-input autocapitalize=none autocorrect=off></div></div><div id=local-search-result></div></div></div></nav></div></header><main id=main class=main><div class=main-inner><div class=content-wrap><div id=content class=content><section id=posts class=posts-expand><article class="post post-type-normal" itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline"><a class=post-title-link href=https://murphyhanxu.github.io/post/python-list/ itemprop=url>Python中list、tuple、dict和set的对比小结</a></h1><div class=post-meta><span class=post-time><i class="fa fa-calendar-o fa-fw"></i>
+<span class=post-meta-item-text>时间：</span>
+<time itemprop=dateCreated datetime=2016-03-22T13:04:35+08:00 content="2022-05-12">2022-05-12</time></span>
+<span class=post-category>&nbsp; | &nbsp;
+<i class="fa fa-folder-o fa-fw"></i>
+<span class=post-meta-item-text>分类：</span>
+<span itemprop=about itemscope itemtype=https://schema.org/Thing><a href=/categories/cs itemprop=url rel=index style=text-decoration:underline><span itemprop=name>CS</span></a>
+&nbsp;</span></span>
+<span>|
+<i class="fa fa-file-word-o fa-fw"></i>
+<span class=post-meta-item-text>字数：</span>
+<span class=leancloud-world-count>4594 字</span></span>
+<span>|
+<i class="fa fa-eye fa-fw"></i>
+<span class=post-meta-item-text>阅读：</span>
+<span class=leancloud-view-count>10分钟</span></span>
+<span id=/post/python-list/ class=leancloud_visitors data-flag-title=Python中list、tuple、dict和set的对比小结>|
+<i class="fa fa-binoculars fa-fw"></i>
+<span class=post-meta-item-text>阅读次数：</span>
+<span class=leancloud-visitors-count></span></span></div></header><div class=post-body itemprop=articleBody><p>对Python中list、turple、dict和set这四种数据类型进行对比总结。</p><h2 id=概览>概览</h2><table><thead><tr><th></th><th>列表list</th><th>元组tuple</th><th>字典dict</th><th>集合set</th></tr></thead><tbody><tr><td>读写要求</td><td>读写</td><td>只读</td><td>只读</td><td>读写</td></tr><tr><td>读取方式</td><td>索引</td><td>索引</td><td>键key</td><td>只能遍历</td></tr><tr><td>值是否重复</td><td>是</td><td>是</td><td>键不能重复，值可以</td><td>否</td></tr><tr><td>数据存储</td><td>连续、静态</td><td>连续、静态</td><td>不连续、动态</td><td>不连续、动态</td></tr><tr><td>是否有序</td><td>是</td><td>是</td><td>否（自动正序）</td><td>否</td></tr><tr><td>初始化</td><td>[lvalue1, lvalue2]</td><td>(tvalue1, tvalue2)</td><td>{key1:value1, key2:value2}</td><td>{svalue1, svalue2}</td></tr><tr><td>增</td><td>list.append(value)</td><td>只读</td><td>dict[key1] = value1</td><td>set.add(value1)</td></tr><tr><td>删</td><td>del list[2]</td><td>只读</td><td>del dict[key]</td><td>set.remove(value1)</td></tr><tr><td>改</td><td>list[2]=newValue</td><td>只读</td><td>dict[key1] = newValue</td><td>set.update(value)</td></tr><tr><td>查</td><td>list[2:]</td><td>tuple[1:5]</td><td>dict[key]</td><td>value in set</td></tr><tr><td>应用场景</td><td>非结构化数据存储</td><td>稳定的数据存储</td><td>结构化数据存储</td><td>数据剔重</td></tr></tbody></table><h2 id=列表>列表</h2><p>列表是一组有序存储的数据，它的特性包括：</p><ul><li><p>用中括号将元素括起来，元素之间有逗号隔开。</p></li><li><p>列表可存储任意类型的数据，列表中各元素的类型可以不同，列表中各元素的值可以重复。</p></li><li><p>列表数据按顺序存储（链式存储），每个元素都有索引，支持正序、倒序两种索引，正序索引从0开始，倒序索引从-1开始。</p></li><li><p>列表创建后，其中的数据可以修改。</p></li></ul><p><strong>样例代码：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#080;font-style:italic># 定义列表</span>
+</span></span><span style=display:flex><span>list_t1 <span style=color:#666>=</span> [<span style=color:#b44>&#39;I&#39;</span>, <span style=color:#b44>&#39;love&#39;</span>, <span style=color:#b44>&#39;use&#39;</span>, <span style=color:#b44>&#39;python&#39;</span>, [<span style=color:#666>1</span>, <span style=color:#666>2</span>, <span style=color:#b44>&#39;a&#39;</span>]]
+</span></span><span style=display:flex><span>list_t2 <span style=color:#666>=</span> <span style=color:#a2f>list</span>([<span style=color:#b44>&#34;C语言中文网&#34;</span>, <span style=color:#b44>&#34;http://c.biancheng.net&#34;</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;list_t2:&#39;</span>, list_t2)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 将字符串转换成列表</span>
+</span></span><span style=display:flex><span>list_t3 <span style=color:#666>=</span> <span style=color:#a2f>list</span>(<span style=color:#b44>&#34;hello&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;list_t3:&#39;</span>, list_t3)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 将元组转换成列表</span>
+</span></span><span style=display:flex><span>tuple1 <span style=color:#666>=</span> (<span style=color:#b44>&#39;Python&#39;</span>, <span style=color:#b44>&#39;Java&#39;</span>, <span style=color:#b44>&#39;C++&#39;</span>, <span style=color:#b44>&#39;JavaScript&#39;</span>)
+</span></span><span style=display:flex><span>list_t4 <span style=color:#666>=</span> <span style=color:#a2f>list</span>(tuple1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;list_t4:&#39;</span>, list_t4)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 将字典转换成列表</span>
+</span></span><span style=display:flex><span>dict1 <span style=color:#666>=</span> {<span style=color:#b44>&#39;a&#39;</span>:<span style=color:#666>100</span>, <span style=color:#b44>&#39;b&#39;</span>:<span style=color:#666>42</span>, <span style=color:#b44>&#39;c&#39;</span>:<span style=color:#666>9</span>}
+</span></span><span style=display:flex><span>list_t5 <span style=color:#666>=</span> <span style=color:#a2f>list</span>(dict1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;list_t5:&#39;</span>, list_t5)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#将区间转换成列表</span>
+</span></span><span style=display:flex><span>range1 <span style=color:#666>=</span> <span style=color:#a2f>range</span>(<span style=color:#666>1</span>, <span style=color:#666>6</span>)
+</span></span><span style=display:flex><span>list_t6 <span style=color:#666>=</span> <span style=color:#a2f>list</span>(range1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;list_t6:&#39;</span>, list_t6)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#创建空列表</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#a2f>list</span>())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 使用列表表达式创建列表</span>
+</span></span><span style=display:flex><span>list_t7 <span style=color:#666>=</span> [x <span style=color:#666>*</span> x <span style=color:#a2f;font-weight:700>for</span> x <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>1</span>, <span style=color:#666>11</span>)]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;List Comprehensions, list_t7:&#39;</span>, list_t7)
+</span></span><span style=display:flex><span>list_t8 <span style=color:#666>=</span> [x <span style=color:#666>*</span> x <span style=color:#a2f;font-weight:700>for</span> x <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>1</span>, <span style=color:#666>11</span>) <span style=color:#a2f;font-weight:700>if</span> x <span style=color:#666>%</span> <span style=color:#666>2</span> <span style=color:#666>==</span> <span style=color:#666>0</span>]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;List Comprehensions use if, list_t8:&#39;</span>, list_t8)
+</span></span><span style=display:flex><span>list_t9 <span style=color:#666>=</span> [m <span style=color:#666>+</span> n <span style=color:#a2f;font-weight:700>for</span> m <span style=color:#a2f;font-weight:700>in</span> <span style=color:#b44>&#39;ABC&#39;</span> <span style=color:#a2f;font-weight:700>for</span> n <span style=color:#a2f;font-weight:700>in</span> <span style=color:#b44>&#39;XYZ&#39;</span>]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;List Comprehensions use double cycle, list_t9:&#39;</span>, list_t9)
+</span></span><span style=display:flex><span>list_t10 <span style=color:#666>=</span> [x <span style=color:#a2f;font-weight:700>if</span> x <span style=color:#666>%</span> <span style=color:#666>2</span> <span style=color:#666>==</span> <span style=color:#666>0</span> <span style=color:#a2f;font-weight:700>else</span> <span style=color:#666>-</span>x <span style=color:#a2f;font-weight:700>for</span> x <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>1</span>, <span style=color:#666>11</span>)]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;List Comprehensions use else, list_t10:&#39;</span>, list_t10)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 获取list长度</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># print(&#39;list length:%d&#39;.format(len(list_t1)))</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;length of list_t1:&#39;</span>, <span style=color:#a2f>len</span>(list_t1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 判断列表中是否包含某元素</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;python is in list_t1:&#39;</span>, (<span style=color:#b44>&#39;python&#39;</span> <span style=color:#a2f;font-weight:700>in</span> list_t1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;Python is in list_t1:&#39;</span>, (<span style=color:#b44>&#39;Python&#39;</span> <span style=color:#a2f;font-weight:700>in</span> list_t1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 按索引获取list中某个元素的值</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;the first element of list_t1:&#39;</span>, list_t1[<span style=color:#666>0</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;the last element of list_t1:&#39;</span>, list_t1[<span style=color:#666>-</span><span style=color:#666>1</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;the last element of list_t1:&#39;</span>, list_t1[<span style=color:#a2f>len</span>(list_t1)<span style=color:#666>-</span><span style=color:#666>1</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 切片，按索引获取list中某几个元素的值,注意左闭右开</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;the first three elements of list_t1:&#39;</span>, list_t1[<span style=color:#666>0</span>:<span style=color:#666>3</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;the first three elements of list_t1:&#39;</span>, list_t1[:<span style=color:#666>3</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;the last two elements of list_t1:&#39;</span>, list_t1[<span style=color:#666>-</span><span style=color:#666>2</span>:])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;every two elements of list_t1:&#39;</span>, list_t1[<span style=color:#666>0</span>:<span style=color:#666>5</span>:<span style=color:#666>2</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 根据元素值定位元素在列表中的index索引位置</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;index of python in list_t1：&#39;</span>, list_t1<span style=color:#666>.</span>index(<span style=color:#b44>&#39;python&#39;</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 统计某个值在列表元素中的个数</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;quantity of python in list_t1：&#39;</span>, list_t1<span style=color:#666>.</span>count(<span style=color:#b44>&#39;python&#39;</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;quantity of Python in list_t1：&#39;</span>, list_t1<span style=color:#666>.</span>count(<span style=color:#b44>&#39;Python&#39;</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 在list最后追加元素</span>
+</span></span><span style=display:flex><span>list_t1<span style=color:#666>.</span>append(<span style=color:#b44>&#39;too&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;After append, list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 在list中间插入元素</span>
+</span></span><span style=display:flex><span>list_t1<span style=color:#666>.</span>insert(<span style=color:#666>1</span>, <span style=color:#b44>&#39;really&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;After insert, list_t1:&#39;</span>,list_t1)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 把一个list添加到另一个list中</span>
+</span></span><span style=display:flex><span>list_t5<span style=color:#666>.</span>extend(list_t6)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;After extend, list_t5:&#39;</span>,list_t5)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 合并两个list</span>
+</span></span><span style=display:flex><span>list_t7 <span style=color:#666>=</span> list_t3 <span style=color:#666>+</span> list_t4
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;After join list_t3 and list_t4:&#39;</span>,list_t7)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 修改list中的元素</span>
+</span></span><span style=display:flex><span>list_t1[<span style=color:#666>-</span><span style=color:#666>3</span>] <span style=color:#666>=</span> <span style=color:#b44>&#39;java&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;modify list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span>list_t1[<span style=color:#666>4</span>:<span style=color:#666>7</span>] <span style=color:#666>=</span> [<span style=color:#b44>&#39;python&#39;</span>, <span style=color:#b44>&#39;haha&#39;</span>]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;modify list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 删除list中的元素</span>
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>del</span> list_t1[<span style=color:#666>1</span>]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete element by index， list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span>list_t1<span style=color:#666>.</span>pop()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete the last element， list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span>list_t1<span style=color:#666>.</span>remove(<span style=color:#b44>&#39;love&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete element by value， list_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 遍历列表</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;print the elements of list_t1 one by one:&#39;</span>,end<span style=color:#666>=</span><span style=color:#b44>&#39; &#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#a2f>len</span>(list_t1)):
+</span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(list_t1[i], end<span style=color:#666>=</span><span style=color:#b44>&#39; &#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;</span><span style=color:#b62;font-weight:700>\n</span><span style=color:#b44>--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 同时遍历列表的索引和对应值</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;同时遍历列表的索引和对应值&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> index, value <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>enumerate</span>(list_t1):
+</span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(<span style=color:#b44>&#39;index: </span><span style=color:#b68;font-weight:700>{0}</span><span style=color:#b44> value: </span><span style=color:#b68;font-weight:700>{1}</span><span style=color:#b44>&#39;</span><span style=color:#666>.</span>format(index, value))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 排序</span>
+</span></span><span style=display:flex><span>list_t1<span style=color:#666>.</span>sort()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;sort List_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span>list_t1<span style=color:#666>.</span>reverse()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;reverse List_t1:&#39;</span>, list_t1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span></code></pre></div><p><strong>测试结果：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>list_t1: [&#39;I&#39;, &#39;love&#39;, &#39;use&#39;, &#39;python&#39;, [1, 2, &#39;a&#39;]]
+</span></span><span style=display:flex><span>list_t2: [&#39;C语言中文网&#39;, &#39;http://c.biancheng.net&#39;]
+</span></span><span style=display:flex><span>list_t3: [&#39;h&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;]
+</span></span><span style=display:flex><span>list_t4: [&#39;Python&#39;, &#39;Java&#39;, &#39;C++&#39;, &#39;JavaScript&#39;]
+</span></span><span style=display:flex><span>list_t5: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+</span></span><span style=display:flex><span>list_t6: [1, 2, 3, 4, 5]
+</span></span><span style=display:flex><span>[]
+</span></span><span style=display:flex><span>List Comprehensions, list_t7: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+</span></span><span style=display:flex><span>List Comprehensions use if, list_t8: [4, 16, 36, 64, 100]
+</span></span><span style=display:flex><span>List Comprehensions use double cycle, list_t9: [&#39;AX&#39;, &#39;AY&#39;, &#39;AZ&#39;, &#39;BX&#39;, &#39;BY&#39;, &#39;BZ&#39;, &#39;CX&#39;, &#39;CY&#39;, &#39;CZ&#39;]
+</span></span><span style=display:flex><span>List Comprehensions use else, list_t10: [-1, 2, -3, 4, -5, 6, -7, 8, -9, 10]
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>length of list_t1: 5
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>python is in list_t1: True
+</span></span><span style=display:flex><span>Python is in list_t1: False
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>the first element of list_t1: I
+</span></span><span style=display:flex><span>the last element of list_t1: [1, 2, &#39;a&#39;]
+</span></span><span style=display:flex><span>the last element of list_t1: [1, 2, &#39;a&#39;]
+</span></span><span style=display:flex><span>the first three elements of list_t1: [&#39;I&#39;, &#39;love&#39;, &#39;use&#39;]
+</span></span><span style=display:flex><span>the first three elements of list_t1: [&#39;I&#39;, &#39;love&#39;, &#39;use&#39;]
+</span></span><span style=display:flex><span>the last two elements of list_t1: [&#39;python&#39;, [1, 2, &#39;a&#39;]]
+</span></span><span style=display:flex><span>every two elements of list_t1: [&#39;I&#39;, &#39;use&#39;, [1, 2, &#39;a&#39;]]
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>index of python in list_t1： 3
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>quantity of python in list_t1： 1
+</span></span><span style=display:flex><span>quantity of Python in list_t1： 0
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>After append, list_t1: [&#39;I&#39;, &#39;love&#39;, &#39;use&#39;, &#39;python&#39;, [1, 2, &#39;a&#39;], &#39;too&#39;]
+</span></span><span style=display:flex><span>After insert, list_t1: [&#39;I&#39;, &#39;really&#39;, &#39;love&#39;, &#39;use&#39;, &#39;python&#39;, [1, 2, &#39;a&#39;], &#39;too&#39;]
+</span></span><span style=display:flex><span>After extend, list_t5: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, 1, 2, 3, 4, 5]
+</span></span><span style=display:flex><span>After join list_t3 and list_t4: [&#39;h&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;Python&#39;, &#39;Java&#39;, &#39;C++&#39;, &#39;JavaScript&#39;]
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>modify list_t1: [&#39;I&#39;, &#39;really&#39;, &#39;love&#39;, &#39;use&#39;, &#39;java&#39;, [1, 2, &#39;a&#39;], &#39;too&#39;]
+</span></span><span style=display:flex><span>modify list_t1: [&#39;I&#39;, &#39;really&#39;, &#39;love&#39;, &#39;use&#39;, &#39;python&#39;, &#39;haha&#39;]
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>delete element by index， list_t1: [&#39;I&#39;, &#39;love&#39;, &#39;use&#39;, &#39;python&#39;, &#39;haha&#39;]
+</span></span><span style=display:flex><span>delete the last element， list_t1: [&#39;I&#39;, &#39;love&#39;, &#39;use&#39;, &#39;python&#39;]
+</span></span><span style=display:flex><span>delete element by value， list_t1: [&#39;I&#39;, &#39;use&#39;, &#39;python&#39;]
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>print the elements of list_t1 one by one: I use python 
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>同时遍历列表的索引和对应值
+</span></span><span style=display:flex><span>index: 0 value: I
+</span></span><span style=display:flex><span>index: 1 value: use
+</span></span><span style=display:flex><span>index: 2 value: python
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>sort List_t1: [&#39;I&#39;, &#39;python&#39;, &#39;use&#39;]
+</span></span><span style=display:flex><span>reverse List_t1: [&#39;use&#39;, &#39;python&#39;, &#39;I&#39;]
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span></code></pre></div><h2 id=元组>元组</h2><p>元组是一组有序存储的数据，它的特性包括：</p><ul><li><p>用小括号将元素括起来，元素之间有逗号隔开。</p></li><li><p>元组可存储任意类型的数据，元组中各元素的类型可以不同，元组中各元素的值可以重复。</p></li><li><p>元组数据按顺序存储（链式存储），每个元素都有索引，支持正序、倒序两种索引，正序索引从0开始，倒序索引从-1开始。</p></li><li><p>元组一经初始化，数据不能修改。</p></li></ul><p>与列表相比，元组是不可变的，这使得它可以作为字典的 key，或者扔进集合里。元组放弃了对元素的增删，换取的是性能上的提升：创建元组比列表快，存储空间比列表占用更小。多线程并发的时候，元组是不需要加锁的，不用担心安全问题，编写也简单多了。</p><p><strong>样例代码：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#080;font-style:italic># 元组和列表一样，支持获取长度函数len、使用索引获取元素、切片、for和range遍历、for和enumerate遍历，以及in、not in判断。</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 由于元组的内容不能修改，他不支持增删改方法,也不支持sort和reverse排序方法。</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 可以将元组先转化为列表，排序后再转化回元组，间接实现元组排序。</span>
+</span></span><span style=display:flex><span>tuple_t1 <span style=color:#666>=</span> (<span style=color:#b44>&#39;banana&#39;</span>, <span style=color:#b44>&#39;color&#39;</span>, <span style=color:#b44>&#39;apple&#39;</span>, <span style=color:#b44>&#39;dark&#39;</span>)
+</span></span><span style=display:flex><span>tmp_l1 <span style=color:#666>=</span> <span style=color:#a2f>list</span>(tuple_t1)
+</span></span><span style=display:flex><span>tmp_l1<span style=color:#666>.</span>sort()
+</span></span><span style=display:flex><span>tuple_t1 <span style=color:#666>=</span> <span style=color:#a2f>tuple</span>(tmp_l1)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> index, value <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>enumerate</span>(tuple_t1):
+</span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(<span style=color:#b44>&#39;index:</span><span style=color:#b68;font-weight:700>%d</span><span style=color:#b44> value:</span><span style=color:#b68;font-weight:700>%s</span><span style=color:#b44>&#39;</span> <span style=color:#666>%</span> (index, value))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span></code></pre></div><p><strong>测试结果：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>index:0 value:apple
+</span></span><span style=display:flex><span>index:1 value:banana
+</span></span><span style=display:flex><span>index:2 value:color
+</span></span><span style=display:flex><span>index:3 value:dark
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span></code></pre></div><h2 id=字典>字典</h2><p>字典是一组无序存储的key-value键值对，它的特性包括：</p><ul><li>用大括号将元素括起来，每个元素包含一个键和一个值，键和值用冒号分隔，元素之间有逗号隔开。</li><li>字典中的键key可以是数字、字符串或者是元组等不可变类型；字典中的值value可以是任何数据类型。</li><li>字典中的键key是大小写敏感的，不能重复。可使用key，获取字典中对应的value。</li><li>字典根据key计算其保存位置（哈希算法），所以其内部存放顺序与key放入顺序无关。</li><li>与列表相比：字典的查找和插入的速度极快，不会随着key的增加而变慢；但字典需要占用大量的内存，内存浪费多。</li></ul><p><strong>样例代码：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#080;font-style:italic># 直接定义字典</span>
+</span></span><span style=display:flex><span>dict1 <span style=color:#666>=</span> {<span style=color:#b44>&#39;name&#39;</span>: <span style=color:#b44>&#39;小明&#39;</span>, <span style=color:#b44>&#39;sex&#39;</span>: <span style=color:#b44>&#39;male&#39;</span>, <span style=color:#b44>&#39;age&#39;</span>: <span style=color:#666>18</span>, <span style=color:#b44>&#39;high&#39;</span>: <span style=color:#666>180</span>}
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 使用dict和zip，将两个列表、元组或者字符串转为字典</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;use dict and zip&#39;</span>)
+</span></span><span style=display:flex><span>list1 <span style=color:#666>=</span> [<span style=color:#b44>&#39;key1&#39;</span>,<span style=color:#b44>&#39;key2&#39;</span>,<span style=color:#b44>&#39;key3&#39;</span>]
+</span></span><span style=display:flex><span>list2 <span style=color:#666>=</span> [<span style=color:#b44>&#39;1&#39;</span>,<span style=color:#b44>&#39;2&#39;</span>,<span style=color:#b44>&#39;3&#39;</span>]
+</span></span><span style=display:flex><span>dict2 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(<span style=color:#a2f>zip</span>(list1,list2))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict2:&#39;</span>, dict2)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span>tuple1 <span style=color:#666>=</span> (<span style=color:#b44>&#39;key1&#39;</span>,<span style=color:#b44>&#39;key2&#39;</span>,<span style=color:#b44>&#39;key3&#39;</span>)
+</span></span><span style=display:flex><span>tuple2 <span style=color:#666>=</span> (<span style=color:#b44>&#39;1&#39;</span>,<span style=color:#b44>&#39;2&#39;</span>,<span style=color:#b44>&#39;3&#39;</span>)
+</span></span><span style=display:flex><span>dict2 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(<span style=color:#a2f>zip</span>(tuple1,tuple2))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict2:&#39;</span>, dict2)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span>str1 <span style=color:#666>=</span> <span style=color:#b44>&#39;abcde&#39;</span>
+</span></span><span style=display:flex><span>str2 <span style=color:#666>=</span> <span style=color:#b44>&#39;12345&#39;</span>
+</span></span><span style=display:flex><span>dict2 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(<span style=color:#a2f>zip</span>(str1,str2))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict2:&#39;</span>, dict2)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 使用dict，将嵌套列表或者元组映射转化为字典的key和value</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;use dict&#39;</span>)
+</span></span><span style=display:flex><span>list3 <span style=color:#666>=</span> [[<span style=color:#b44>&#39;key1&#39;</span>,<span style=color:#b44>&#39;value1&#39;</span>],[<span style=color:#b44>&#39;key2&#39;</span>,<span style=color:#b44>&#39;value2&#39;</span>],[<span style=color:#b44>&#39;key3&#39;</span>,<span style=color:#b44>&#39;value3&#39;</span>]]
+</span></span><span style=display:flex><span>dict3 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(list3)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict3:&#39;</span>, dict3)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span>list4 <span style=color:#666>=</span> [(<span style=color:#b44>&#39;key1&#39;</span>,<span style=color:#b44>&#39;value1&#39;</span>),(<span style=color:#b44>&#39;key2&#39;</span>,<span style=color:#b44>&#39;value2&#39;</span>),(<span style=color:#b44>&#39;key3&#39;</span>,<span style=color:#b44>&#39;value3&#39;</span>)]
+</span></span><span style=display:flex><span>dict3 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(list4)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict3:&#39;</span>, dict3)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span>tuple3 <span style=color:#666>=</span> ([<span style=color:#b44>&#39;key1&#39;</span>,<span style=color:#b44>&#39;value1&#39;</span>],[<span style=color:#b44>&#39;key2&#39;</span>,<span style=color:#b44>&#39;value2&#39;</span>],[<span style=color:#b44>&#39;key3&#39;</span>,<span style=color:#b44>&#39;value3&#39;</span>])
+</span></span><span style=display:flex><span>dict3 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(tuple3)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict3:&#39;</span>, dict3)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span>tuple4 <span style=color:#666>=</span> ((<span style=color:#b44>&#39;key1&#39;</span>,<span style=color:#b44>&#39;value1&#39;</span>),(<span style=color:#b44>&#39;key2&#39;</span>,<span style=color:#b44>&#39;value2&#39;</span>),(<span style=color:#b44>&#39;key3&#39;</span>,<span style=color:#b44>&#39;value3&#39;</span>))
+</span></span><span style=display:flex><span>dict3 <span style=color:#666>=</span> <span style=color:#a2f>dict</span>(tuple4)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict3:&#39;</span>, dict3)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 使用fromkeys方法创建字典</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;use fromkeys&#39;</span>)
+</span></span><span style=display:flex><span>list5 <span style=color:#666>=</span> [<span style=color:#b44>&#39;语文&#39;</span>, <span style=color:#b44>&#39;数学&#39;</span>, <span style=color:#b44>&#39;英语&#39;</span>]
+</span></span><span style=display:flex><span>dict4 <span style=color:#666>=</span> <span style=color:#a2f>dict</span><span style=color:#666>.</span>fromkeys(list5)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict4:&#39;</span>, dict4)
+</span></span><span style=display:flex><span>dict4 <span style=color:#666>=</span> <span style=color:#a2f>dict</span><span style=color:#666>.</span>fromkeys(list5, <span style=color:#666>60</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;dict4:&#39;</span>, dict4)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 字典的key和value互转</span>
+</span></span><span style=display:flex><span>dict5 <span style=color:#666>=</span> {value:key <span style=color:#a2f;font-weight:700>for</span> key, value <span style=color:#a2f;font-weight:700>in</span> dict2<span style=color:#666>.</span>items()}
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;switch key and value of dict2:&#39;</span>, dict5)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 获取dict的元素个数</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;length of dict1:&#39;</span>, <span style=color:#a2f>len</span>(dict1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 判断字典中是否包含某元素</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;name is in dict1:&#39;</span>, (<span style=color:#b44>&#39;name&#39;</span> <span style=color:#a2f;font-weight:700>in</span> dict1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;Name is in dict1:&#39;</span>, (<span style=color:#b44>&#39;Name&#39;</span> <span style=color:#a2f;font-weight:700>in</span> dict1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 通过键访问元素,使用get方法避免key不存在时的异常</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;get value by key(name), dict1:&#39;</span>, dict1[<span style=color:#b44>&#39;name&#39;</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;get value by key(name), dict1:&#39;</span>, dict1<span style=color:#666>.</span>get(<span style=color:#b44>&#39;name&#39;</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;get value by key(school), dict1:&#39;</span>, dict1<span style=color:#666>.</span>get(<span style=color:#b44>&#39;school&#39;</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;get value by key(school), dict1:&#39;</span>, dict1<span style=color:#666>.</span>get(<span style=color:#b44>&#39;school&#39;</span>, <span style=color:#b44>&#39;haha&#39;</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 添加单个元素</span>
+</span></span><span style=display:flex><span>dict1[<span style=color:#b44>&#39;score&#39;</span>] <span style=color:#666>=</span> <span style=color:#666>100</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;add key(score), dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 添加多个元素（合并两个字典)</span>
+</span></span><span style=display:flex><span>dict8 <span style=color:#666>=</span> {<span style=color:#b44>&#39;country&#39;</span>: <span style=color:#b44>&#39;china&#39;</span>, <span style=color:#b44>&#39;city&#39;</span>: <span style=color:#b44>&#39;Beijing&#39;</span>}
+</span></span><span style=display:flex><span>dict1<span style=color:#666>.</span>update(dict8)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;add dict8 to dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 修改单个元素的value</span>
+</span></span><span style=display:flex><span>dict1[<span style=color:#b44>&#39;score&#39;</span>] <span style=color:#666>=</span> <span style=color:#666>80</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;modify value of key(score), dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#更新多个元素的值</span>
+</span></span><span style=display:flex><span>dict1<span style=color:#666>.</span>update(name<span style=color:#666>=</span><span style=color:#b44>&#39;王四&#39;</span>, age<span style=color:#666>=</span><span style=color:#666>40</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;modify values, dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 设置默认</span>
+</span></span><span style=display:flex><span>dict1<span style=color:#666>.</span>setdefault(<span style=color:#b44>&#39;score&#39;</span>, <span style=color:#666>90</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set default value, dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span>dict1<span style=color:#666>.</span>setdefault(<span style=color:#b44>&#39;job&#39;</span>, <span style=color:#b44>&#39;Stu&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set default value, dict1:&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 字典删除</span>
+</span></span><span style=display:flex><span>dict1<span style=color:#666>.</span>pop(<span style=color:#b44>&#39;score&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete key(score):&#39;</span>, dict1)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>del</span> dict1[<span style=color:#b44>&#39;country&#39;</span>]
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete key(country):&#39;</span>, dict1)
+</span></span><span style=display:flex><span>dict1<span style=color:#666>.</span>popitem()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete the last key:&#39;</span>, dict1)
+</span></span><span style=display:flex><span>dict2<span style=color:#666>.</span>clear()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;clear dict2:&#39;</span>, dict2)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 字典的视图,会随着字典的变化而变化</span>
+</span></span><span style=display:flex><span>key <span style=color:#666>=</span> dict1<span style=color:#666>.</span>keys()
+</span></span><span style=display:flex><span>value <span style=color:#666>=</span> dict1<span style=color:#666>.</span>values()
+</span></span><span style=display:flex><span>item <span style=color:#666>=</span> dict1<span style=color:#666>.</span>items()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;keys of dict1：&#39;</span>, key)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;values of dict1：&#39;</span>, value)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;items of dict1：&#39;</span>, item)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dict1[<span style=color:#b44>&#39;school&#39;</span>]<span style=color:#666>=</span><span style=color:#b44>&#39;szu&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;keys of dict1：&#39;</span>, key)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;values of dict1：&#39;</span>, value)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;items of dict1：&#39;</span>, item)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 使用视图，遍历字典元素</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;遍历字典元素&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> key <span style=color:#a2f;font-weight:700>in</span> dict1<span style=color:#666>.</span>keys():
+</span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(<span style=color:#b44>&#39;键:&#39;</span>, key, <span style=color:#b44>&#39;</span><span style=color:#b62;font-weight:700>\t</span><span style=color:#b44>值:&#39;</span>, dict1[key])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> key <span style=color:#a2f;font-weight:700>in</span> dict1:
+</span></span><span style=display:flex><span>	<span style=color:#a2f>print</span>(<span style=color:#b44>&#39;键:&#39;</span>, key, <span style=color:#b44>&#39;</span><span style=color:#b62;font-weight:700>\t</span><span style=color:#b44>值:&#39;</span>, dict1[key])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;-------------&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> key,value <span style=color:#a2f;font-weight:700>in</span> dict1<span style=color:#666>.</span>items():
+</span></span><span style=display:flex><span>	<span style=color:#a2f>print</span>(<span style=color:#b44>&#39;键:&#39;</span>, key, <span style=color:#b44>&#39;</span><span style=color:#b62;font-weight:700>\t</span><span style=color:#b44>值:&#39;</span>, value)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span></code></pre></div><p><strong>测试结果：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>dict1: {&#39;name&#39;: &#39;小明&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 18, &#39;high&#39;: 180}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>use dict and zip
+</span></span><span style=display:flex><span>dict2: {&#39;key1&#39;: &#39;1&#39;, &#39;key2&#39;: &#39;2&#39;, &#39;key3&#39;: &#39;3&#39;}
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>dict2: {&#39;key1&#39;: &#39;1&#39;, &#39;key2&#39;: &#39;2&#39;, &#39;key3&#39;: &#39;3&#39;}
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>dict2: {&#39;a&#39;: &#39;1&#39;, &#39;b&#39;: &#39;2&#39;, &#39;c&#39;: &#39;3&#39;, &#39;d&#39;: &#39;4&#39;, &#39;e&#39;: &#39;5&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>use dict
+</span></span><span style=display:flex><span>dict3: {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;, &#39;key3&#39;: &#39;value3&#39;}
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>dict3: {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;, &#39;key3&#39;: &#39;value3&#39;}
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>dict3: {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;, &#39;key3&#39;: &#39;value3&#39;}
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>dict3: {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;, &#39;key3&#39;: &#39;value3&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>use fromkeys
+</span></span><span style=display:flex><span>dict4: {&#39;语文&#39;: None, &#39;数学&#39;: None, &#39;英语&#39;: None}
+</span></span><span style=display:flex><span>dict4: {&#39;语文&#39;: 60, &#39;数学&#39;: 60, &#39;英语&#39;: 60}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>switch key and value of dict2: {&#39;1&#39;: &#39;a&#39;, &#39;2&#39;: &#39;b&#39;, &#39;3&#39;: &#39;c&#39;, &#39;4&#39;: &#39;d&#39;, &#39;5&#39;: &#39;e&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>length of dict1: 4
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>name is in dict1: True
+</span></span><span style=display:flex><span>Name is in dict1: False
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>get value by key(name), dict1: 小明
+</span></span><span style=display:flex><span>get value by key(name), dict1: 小明
+</span></span><span style=display:flex><span>get value by key(school), dict1: None
+</span></span><span style=display:flex><span>get value by key(school), dict1: haha
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>add key(score), dict1: {&#39;name&#39;: &#39;小明&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 18, &#39;high&#39;: 180, &#39;score&#39;: 100}
+</span></span><span style=display:flex><span>add dict8 to dict1: {&#39;name&#39;: &#39;小明&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 18, &#39;high&#39;: 180, &#39;score&#39;: 100, &#39;country&#39;: &#39;china&#39;, &#39;city&#39;: &#39;Beijing&#39;}
+</span></span><span style=display:flex><span>modify value of key(score), dict1: {&#39;name&#39;: &#39;小明&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 18, &#39;high&#39;: 180, &#39;score&#39;: 80, &#39;country&#39;: &#39;china&#39;, &#39;city&#39;: &#39;Beijing&#39;}
+</span></span><span style=display:flex><span>modify values, dict1: {&#39;name&#39;: &#39;王四&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 40, &#39;high&#39;: 180, &#39;score&#39;: 80, &#39;country&#39;: &#39;china&#39;, &#39;city&#39;: &#39;Beijing&#39;}
+</span></span><span style=display:flex><span>set default value, dict1: {&#39;name&#39;: &#39;王四&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 40, &#39;high&#39;: 180, &#39;score&#39;: 80, &#39;country&#39;: &#39;china&#39;, &#39;city&#39;: &#39;Beijing&#39;}
+</span></span><span style=display:flex><span>set default value, dict1: {&#39;name&#39;: &#39;王四&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 40, &#39;high&#39;: 180, &#39;score&#39;: 80, &#39;country&#39;: &#39;china&#39;, &#39;city&#39;: &#39;Beijing&#39;, &#39;job&#39;: &#39;Stu&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>delete key(score): {&#39;name&#39;: &#39;王四&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 40, &#39;high&#39;: 180, &#39;country&#39;: &#39;china&#39;, &#39;city&#39;: &#39;Beijing&#39;, &#39;job&#39;: &#39;Stu&#39;}
+</span></span><span style=display:flex><span>delete key(country): {&#39;name&#39;: &#39;王四&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 40, &#39;high&#39;: 180, &#39;city&#39;: &#39;Beijing&#39;, &#39;job&#39;: &#39;Stu&#39;}
+</span></span><span style=display:flex><span>delete the last key: {&#39;name&#39;: &#39;王四&#39;, &#39;sex&#39;: &#39;male&#39;, &#39;age&#39;: 40, &#39;high&#39;: 180, &#39;city&#39;: &#39;Beijing&#39;}
+</span></span><span style=display:flex><span>clear dict2: {}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>keys of dict1： dict_keys([&#39;name&#39;, &#39;sex&#39;, &#39;age&#39;, &#39;high&#39;, &#39;city&#39;])
+</span></span><span style=display:flex><span>values of dict1： dict_values([&#39;王四&#39;, &#39;male&#39;, 40, 180, &#39;Beijing&#39;])
+</span></span><span style=display:flex><span>items of dict1： dict_items([(&#39;name&#39;, &#39;王四&#39;), (&#39;sex&#39;, &#39;male&#39;), (&#39;age&#39;, 40), (&#39;high&#39;, 180), (&#39;city&#39;, &#39;Beijing&#39;)])
+</span></span><span style=display:flex><span>keys of dict1： dict_keys([&#39;name&#39;, &#39;sex&#39;, &#39;age&#39;, &#39;high&#39;, &#39;city&#39;, &#39;school&#39;])
+</span></span><span style=display:flex><span>values of dict1： dict_values([&#39;王四&#39;, &#39;male&#39;, 40, 180, &#39;Beijing&#39;, &#39;szu&#39;])
+</span></span><span style=display:flex><span>items of dict1： dict_items([(&#39;name&#39;, &#39;王四&#39;), (&#39;sex&#39;, &#39;male&#39;), (&#39;age&#39;, 40), (&#39;high&#39;, 180), (&#39;city&#39;, &#39;Beijing&#39;), (&#39;school&#39;, &#39;szu&#39;)])
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>遍历字典元素
+</span></span><span style=display:flex><span>键: name 	值: 王四
+</span></span><span style=display:flex><span>键: sex 	值: male
+</span></span><span style=display:flex><span>键: age 	值: 40
+</span></span><span style=display:flex><span>键: high 	值: 180
+</span></span><span style=display:flex><span>键: city 	值: Beijing
+</span></span><span style=display:flex><span>键: school 	值: szu
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>键: name 	值: 王四
+</span></span><span style=display:flex><span>键: sex 	值: male
+</span></span><span style=display:flex><span>键: age 	值: 40
+</span></span><span style=display:flex><span>键: high 	值: 180
+</span></span><span style=display:flex><span>键: city 	值: Beijing
+</span></span><span style=display:flex><span>键: school 	值: szu
+</span></span><span style=display:flex><span>-------------
+</span></span><span style=display:flex><span>键: name 	值: 王四
+</span></span><span style=display:flex><span>键: sex 	值: male
+</span></span><span style=display:flex><span>键: age 	值: 40
+</span></span><span style=display:flex><span>键: high 	值: 180
+</span></span><span style=display:flex><span>键: city 	值: Beijing
+</span></span><span style=display:flex><span>键: school 	值: szu
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span></code></pre></div><h2 id=集合>集合</h2><p>集合是一组无序的、不重复的元素，它的特性包括：</p><ul><li>用大括号将元素括起来，元素之间有逗号隔开。</li><li>集合和字典的区别在于没有存储对应的value。</li><li>集合中各元素的值不可重复，所以集合可用于数据剔重。</li><li>集合中的元素只能是不可变的数据类型，包括整型、浮点型、字符串、元组，无法存储列表、字典、集合这些可变的数据类型。</li></ul><p><strong>样例代码：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#080;font-style:italic># 创建集合/不可变集合</span>
+</span></span><span style=display:flex><span>set1 <span style=color:#666>=</span> {<span style=color:#b44>&#39;Beijing&#39;</span>, <span style=color:#b44>&#39;Shanghai&#39;</span>, <span style=color:#b44>&#39;Shenzhen&#39;</span>, <span style=color:#b44>&#39;HongKong&#39;</span>}
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span>set2 <span style=color:#666>=</span> <span style=color:#a2f>set</span>(<span style=color:#b44>&#39;hello&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set2:&#39;</span>, set2)
+</span></span><span style=display:flex><span>set3 <span style=color:#666>=</span> <span style=color:#a2f>set</span>([<span style=color:#666>1</span>,<span style=color:#666>2</span>,<span style=color:#666>3</span>,<span style=color:#666>4</span>,<span style=color:#666>5</span>,<span style=color:#666>6</span>,<span style=color:#666>5</span>,<span style=color:#666>3</span>])
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set3:&#39;</span>, set3)
+</span></span><span style=display:flex><span>set4 <span style=color:#666>=</span> <span style=color:#a2f>set</span>((<span style=color:#666>1</span>,<span style=color:#666>2</span>,<span style=color:#666>3</span>,<span style=color:#666>4</span>,<span style=color:#666>5</span>,<span style=color:#666>6</span>,<span style=color:#666>6</span>,<span style=color:#666>1</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set4:&#39;</span>, set4)
+</span></span><span style=display:flex><span>fzset1 <span style=color:#666>=</span> <span style=color:#a2f>frozenset</span>(<span style=color:#b44>&#39;python&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;fset1:&#39;</span>, fzset1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 获取set的元素个数</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;length of set1：&#39;</span>, <span style=color:#a2f>len</span>(set1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 由于集合的无序性，访问集合只能遍历</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;访问集合只能遍历&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> elem <span style=color:#a2f;font-weight:700>in</span> set1:
+</span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(elem, end<span style=color:#666>=</span><span style=color:#b44>&#39;,&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;</span><span style=color:#b62;font-weight:700>\n</span><span style=color:#b44>--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 集合中添加和修改元素</span>
+</span></span><span style=display:flex><span>set1<span style=color:#666>.</span>add(<span style=color:#b44>&#39;Chengdu&#39;</span>)
+</span></span><span style=display:flex><span>set1<span style=color:#666>.</span>add((<span style=color:#666>1</span>, <span style=color:#666>2</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span>set8 <span style=color:#666>=</span> <span style=color:#a2f>set</span>([<span style=color:#666>2</span>, <span style=color:#666>3</span>, <span style=color:#666>4</span>])
+</span></span><span style=display:flex><span>set1<span style=color:#666>.</span>update(set8)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 删除集合元素</span>
+</span></span><span style=display:flex><span>set1<span style=color:#666>.</span>remove(<span style=color:#666>2</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span>set1<span style=color:#666>.</span>discard(<span style=color:#666>2</span>)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span>set1<span style=color:#666>.</span>discard((<span style=color:#666>1</span>, <span style=color:#666>2</span>))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;delete set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span>aaa <span style=color:#666>=</span> set1<span style=color:#666>.</span>pop()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;after pop, aaa:&#39;</span>, aaa)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;after pop, set1:&#39;</span>, set1)
+</span></span><span style=display:flex><span>set2<span style=color:#666>.</span>clear()
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;clear set2:&#39;</span>, set2)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 判断集合中是否包含某元素</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;Beijing is in set1:&#39;</span>, (<span style=color:#b44>&#39;Beijing&#39;</span> <span style=color:#a2f;font-weight:700>in</span> set1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;beijing is in set1:&#39;</span>, (<span style=color:#b44>&#39;beijing&#39;</span> <span style=color:#a2f;font-weight:700>in</span> set1))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 比较两个集合的关系,判断集合关系的操作符：==、!=、&lt;、&lt;=、&gt;、&gt;=</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set1 &gt; set8:&#39;</span>, (set1 <span style=color:#666>&gt;</span> set8))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;set3 = set4:&#39;</span>, (set3 <span style=color:#666>==</span> set4))
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 集合的并集</span>
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1 <span style=color:#666>|</span> set8
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;union of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1<span style=color:#666>.</span>union(set8)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;union of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 集合的交集</span>
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1 <span style=color:#666>&amp;</span> set8
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;intersection of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1<span style=color:#666>.</span>intersection(set8)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;intersection of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 集合的差集</span>
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1 <span style=color:#666>-</span> set8
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;difference of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1<span style=color:#666>.</span>difference(set8)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;difference of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 集合的对称差分:有所有属于集合A和集合B，并且不同时属于集合A和集合B的元素组成。</span>
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1 <span style=color:#666>^</span> set8
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;symmetric difference of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span>set5 <span style=color:#666>=</span> set1<span style=color:#666>.</span>symmetric_difference(set8)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;symmetric difference of set1 and set8:&#39;</span>, set5)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(<span style=color:#b44>&#39;--------------------------------------&#39;</span>)
+</span></span></code></pre></div><p><strong>测试结果：</strong></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>set1: {&#39;Shenzhen&#39;, &#39;Shanghai&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;}
+</span></span><span style=display:flex><span>set2: {&#39;h&#39;, &#39;e&#39;, &#39;l&#39;, &#39;o&#39;}
+</span></span><span style=display:flex><span>set3: {1, 2, 3, 4, 5, 6}
+</span></span><span style=display:flex><span>set4: {1, 2, 3, 4, 5, 6}
+</span></span><span style=display:flex><span>fset1: frozenset({&#39;y&#39;, &#39;h&#39;, &#39;n&#39;, &#39;p&#39;, &#39;o&#39;, &#39;t&#39;})
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>length of set1： 4
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>访问集合只能遍历
+</span></span><span style=display:flex><span>Shenzhen,Shanghai,Beijing,HongKong,
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>set1: {(1, 2), &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>set1: {2, (1, 2), 3, 4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>delete set1: {(1, 2), 3, 4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>delete set1: {(1, 2), 3, 4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>delete set1: {3, 4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>after pop, aaa: 3
+</span></span><span style=display:flex><span>after pop, set1: {4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>clear set2: set()
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>Beijing is in set1: True
+</span></span><span style=display:flex><span>beijing is in set1: False
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>set1 &gt; set8: False
+</span></span><span style=display:flex><span>set3 = set4: True
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>union of set1 and set8: {2, 3, 4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>union of set1 and set8: {2, 3, 4, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>intersection of set1 and set8: {4}
+</span></span><span style=display:flex><span>intersection of set1 and set8: {4}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>difference of set1 and set8: {&#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>difference of set1 and set8: {&#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span><span style=display:flex><span>symmetric difference of set1 and set8: {2, 3, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>symmetric difference of set1 and set8: {2, 3, &#39;Shanghai&#39;, &#39;Shenzhen&#39;, &#39;Beijing&#39;, &#39;HongKong&#39;, &#39;Chengdu&#39;}
+</span></span><span style=display:flex><span>--------------------------------------
+</span></span></code></pre></div></div><footer class=post-footer><div class=post-tags><a href=/tags/python rel=tag title=Python>#Python#</a></div><div class=addthis_inline_share_toolbox></div><div class=post-nav><div class=article-copyright><div class=article-copyright-img><img src=/img/qq_qrcode.jpg width=129px height=129px><div style=text-align:center>QQ扫一扫交流</div></div><div class=article-copyright-info><p><span>声明：</span>Python中list、tuple、dict和set的对比小结</p><p><span>链接：</span>https://murphyhanxu.github.io/post/python-list/</p><p><span>作者：</span>Murphy</p><p><span>声明： </span>本博客文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by-nc-sa/3.0/ target=_blank style=text-decoration:underline>CC BY-NC-SA 3.0</a>许可协议，转载请注明出处！</p></div></div><div class=clear></div></div><div class=reward-qr-info><div>创作实属不易，如有帮助，那就打赏博主些许茶钱吧 ^_^</div><button id=rewardButton disable=enable onclick='var qr=document.getElementById("QR");qr.style.display==="none"?qr.style.display="block":qr.style.display="none"'>
+<span>赏</span></button><div id=QR style=display:none><div id=wechat style=display:inline-block><img id=wechat_qr src=/img/wechat-pay.png alt="WeChat Pay"><p>微信打赏</p></div></div></div><div class=post-nav><div class="post-nav-next post-nav-item"><a href=https://murphyhanxu.github.io/post/mysql-install/ rel=next title="Win 10环境下安装MySQL 5.7"><i class="fa fa-chevron-left"></i> Win 10环境下安装MySQL 5.7</a></div><div class="post-nav-prev post-nav-item"><a href=https://murphyhanxu.github.io/post/setup-blog/ rel=prev title=定制个人博客>定制个人博客
+<i class="fa fa-chevron-right"></i></a></div></div><div id=wcomments></div></footer></article></section></div></div><div class=sidebar-toggle><div class=sidebar-toggle-line-wrap><span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+<span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+<span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id=sidebar class=sidebar><div class=sidebar-inner><section class="site-overview sidebar-panel sidebar-panel-active"><div class="site-author motion-element" itemprop=author itemscope itemtype=http://schema.org/Person><img class=site-author-image itemprop=image src=/img/avatar.png alt=Murphy><p class=site-author-name itemprop=name>Murphy</p><p class="site-description motion-element" itemprop=description>谁的脸谁的姓名</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href=/post/><span class=site-state-item-count>7</span>
+<span class=site-state-item-name>日志</span></a></div><div class="site-state-item site-state-categories"><a href=/categories/><span class=site-state-item-count>1</span>
+<span class=site-state-item-name>分类</span></a></div><div class="site-state-item site-state-tags"><a href=/tags/><span class=site-state-item-count>4</span>
+<span class=site-state-item-name>标签</span></a></div></nav><div class="links-of-author motion-element"><span class=links-of-author-item><a href=https://github.com/MurphyHanxu target=_blank title=GitHub><i class="fa fa-fw fa-github"></i>
+GitHub</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-inline"><div class=links-of-blogroll-title><i class="fa fa-fw fa-globe"></i>
+友情链接</div><ul class=links-of-blogroll-list><li class=links-of-blogroll-item><a href=https://www.liaoxuefeng.com/ title=廖雪峰 target=_blank>廖雪峰</a></li><li class=links-of-blogroll-item><a href=https://math.mickeylili.com/ title=Mickeylili target=_blank>Mickeylili</a></li></ul></div><div class="tagcloud-of-blogroll motion-element tagcloud-of-blogroll-inline"><div class=tagcloud-of-blogroll-title><i class="fa fa-fw fa-tags"></i>
+标签云</div><ul class=tagcloud-of-blogroll-list><li class=tagcloud-of-blogroll-item><a href=/tags/github-pages>Github pages</a></li><li class=tagcloud-of-blogroll-item><a href=/tags/hugo>Hugo</a></li><li class=tagcloud-of-blogroll-item><a href=/tags/python>Python</a></li><li class=tagcloud-of-blogroll-item><a href=/tags/sql>SQL</a></li></ul></div></section></div></aside></div></main><footer id=footer class=footer><div class=footer-inner><div class=copyright><span class=copyright-year>&copy; 2010 - 2022</span>
+<span class=with-love><i class="fa fa-heart"></i></span>
+<span class=copyright-author>热爱生活与梦想</span></div></div></footer><div class=back-to-top><i class="fa fa-arrow-up"></i>
+<span id=scrollpercent><span>0</span>%</span></div></div><script type=text/javascript src=//cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js></script>
+<script type=text/javascript src=/js/search.js></script>
+<script type=text/javascript src=/js/affix.js></script>
+<script type=text/javascript src=/js/scrollspy.js></script>
+<script type=text/javascript>function detectIE(){var e=window.navigator.userAgent,t=e.indexOf("MSIE "),n=e.indexOf("Trident/"),s=e.indexOf("Edge/");return t>0||n>0||s>0?-1:1}function getCntViewHeight(){var t=$("#content").height(),e=$(window).height(),n=t>e?t-e:$(document).height()-e;return n}function getScrollbarWidth(){var e=$("<div />").addClass("scrollbar-measure").prependTo("body"),t=e[0],n=t.offsetWidth-t.clientWidth;return e.remove(),n}function registerBackTop(){var t=50,e=$(".back-to-top");$(window).on("scroll",function(){e.toggleClass("back-to-top-on",window.pageYOffset>t);var s=$(window).scrollTop(),o=getCntViewHeight(),i=s/o,n=Math.round(i*100),a=n>100?100:n;$("#scrollpercent>span").html(a)}),e.on("click",function(){$("html,body").animate({scrollTop:0,screenLeft:0},800)})}function initScrollSpy(){var e=".post-toc",s=$(e),t=".active-current";s.on("activate.bs.scrollspy",function(){var t=$(e+" .active").last();n(),t.addClass("active-current")}).on("clear.bs.scrollspy",n),$("body").scrollspy({target:e});function n(){$(e+" "+t).removeClass(t.substring(1))}}function initAffix(){var e=$(".header-inner").height(),t=parseInt($(".main").css("padding-bottom"),10),n=e+10;$(".sidebar-inner").affix({offset:{top:n,bottom:t}}),$(document).on("affixed.bs.affix",function(){updateTOCHeight(document.body.clientHeight-100)})}function initTOCDimension(){$(window).on("resize",function(){e&&clearTimeout(e),e=setTimeout(function(){var e=document.body.clientHeight-100;updateTOCHeight(e)},0)}),updateTOCHeight(document.body.clientHeight-100);var e,t=getScrollbarWidth();$(".post-toc").css("width","calc(100% + "+t+"px)")}function updateTOCHeight(e){e=e||"auto",$(".post-toc").css("max-height",e)}$(function(){var e,t,n,s,o=$(".header-inner").height()+10;$("#sidebar").css({'margin-top':o}).show(),t=parseInt($("#sidebar").css("margin-top")),n=parseInt($(".sidebar-inner").css("height")),e=t+n,s=$(".content-wrap").height(),s<e&&$(".content-wrap").css("min-height",e),$(".site-nav-toggle").on("click",function(){var e=$(".site-nav"),o=$(".toggle"),t="site-nav-on",i="toggle-close",n=e.hasClass(t),a=n?"slideUp":"slideDown",s=n?"removeClass":"addClass";e.stop()[a]("normal",function(){e[s](t),o[s](i)})}),registerBackTop(),initScrollSpy(),initAffix(),initTOCDimension(),$(".sidebar-nav-toc").click(function(){$(this).addClass("sidebar-nav-active"),$(this).next().removeClass("sidebar-nav-active"),$("."+$(this).next().attr("data-target")).toggle(500),$("."+$(this).attr("data-target")).toggle(500)}),$(".sidebar-nav-overview").click(function(){$(this).addClass("sidebar-nav-active"),$(this).prev().removeClass("sidebar-nav-active"),$("."+$(this).prev().attr("data-target")).toggle(500),$("."+$(this).attr("data-target")).toggle(500)})})</script><script src=//cdn.bootcdn.net/ajax/libs/imageviewer/0.1.0/viewer.min.js></script>
+<script type=text/javascript>$(function(){$(".post-body").viewer()})</script><script type=text/javascript>$(function(){detectIE()>0?$.getScript(document.location.protocol+"//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js",function(){new Waline({el:"#wcomments",visitor:!0,avatar:"wavatar",avatarCDN:"https://sdn.geekzu.org/avatar/",avatarForce:!1,wordLimit:"200",placeholder:" 欢迎留下您的宝贵建议，请填写您的昵称和邮箱便于后续交流. ^_^ ",requiredFields:["nick","mail"],serverURL:"Your WalineSerURL",lang:"zh-cn"})}):$("#wcomments").html("抱歉，Waline插件不支持IE或Edge，建议使用Chrome浏览器。")})</script><script type=text/javascript src="//s7.addthis.com/js/300/addthis_widget.js#pubid=Your%20AddthisId"></script>
+<script>(function(){var t,e=document.createElement("script"),n=window.location.protocol.split(":")[0];n==="https"?e.src="https://zz.bdstatic.com/linksubmit/push.js":e.src="http://push.zhanzhang.baidu.com/push.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)})()</script></body></html>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><search><entry><title>Mysql-use notes</title><url>https://murphyhanxu.github.io/post/mysql-use/</url><categories><category>CS</category></categories><tags><tag>SQL</tag></tags><content type="html"> 学习Mysql视频记录的笔记 整理MySQL最常用的SQL语句（增删改查CRUD）。 更多的命令可参考：https://www.runoob.com/mysql/mysql-select-database.html
+#Mysql-use
+常用命令 执行下列SQL语句前，请参照上节内容登录MySQL环境。
+选择数据库（上节已创建数据库mypython）。
+mysql>usemypython;系统提示“Database changed”代表操作成功。
+查看系统中默认的表。
+在我们创建数据库时，系统会默认创建一些表。使用如下命令可查看。
+mysql>showtables; 查看其他库的所有表。
+当已经在一个库中，想查看另外库的表，可用如下命令。
+mysql>showtablesfrom库名； 使用create table语句，创建自己的表。
+下例的表名为students_info，他有id，name，gender，class四个字段，其中id为主键。
+mysql>createtablestudents_info(idvarchar(10)notnull,#列名 列类型 namevarchar(10)notnull,gendervarchar(10),classint,primarykey(id));下例的表名为test_scores，他有id，student_id，subject，score，submit_date四个字段，id为主键，且为自增长字段，即每次插入数据时自动加1。
+mysql>createtabletest_scores(idintnotnullauto_increment,student_idvarchar(10)notnull,subjectvarchar(10)notnull,scoreintnotnull,submit_dateDate,primarykey(id));创建完毕，可以重复步骤2的命令（show tables），检查是否创建成功。
+查看服务器版本
+mysql>selectversion() MYSQL的语法规范 不区分大小写，但建议关键字大写，表明、列名小写
+每条命令最好用分号结尾
+每条命令根据需要，可以进行缩进或换行
+注释
+单行注释：#注释内容 单行注释：--注释内容多行注释：/*注释内容*/ DQL语言的学习 基础查询 查询常量、表达式、函数
+mysql>select内容1,内容2...from表名；查询的结果是一个虚拟的表格
+起别名
+mysql>select内容1as别名1,内容2as别名2from表名;select内容1别名1,内容2别名2from表名; 去重
+mysql>selectdistinct内容from表名; +号的作用
+只有一个功能：运算符。
+select 100+90; 两个操作数都为数值型，则做加法运算。
+select &lsquo;123&rsquo;+321; 其中一方为字符型，试图将字符型数值转换成数值型。如果转换成功，则继续做加法运算。如果转换失败，则将字符型数值转换成0。
+select null+1; 只要其中一方为null，则结果一定为null。
+mysql>select内容1+内容2as别名from表名; 使用concat进行连接
+mysql>selectconcat(内容1，内容2)as别名from表名; 条件查询 where语法
+mysql>select内容from表名where筛选条件;根据筛选条件可分类：
+1.按条件表达式筛选。条件运算符：＞,＜,＝,&lt;>, >=, &lt;=
+2.按逻辑表达式筛选。用于连接逻辑表达式。逻辑运算符：and, or, not
+3.模糊查询。
+​ like, 一般和通配符搭配使用，通配符：%：任意多（0）个字符，_：任意单个字符。
+​ between and, data between 10 and 20等价于data >=10 and data &lt;=20
+​ in, 判断某字段的值是否属于in列表中的某一项。使用in提高语句简洁度，in列表的值类型必须一致或兼容，不支持使用通配符。
+​ is (not) null,=或&lt;>不能用于判断null值，is (not) null 可以用来判断null值。
+安全等于&lt;=>
+安全等于既可以判断null值又可以判断普通数值，可读性低。
+is (not) null只能判断null值，可读性高。
+排序查询 语法
+mysql>select内容from表名where筛选条件orderby排序列表desc(asc)特点：
+1.desc 降序，asc 升序。如果不写默认是升序。
+2.order by子句中可以支持单个字段、多个字段、表达式、函数、别名。
+3.order by子句一般是放在查询语句的最后面，limit子句除外。
+常见函数 功能：类似于java的方法，将一组逻辑语句封装在方法体中，对外暴露方法名。
+好处：1.隐藏了实现细节。2.提高代码的重用性。
+调用：
+mysql>select函数名()from表名;分类：1.单行函数：如concat(), length(), ifnull() 等
+​ 2.分组函数：做统计使用，又称为统计函数、聚合函数、组函数
+字符函数
+length()：获取参数值的字节个数
+mysql>selectlength('john');--4selectlength('我爱你')--9concat()：拼接字符串
+mysql>selectconcat(lastname,'_',firstname)姓名fromemployees;upper(), lower()：大写小写
+mysql>selectupper('john');selectlower('JOHN');substr(), substring()：返回子字符串
+索引从1开始
+mysql>selectsubstr('柯西的柯西收敛原理',4);--柯西收敛原理selectsubstr('柯西的柯西收敛原理',4,4);--柯西收敛instr()：返回子串第一次出现的索引，如果找不到返回0
+mysql>selectinstr('有理数是实数集的稠子集','实数集');--5trim()：掐头去尾
+mysql>selecttrim(' 你是人间肆月甜 ');--你是人间肆月甜selecttrim('a'from'aaaaa你是人间肆月甜');--你是人间肆月甜lpad()：用指定字符实现左填充指定长度
+mysql>selectlpad('mathmatical analysis',5,'*');--*****mathmaticalanalysisrpad()：用指定字符实现右填充指定长度
+mysql>selectrpad('mathmatical analysis',5,'*');--mathmaticalanalysis*****replace()：替换
+mysql>selectreplace('张无忌爱上了周芷若','周芷若','赵敏');--张无忌爱上了赵敏 数学函数
+round()：四舍五入
+mysql>selectround(5.567,2);--5.57selectround(5.2);--5ceil()：向上取整，返回>=改参数的最小整数
+mysql>selectceil();floor()：向下取整，返回&lt;=改参数的最大整数
+mysql>selectfloor(-9.99);-- -10 truncate()：截断
+mysql>selecttruncate(1.65,1);--1.6mod()：取余
+mysql>selectmod(10,3);--1mod(a,b)=a-a/b*b
+日期函数
+now()：返回当前系统日期+时间
+mysql>selectnow();curdate()：返回当前日期，不包含时间
+mysql>selectcurdate();curtime()：返回当前时间，不包含日期
+mysql>selectcurtime();year(), month(), monthname(), day(), hour(), minute(), second()：可以获取数据的对应值
+mysql>selectyear(now());str_to_date：将字符通过指定的格式转换成日期
+mysql>selectstr_to_date('2002-2-19','%Y-%c-%d');--2002-2-19date_format：将日期转换成字符
+mysql>selectdate_format(now(),'%Y年%m月%d日'); 其它函数
+mysql>selectversion();selectdatabase();selectuser(); 流程控制函数
+1.if()：
+mysql>selectif(表达式,ans1,ans2);如果表达式为真，返回ans1。如果表达式为假，返回ans2。
+2.case()：
+mysql>selectsalary,department_idcasedepartment_idwhen30thensalary*1.1when40thensalary*1.2when50thensalary*1.3elsesalaryendasnewsalaryfromemployees;mysql>selectsalary,casewhensalary>20000then'A'whensalary>15000then'B'whensalary>10000then'C'else'D'endassalarylevelfromemployees 分组函数 功能：用作统计使用，又称为聚合函数或统计函数或组函数。
+sum 求和，avg 平均值，max 最大值，min 最小值，count 计算个数
+简单的使用
+mysql>selectsum(salary)fromemployees;selectavg(salary)fromemployees;selectmin(salary)fromemployees;selectmax(salary)fromemployees;selectcount(salary)fromemployees;mysql>selectsum(salary)和,avg(salary)平均fromemployees; 参数支持哪些类型
+sum(), avg()，一般用于数值型。
+max(), min()，可以处理任何类型。
+count()，计算不为null的个数。
+是否忽略null值
+以上分组函数都忽略null值
+可以和distinct搭配使用
+mysql>selectsum(distinctsalary),sum(salary)fromemployees;selectcount(distinctsalary),count(salary)fromemployees; count()函数的详细介绍
+mysql>selectcount(salary)fromemployees;selectcount(*)fromemployees;#在表里写一列常量值并统计个数 selectcount(1)fromemployees;效率：
+myisam存储引擎下，count(*)的效率高
+innodb存储引擎下，count(*)和count(1)效率差不多，比count(字段)要高一些
+和分组函数一同查询的字段有限制
+和分组函数一同查询的字段要求是group by后的字段
+分组查询 mysql>selectgroup_function(column),columnfromtablewhereconditiongroupbygroup_by_expressionorderbycolumn;注意，查询列表必须特殊，要求是分组函数和group by后出现的字段
+例：
+mysql>selectmax(salary),job_idfromemployeesgroupbyjob_id;mysql>selectcount(*),location_idfromdepartmentsgroupbylocation_id;mysql>selectavg(salary),department_idfromemployeeswhereemaillike'%a%'groupbydepartment_id;mysql>selectmax(salary),manager_idfromemployeeswherecommision_pctisnotnullgroupbymanager_id;mysql>#添加分组后的筛选 selectcount(*),department_idfromemployeesgroupbydepartment_idhavingcount(*)>2;mysql>#添加分组后的筛选 selectmax(salary),job_idfromemployeeswherecommission_petisnotnullgroupbyjob_idhavingmax(salary)>12000;mysql>#添加分组后的筛选 selectmin(salary),manager_idfromemployeeswheremanager_id>12groupbymanager_idhavingmin(salary)>5000;按表达式或函数分组，例：
+mysql>selectcount(*)c,length(lase_name)len_namefromemployeesgroupbylen_namehavingc>5;按多个字段分组，例：
+mysql>selectavg(salary),department_id,job_idfromemployeesgroupbydepartment_id,job_id添加排序，例：
+mysql>selectavg(salary),department_id,job_idfromemployeeswheredepartment_idisnotnullgroupbydepartment_id,job_idhavingavg(salary)>10000orderbyavg(salary)desc;总结：
+1.分组查询中的筛选条件分为两类。分组前筛选，分组后筛选。数据源不一样。前者为原始表，后者为分组后的结果集。位置不一样。前者为group by子句前，关键字为where，后者为group by子句后，关键字为having。
+分组函数做条件肯定是放在having子句中。
+2.group by子句支持单个字段分组，多个字段分组，表达式或函数
+3.也可以添加排序（排序放在整个分组查询的最后）
+连接查询 含义：又称多表连接，当查询的字段来自于多个表时，就会用到连接查询。
+笛卡尔乘积现象：表1有m行，表2有n行，结果=m*n行
+发生原因：没有有效的连接条件
+分类：
+​ 按年代分类：sq192标准：仅支持内连接；
+​ sq199标准：支持内连接，外连接（左外连接+右外连接），交叉连接
+​ 按功能分类：内连接(inner)：等值连接；非等值连接，自连接。
+​ 外连接：左外连接(left)；右外连接(right)；全外连接(full)。
+​ 交叉连接(cross)
+sq92: 等值连接
+例：
+mysql>selectlast_name,department_namefromemployees,departmentswhereemployees.'department_id'=departments.'department_id';mysql>selectlast_name,e.'job_id',job_titlefromemployeesase,jobsasjwheree.'job_id'=j.'job_id';注意：如果为表起了别名，则查询的字段（select）就不能使用原来的表名去限定
+mysql>selectlast_name,depatment_namefromemployeesase,departmentsasdwheree.'department_id'=d.'department_id'ande.'commission_pct'isnotnull;mysql>selectdepartment_name,cityfromdepartmentsasd,locationaslwhered.'location_id'=l.'location_id'andcitylike'_o%'mysql>#可以添加分组和排序 selectcount(*)as个数,cityfromdepartmentsasd,locationsaslwhered.'location_id'=l.'location_id'groupbycity;mysql>selectjob_title,count(*)fromemployeesase,jobsasjwheree.'job_id'=j.'job_id'groupbyjob_titleorderbycount(*)desc;总结
+1.多表等值连接的结果为多表的交集部分
+2.n表连接，至少需要n-1个连接条件
+3.多表的顺序没有要求
+4.一般需要为表起别名
+5.可以搭配前面介绍的所有子句使用，比如排序、分组、筛选
+​ 2.非等值连接
+例：
+mysql>selectsalary,grade_levelfromemoloyeesase,job_gradesasgwheresalarybetweeng.'lowest_sal'andg.'hightest_sal'andg.'grade_level'='A';​ 3.自连接
+例：
+mysql>selecte.'employee_id',e.'last_name',m.'employee_id',m.'last_name'fromemployeesase,employeesasmwheree.'manager_id'=m.'employee_id';sq99: 内连接
+特点：
+添加排序、分组、筛选
+inner可以省略
+筛选条件放在where后面，连接条件放在on后面，提高分离性，便于阅读
+inner join连接和sql92语法中的等值连接效果是一样的
+​ 1.等值连接
+mysql>#语法 select查询列表from表1innerjoin表2on连接条件;例：
+mysql>selectlast_name,department_namefromemployeesaseinnerjoindepartmentsasdone.'department_id'=d.'department_id';mysql>selectlast_name,job_titlefromemployeesaseinnerjoinjobsasone.'job_id'=j.'job_id'wheree.'last_name'like'%e%';mysql>selectcity,count(*)部门个数fromdepartmentsasdinnerjoinlacationsaslond.'location_id'=l.'location_id'groupbycityhavingcount(*)>2;mysql>selectlastname,department_name,job_titlefromemployeesaseinnerjoindepartmentsasdone.'department_id'=d.'department_id'innerjoinjobsasjone.'job_id'=j.'job_id'orderbydepartment_namedesc;​ 2.非等值连接
+例：
+mysql>selectsalary,grade_levelfromemployeesasejoinjob_gradesasgone.'salary'betweeng.'lowest_sal'andg.'highest_sal';​ 3.自连接
+例：
+mysql>selecte.last_name,m.last_namefromemployeesasejoinemployeesasmone.'manager_id'=m.'employee_id'wheree.'last_name'like'%k%';外连接
+应用场景：用于查询一个表中有，而另一个表中没有的记录
+特点：
+1.外连接的查询结果为主表中的所有记录
+​ 如果从表中有和它匹配的，则显示匹配的值
+​ 如果从表中没有和它匹配的，则显示null
+​ 外连接查询结果=内连接查询结果+主表中有而从表中没有的记录
+2.左外连接，left join左边的是主表
+右外连接，right join右边的是主表
+3.左外和右外交换两个表的顺序，可以实现同样的效果
+例：
+mysql>#左外连接 selectd.*,e.'employee_id'fromdepartmentsasdleftjoinemployeesaseond.'department_id'=e.'department_id'wheree.'employee_id'isnull;mysql>#右外连接 selectd.*,e.'employee_id'fromemployeesaserightjoindepartmentsasdond.'department_id'=e.'department_id'wheree.'employee_id'isnull;交叉连接：
+mysql>#本质为实现笛卡尔乘积 selectgirls.*,boys.*fromgirlscrossjoinboys;子查询 含义：
+出现在其他语句中的select语句，称为子查询。内部嵌套其他select语句的查询，称为主查询。
+分类：
+按子查询出现的位置。
+按结果集的行列数不同。标量子查询（一行一列）；列子查询（一列多行）；行子查询（一行多列）；表子查询（多行多列）
+​ 1.标量子查询
+例：
+mysql>select*fromemployeeswheresalary>(selectsalaryfromemployeeswherelast_name='Abel');mysql>selectlast_name,job_id,salaryfromemployeeswherejob_id=(selectjob_idfromemployeeswhereemployee_id=141)andsalary>(selectsalaryfromemployeeswhereemployee_id=143);​ 2.列子查询
+例：
+mysql>selectlast_namefromemployeeswheredepartment_idin(selectdistinctdepartment_idfromdepartmentswherelocation_idin(1400,1700));mysql>selectlast_namefromemployeeswheredepartment_id=(selectdistinctdepartment_idfromdepartmentswherelocation_idin(1400,1700));​ 3.行子查询
+例：
+mysql>select*fromemployeeswhere(employee_id,salary)=(selectmin(employee_id,max(salary)fromemployees)​ 4.select 后面的子查询
+例：
+mysql>selectd.*,(selectcount(*)fromemployeeswheree.'department_id'=d.'department_id')fromdepartmentsasd;mysql>select(selectdepartment_namefromdepartmentsasdinnerjoinemployeesaseond.'d.department_id'=e.'department+id'wheree.'employee_id'=102)部门名;​ 5.from后面的子查询
+例：
+mysql>selectag_dep.*,g.'grade_level'from(selectavg(salary),department_idfromemployeesgroupbydepartment_id)asag_depinnerjoinjob_gradesasgonag_dep.agbetweenlowest_salandhighest_sal;​ 6.exists后面（相关子查询）
+例：
+mysql>selectexists(selectemployee_idfromemployeeswheresalary=30000);分页查询 应用场景：当要显示的数据，一页显示不全，需要分页提交sql请求
+语法：
+mysql>select查询列表from表(jointype)join表2where筛选条件groupby分组字段having分组后的筛选orderby排序limitoffset,size;#offset要显示条目的起始索引（起始索引从0开始）(page-1)*s #size 要显示的条目个数 例：
+mysql>#查询前5条员工信息 select*fromemployeeslimit0,5mysql>#查询第11条到第25条员工信息 select*fromemployeeslimit10,15mysql>#有奖金的员工信息，并且工资前10名显示 select*fromemployeeswherecommision_pctisnotnullorderbysalarydesclimit10;特点：
+1.limit语句放在查询语句的最后，执行逻辑也是在最后
+联合查询 语法：
+mysql>查询语句1union查询语句2应用场景：
+用于将多个表中相似信息连接在一起
+特点：
+1.要求多条查询语句的查询列表是一致的！
+2.要求多条查询语句查询的每一列的类型和顺序是一致的
+3.union关键字默认去重，如果使用union all可以包含重复项
+例：
+mysql>select*fromemployeeswhereemaillike'%a%'unionselect*fromemployeeswheredepartment_id>90;DML语言的学习 数据操作语言：数据的插入 insert，修改 update，删除 delete
+插入语句 语法一：
+mysql>insertinto表名(列名,...)values(值1,...);例：
+mysql>#不可以为null的值必须插入值，可以为null的列如何插入值？ insertintobeauty(id,name,sex,phone)values(15,'王心凌','女','13888888888')语法二：
+mysql>insertinto表名set列名=值,列名=值...;注：
+1.方式一可以省略列名，但添加值的顺序必须和表中的顺序一致
+2.方式一可以支持插入多行，方式二不支持
+3.方式一支持子查询，省略了values()，方式二不支持
+修改语句 语法：
+mysql>update表名set列=新值,列=新值...where筛选条件;mysql>update表1别名inner(right,left)join表2别名on连接条件set列=值...where筛选条件;删除语句 语法：
+mysql> delete from 表名 where 筛选条件; mysql> truncate table 表名; 1.delete可以加where条件，truncate不能加
+2.truncate删除，效率比delete高
+3.假如要删除的表中有自增长列，如果用delete删除后，再插入数据，自增长列的值从断点开始，而如果truncate删除后，再插入数据，自增长列的值从1开始。
+4.truncate删除后没有返回值，而delete删除后有返回值。
+5.truncate删除不能回滚，而delete删除可以回滚。
+##DDL 数据定义语言
+库和表的管理
+一、库的管理：创建、修改、删除
+二、表的管理：创建、修改、删除、复制
+创建：create，修改alter，删除drop
+###一、库的管理
+1.库的创建
+mysql> create database if not exists 库名; 2.库的修改
+更改库的字符集
+mysql> alter database 库名 character set gbk; 3.库的删除
+mysql> drop database if exists 库名; ###二、表的创建
+1.表的创建
+mysql> create table if not exists 表名( 列名, 列的类型, [(长度) 约束], 列名, 列的类型, [(长度) 约束], ... 列名, 列的类型, [(长度) 约束] ); 2.表的修改
+修改列名
+mysql> alter table 表名 change column 旧列名 新列名 类型; 列的类型或约束
+mysql> alter table 表名 modify column 列名 新类型; 添加列
+mysql> alter table 表名 add column 新列名 新类型; 删除列
+mysql> alter table 表名 drop column 列名; 修改表名
+mysql> alter table 表名 rename to 新表名; 3.表的删除
+mysql> drop table if exists 表名; 4.表的复制
+mysql> 只复制表的结构 create table 新表名 like 旧表名; mysql> 复制表的结构和数据 create table 新表名 select * from 旧表名 mysql> 只复制部分数据 create table 新表名 select 内容1，内容2 from 旧表名 where 条件; mysql> 只复制某些字段 create table 新表名 select 内容 from 旧表名 where 0; ##常见的数据类型 数值型：整型，小数（定点数、浮点数） 字符型：较短的文本char,varchar，较长的文本text,blob（较长的二进制数据） 日期型：
+###一、整型
+整数类型 字节 范围 tinyint 1 有符号：-128~127，无符号：0~255 smallint 2 有符号：-32768~32767，无符号：0~65535 mediumint 3 有符号：-8388608~8388607，无符号：0~1677215 int/integer 4 有符号：-2147483648~2147483647，无符号：0~4294967295 bigint 8 有符号：-2^64-1~2^64，无符号2^65+1 特点： 1.如果不设置无符号还是有符号，默认是有符号，如果想设置无符号，需要添加unsigned关键字。 2.如果插入的数值超出了整型的范围，会报out of range异常，并且插入临界值。 3.如果不设置长度，会有默认的长度 4.若要设置显示宽度，则在数据类型后面加上（要显示的长度），如果不够会用0在左边填充，但必须搭配关键字zerofill写在数据类型后使用。 1.如何设置有符号和无符号
+mysql> drop table if exists tab_int create table tab_int( t1 int, t2 int unsigned ) insert into tab_int values(-123) insert into tab_int values(-123); ###二、小数
+浮点数类型 字节 float 4 double 8 定点数类型 字节 decimal(M,D) M+2 特点： 1.M表示整数位数+小数位数，D表示小数点后数字的位数，如果小数点后位数超出会自动四舍五入，如果整数部分超出整数位数则会插入临界值。 2.M和D都可以省略，会生成默认长度 ###三、字符型 较短的文本：char,varchar， 其他：binary和varbinary用于保存较短的二进制，enum用于保存枚举，set用于保存集合 较长的文本：text,blob（较长的二进制数据） 字符串类型|最多字符数|描述及存储需求|特点|空间耗费|效率 &ndash;|&ndash;|&ndash;|&ndash;|&ndash;| char(M)|M，可以省略，默认为1|M为0~255之间的整数|固定长度的字符|比较耗费|高 varchar(M)|M，不能省略|M为0~65535之间的整数|可变长度的字符|比较节省|低
+###四、日期型
+字符串类型 字节 最小值 最大值 date 4 1000-01-01 9999-12-31 datetime 8 1000-01-01 00:00:00 9999-12-31 23:59:59 timestamp 4 1970年 2038年的某个时刻 time 3 -838:59:59 838:59:59 year 1 1901 2155</content></entry><entry><title>Win 10环境下安装MySQL 5.7</title><url>https://murphyhanxu.github.io/post/mysql-install/</url><categories><category>CS</category></categories><tags><tag>SQL</tag></tags><content type="html"> 记录在Win 10下安装、配置MySQL 5.7的过程。
+安装步骤 官网下载安装包（https://dev.mysql.com/downloads/mysql/）。 打开网站，默认显示的是最新的8.0版本；如果要下载5.7版本，需要打开Archives页签，将查询条件设置为5.7.36（目前5.7版本系列中最新的一个版本）。下载不包含测试套件的包即可。
+将zip包解压到本机某个目录下。 例如： D:\mysql\mysql-5.7.36-winx64
+在该目录下手工创建my.ini文件，拷贝如下内容，并根据实际安装目录修改两个basedir和datadir。
+basedir配置为mysql安装目录，datadir在安装目录后加data。
+**注意：**此时data文件夹并不存在，在执行后续安装步骤时会由系统自动创建。
+[mysqld] #设置3306端口 port=3306 #设置mysql的安装目录 basedir=D:\mysql\mysql-5.7.36-winx64 #设置mysql数据库的数据的存放目录 datadir=D:\mysql\mysql-5.7.36-winx64\data #允许最大连接数 max_connections=200 #允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统 max_connect_errors=10 #服务端使用的字符集默认为UTF8 character-set-server=utf8 #创建新表时将使用的默认存储引擎 default-storage-engine=INNODB #默认使用“mysql_native_password”插件认证 default_authentication_plugin=mysql_native_password [mysql] #设置mysql客户端默认字符集 default-character-set=utf8 [client] #设置mysql客户端连接服务端时默认使用的端口 port=3306 default-character-set=utf8 配置环境变量，为系统环境变量path添加一个值：MySQL安装目录下的bin目录。
+例如 D:\mysql\mysql-5.7.36-winx64\bin
+以管理员身份打开cmd窗口，执行如下命令初始化数据库：
+**注意：**一定要用管理员身份打开cmd窗口，否则后续的安装步骤可能因为权限问题异常。
+打开windows菜单，“开始 > Windows管理工具 > Windows系统 > 命令提示符”，单击鼠标右键，选择“更多 > 以管理员身份运行”。
+C:\Windows\system32> mysqld --initialize-insecure --user=mysql 初始化完成后，检查MySQL根目录，会发现步骤3指定的data文件夹已创建成功。
+同时，系统会创建root用户（密码为空）。
+为windows安装mysql服务。
+C:\Windows\system32> mysqld -install 系统提示“service successfully installed.”则代表配置成功。系统创建的默认服务名为mysql。
+启动数据库服务
+C:\Windows\system32> net start mysql 以root用户登录mysql。
+C:\Windows\system32> mysql -u root -p 因为初始化数据库时我们没有设置密码，所以这里系统提示输入密码时，直接回车即可。 出现 mysql> 提示符，代表登录成功。
+为root设置密码。
+下面命令中引号内的部分即为要设置的密码，请自行修改。
+mysql>alteruseruser()identifiedby"xxxpasswd";修改完成，退出登录。
+mysql>quit 使用新设置的密码再次登录mysql，查看系统默认的数据库。
+安装完毕，日常访问数据库时，可以用普通模式打开cmd窗口。
+C:\Windows\system32>mysql-uroot-pmysql>showdatabases; 创建自己的数据库
+这里假设要创建的数据库名为“mypython”，请根据自己的需要自行修改。
+mysql>createdatabasemypython;创建完毕，仍然可以用show databases命令检查。
+至此，MySQL的安装和配置完成，后续可以在这个环境基础上创建数据库表，并向表中插入、修改、删除、查询数据。
+其他 安装过程中如果有异常需要回退，可以使用以下命令和前面的对应。
+删除数据库：
+mysql>dropdatabasemypython; 停止数据库服务
+C:\Windows\system32> net stop mysql 卸载服务
+C:\Windows\system32> mysqld -remove</content></entry><entry><title>Python中list、tuple、dict和set的对比小结</title><url>https://murphyhanxu.github.io/post/python-list/</url><categories><category>CS</category></categories><tags><tag>Python</tag></tags><content type="html"> 对Python中list、turple、dict和set这四种数据类型进行对比总结。
+概览 列表list 元组tuple 字典dict 集合set 读写要求 读写 只读 只读 读写 读取方式 索引 索引 键key 只能遍历 值是否重复 是 是 键不能重复，值可以 否 数据存储 连续、静态 连续、静态 不连续、动态 不连续、动态 是否有序 是 是 否（自动正序） 否 初始化 [lvalue1, lvalue2] (tvalue1, tvalue2) {key1:value1, key2:value2} {svalue1, svalue2} 增 list.append(value) 只读 dict[key1] = value1 set.add(value1) 删 del list[2] 只读 del dict[key] set.remove(value1) 改 list[2]=newValue 只读 dict[key1] = newValue set.update(value) 查 list[2:] tuple[1:5] dict[key] value in set 应用场景 非结构化数据存储 稳定的数据存储 结构化数据存储 数据剔重 列表 列表是一组有序存储的数据，它的特性包括：
+用中括号将元素括起来，元素之间有逗号隔开。
+列表可存储任意类型的数据，列表中各元素的类型可以不同，列表中各元素的值可以重复。
+列表数据按顺序存储（链式存储），每个元素都有索引，支持正序、倒序两种索引，正序索引从0开始，倒序索引从-1开始。
+列表创建后，其中的数据可以修改。
+样例代码：
+# 定义列表 list_t1 = ['I', 'love', 'use', 'python', [1, 2, 'a']] list_t2 = list(["C语言中文网", "http://c.biancheng.net"]) print('list_t1:', list_t1) print('list_t2:', list_t2) # 将字符串转换成列表 list_t3 = list("hello") print('list_t3:', list_t3) # 将元组转换成列表 tuple1 = ('Python', 'Java', 'C++', 'JavaScript') list_t4 = list(tuple1) print('list_t4:', list_t4) # 将字典转换成列表 dict1 = {'a':100, 'b':42, 'c':9} list_t5 = list(dict1) print('list_t5:', list_t5) #将区间转换成列表 range1 = range(1, 6) list_t6 = list(range1) print('list_t6:', list_t6) #创建空列表 print(list()) # 使用列表表达式创建列表 list_t7 = [x * x for x in range(1, 11)] print('List Comprehensions, list_t7:', list_t7) list_t8 = [x * x for x in range(1, 11) if x % 2 == 0] print('List Comprehensions use if, list_t8:', list_t8) list_t9 = [m + n for m in 'ABC' for n in 'XYZ'] print('List Comprehensions use double cycle, list_t9:', list_t9) list_t10 = [x if x % 2 == 0 else -x for x in range(1, 11)] print('List Comprehensions use else, list_t10:', list_t10) print('--------------------------------------') # 获取list长度 # print('list length:%d'.format(len(list_t1))) print('length of list_t1:', len(list_t1)) print('--------------------------------------') # 判断列表中是否包含某元素 print('python is in list_t1:', ('python' in list_t1)) print('Python is in list_t1:', ('Python' in list_t1)) print('--------------------------------------') # 按索引获取list中某个元素的值 print('the first element of list_t1:', list_t1[0]) print('the last element of list_t1:', list_t1[-1]) print('the last element of list_t1:', list_t1[len(list_t1)-1]) # 切片，按索引获取list中某几个元素的值,注意左闭右开 print('the first three elements of list_t1:', list_t1[0:3]) print('the first three elements of list_t1:', list_t1[:3]) print('the last two elements of list_t1:', list_t1[-2:]) print('every two elements of list_t1:', list_t1[0:5:2]) print('--------------------------------------') # 根据元素值定位元素在列表中的index索引位置 print('index of python in list_t1：', list_t1.index('python')) print('--------------------------------------') # 统计某个值在列表元素中的个数 print('quantity of python in list_t1：', list_t1.count('python')) print('quantity of Python in list_t1：', list_t1.count('Python')) print('--------------------------------------') # 在list最后追加元素 list_t1.append('too') print('After append, list_t1:', list_t1) # 在list中间插入元素 list_t1.insert(1, 'really') print('After insert, list_t1:',list_t1) # 把一个list添加到另一个list中 list_t5.extend(list_t6) print('After extend, list_t5:',list_t5) # 合并两个list list_t7 = list_t3 + list_t4 print('After join list_t3 and list_t4:',list_t7) print('--------------------------------------') # 修改list中的元素 list_t1[-3] = 'java' print('modify list_t1:', list_t1) list_t1[4:7] = ['python', 'haha'] print('modify list_t1:', list_t1) print('--------------------------------------') # 删除list中的元素 del list_t1[1] print('delete element by index， list_t1:', list_t1) list_t1.pop() print('delete the last element， list_t1:', list_t1) list_t1.remove('love') print('delete element by value， list_t1:', list_t1) print('--------------------------------------') # 遍历列表 print('print the elements of list_t1 one by one:',end=' ') for i in range(len(list_t1)): print(list_t1[i], end=' ') print('\n--------------------------------------') # 同时遍历列表的索引和对应值 print('同时遍历列表的索引和对应值') for index, value in enumerate(list_t1): print('index: {0}value: {1}'.format(index, value)) print('--------------------------------------') # 排序 list_t1.sort() print('sort List_t1:', list_t1) list_t1.reverse() print('reverse List_t1:', list_t1) print('--------------------------------------') 测试结果：
+list_t1: ['I', 'love', 'use', 'python', [1, 2, 'a']] list_t2: ['C语言中文网', 'http://c.biancheng.net'] list_t3: ['h', 'e', 'l', 'l', 'o'] list_t4: ['Python', 'Java', 'C++', 'JavaScript'] list_t5: ['a', 'b', 'c'] list_t6: [1, 2, 3, 4, 5] [] List Comprehensions, list_t7: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100] List Comprehensions use if, list_t8: [4, 16, 36, 64, 100] List Comprehensions use double cycle, list_t9: ['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ'] List Comprehensions use else, list_t10: [-1, 2, -3, 4, -5, 6, -7, 8, -9, 10] -------------------------------------- length of list_t1: 5 -------------------------------------- python is in list_t1: True Python is in list_t1: False -------------------------------------- the first element of list_t1: I the last element of list_t1: [1, 2, 'a'] the last element of list_t1: [1, 2, 'a'] the first three elements of list_t1: ['I', 'love', 'use'] the first three elements of list_t1: ['I', 'love', 'use'] the last two elements of list_t1: ['python', [1, 2, 'a']] every two elements of list_t1: ['I', 'use', [1, 2, 'a']] -------------------------------------- index of python in list_t1： 3 -------------------------------------- quantity of python in list_t1： 1 quantity of Python in list_t1： 0 -------------------------------------- After append, list_t1: ['I', 'love', 'use', 'python', [1, 2, 'a'], 'too'] After insert, list_t1: ['I', 'really', 'love', 'use', 'python', [1, 2, 'a'], 'too'] After extend, list_t5: ['a', 'b', 'c', 1, 2, 3, 4, 5] After join list_t3 and list_t4: ['h', 'e', 'l', 'l', 'o', 'Python', 'Java', 'C++', 'JavaScript'] -------------------------------------- modify list_t1: ['I', 'really', 'love', 'use', 'java', [1, 2, 'a'], 'too'] modify list_t1: ['I', 'really', 'love', 'use', 'python', 'haha'] -------------------------------------- delete element by index， list_t1: ['I', 'love', 'use', 'python', 'haha'] delete the last element， list_t1: ['I', 'love', 'use', 'python'] delete element by value， list_t1: ['I', 'use', 'python'] -------------------------------------- print the elements of list_t1 one by one: I use python -------------------------------------- 同时遍历列表的索引和对应值 index: 0 value: I index: 1 value: use index: 2 value: python -------------------------------------- sort List_t1: ['I', 'python', 'use'] reverse List_t1: ['use', 'python', 'I'] -------------------------------------- 元组 元组是一组有序存储的数据，它的特性包括：
+用小括号将元素括起来，元素之间有逗号隔开。
+元组可存储任意类型的数据，元组中各元素的类型可以不同，元组中各元素的值可以重复。
+元组数据按顺序存储（链式存储），每个元素都有索引，支持正序、倒序两种索引，正序索引从0开始，倒序索引从-1开始。
+元组一经初始化，数据不能修改。
+与列表相比，元组是不可变的，这使得它可以作为字典的 key，或者扔进集合里。元组放弃了对元素的增删，换取的是性能上的提升：创建元组比列表快，存储空间比列表占用更小。多线程并发的时候，元组是不需要加锁的，不用担心安全问题，编写也简单多了。
+样例代码：
+# 元组和列表一样，支持获取长度函数len、使用索引获取元素、切片、for和range遍历、for和enumerate遍历，以及in、not in判断。 # 由于元组的内容不能修改，他不支持增删改方法,也不支持sort和reverse排序方法。 # 可以将元组先转化为列表，排序后再转化回元组，间接实现元组排序。 tuple_t1 = ('banana', 'color', 'apple', 'dark') tmp_l1 = list(tuple_t1) tmp_l1.sort() tuple_t1 = tuple(tmp_l1) for index, value in enumerate(tuple_t1): print('index:%dvalue:%s' % (index, value)) print('--------------------------------------') 测试结果：
+index:0 value:apple index:1 value:banana index:2 value:color index:3 value:dark -------------------------------------- 字典 字典是一组无序存储的key-value键值对，它的特性包括：
+用大括号将元素括起来，每个元素包含一个键和一个值，键和值用冒号分隔，元素之间有逗号隔开。 字典中的键key可以是数字、字符串或者是元组等不可变类型；字典中的值value可以是任何数据类型。 字典中的键key是大小写敏感的，不能重复。可使用key，获取字典中对应的value。 字典根据key计算其保存位置（哈希算法），所以其内部存放顺序与key放入顺序无关。 与列表相比：字典的查找和插入的速度极快，不会随着key的增加而变慢；但字典需要占用大量的内存，内存浪费多。 样例代码：
+# 直接定义字典 dict1 = {'name': '小明', 'sex': 'male', 'age': 18, 'high': 180} print('dict1:', dict1) print('--------------------------------------') # 使用dict和zip，将两个列表、元组或者字符串转为字典 print('use dict and zip') list1 = ['key1','key2','key3'] list2 = ['1','2','3'] dict2 = dict(zip(list1,list2)) print('dict2:', dict2) print('-------------') tuple1 = ('key1','key2','key3') tuple2 = ('1','2','3') dict2 = dict(zip(tuple1,tuple2)) print('dict2:', dict2) print('-------------') str1 = 'abcde' str2 = '12345' dict2 = dict(zip(str1,str2)) print('dict2:', dict2) print('--------------------------------------') # 使用dict，将嵌套列表或者元组映射转化为字典的key和value print('use dict') list3 = [['key1','value1'],['key2','value2'],['key3','value3']] dict3 = dict(list3) print('dict3:', dict3) print('-------------') list4 = [('key1','value1'),('key2','value2'),('key3','value3')] dict3 = dict(list4) print('dict3:', dict3) print('-------------') tuple3 = (['key1','value1'],['key2','value2'],['key3','value3']) dict3 = dict(tuple3) print('dict3:', dict3) print('-------------') tuple4 = (('key1','value1'),('key2','value2'),('key3','value3')) dict3 = dict(tuple4) print('dict3:', dict3) print('--------------------------------------') # 使用fromkeys方法创建字典 print('use fromkeys') list5 = ['语文', '数学', '英语'] dict4 = dict.fromkeys(list5) print('dict4:', dict4) dict4 = dict.fromkeys(list5, 60) print('dict4:', dict4) print('--------------------------------------') # 字典的key和value互转 dict5 = {value:key for key, value in dict2.items()} print('switch key and value of dict2:', dict5) print('--------------------------------------') # 获取dict的元素个数 print('length of dict1:', len(dict1)) print('--------------------------------------') # 判断字典中是否包含某元素 print('name is in dict1:', ('name' in dict1)) print('Name is in dict1:', ('Name' in dict1)) print('--------------------------------------') # 通过键访问元素,使用get方法避免key不存在时的异常 print('get value by key(name), dict1:', dict1['name']) print('get value by key(name), dict1:', dict1.get('name')) print('get value by key(school), dict1:', dict1.get('school')) print('get value by key(school), dict1:', dict1.get('school', 'haha')) print('--------------------------------------') # 添加单个元素 dict1['score'] = 100 print('add key(score), dict1:', dict1) # 添加多个元素（合并两个字典) dict8 = {'country': 'china', 'city': 'Beijing'} dict1.update(dict8) print('add dict8 to dict1:', dict1) # 修改单个元素的value dict1['score'] = 80 print('modify value of key(score), dict1:', dict1) #更新多个元素的值 dict1.update(name='王四', age=40) print('modify values, dict1:', dict1) # 设置默认 dict1.setdefault('score', 90) print('set default value, dict1:', dict1) dict1.setdefault('job', 'Stu') print('set default value, dict1:', dict1) print('--------------------------------------') # 字典删除 dict1.pop('score') print('delete key(score):', dict1) del dict1['country'] print('delete key(country):', dict1) dict1.popitem() print('delete the last key:', dict1) dict2.clear() print('clear dict2:', dict2) print('--------------------------------------') # 字典的视图,会随着字典的变化而变化 key = dict1.keys() value = dict1.values() item = dict1.items() print('keys of dict1：', key) print('values of dict1：', value) print('items of dict1：', item) dict1['school']='szu' print('keys of dict1：', key) print('values of dict1：', value) print('items of dict1：', item) print('--------------------------------------') # 使用视图，遍历字典元素 print('遍历字典元素') for key in dict1.keys(): print('键:', key, '\t值:', dict1[key]) print('-------------') for key in dict1: print('键:', key, '\t值:', dict1[key]) print('-------------') for key,value in dict1.items(): print('键:', key, '\t值:', value) print('--------------------------------------') 测试结果：
+dict1: {'name': '小明', 'sex': 'male', 'age': 18, 'high': 180} -------------------------------------- use dict and zip dict2: {'key1': '1', 'key2': '2', 'key3': '3'} ------------- dict2: {'key1': '1', 'key2': '2', 'key3': '3'} ------------- dict2: {'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5'} -------------------------------------- use dict dict3: {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'} ------------- dict3: {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'} ------------- dict3: {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'} ------------- dict3: {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'} -------------------------------------- use fromkeys dict4: {'语文': None, '数学': None, '英语': None} dict4: {'语文': 60, '数学': 60, '英语': 60} -------------------------------------- switch key and value of dict2: {'1': 'a', '2': 'b', '3': 'c', '4': 'd', '5': 'e'} -------------------------------------- length of dict1: 4 -------------------------------------- name is in dict1: True Name is in dict1: False -------------------------------------- get value by key(name), dict1: 小明 get value by key(name), dict1: 小明 get value by key(school), dict1: None get value by key(school), dict1: haha -------------------------------------- add key(score), dict1: {'name': '小明', 'sex': 'male', 'age': 18, 'high': 180, 'score': 100} add dict8 to dict1: {'name': '小明', 'sex': 'male', 'age': 18, 'high': 180, 'score': 100, 'country': 'china', 'city': 'Beijing'} modify value of key(score), dict1: {'name': '小明', 'sex': 'male', 'age': 18, 'high': 180, 'score': 80, 'country': 'china', 'city': 'Beijing'} modify values, dict1: {'name': '王四', 'sex': 'male', 'age': 40, 'high': 180, 'score': 80, 'country': 'china', 'city': 'Beijing'} set default value, dict1: {'name': '王四', 'sex': 'male', 'age': 40, 'high': 180, 'score': 80, 'country': 'china', 'city': 'Beijing'} set default value, dict1: {'name': '王四', 'sex': 'male', 'age': 40, 'high': 180, 'score': 80, 'country': 'china', 'city': 'Beijing', 'job': 'Stu'} -------------------------------------- delete key(score): {'name': '王四', 'sex': 'male', 'age': 40, 'high': 180, 'country': 'china', 'city': 'Beijing', 'job': 'Stu'} delete key(country): {'name': '王四', 'sex': 'male', 'age': 40, 'high': 180, 'city': 'Beijing', 'job': 'Stu'} delete the last key: {'name': '王四', 'sex': 'male', 'age': 40, 'high': 180, 'city': 'Beijing'} clear dict2: {} -------------------------------------- keys of dict1： dict_keys(['name', 'sex', 'age', 'high', 'city']) values of dict1： dict_values(['王四', 'male', 40, 180, 'Beijing']) items of dict1： dict_items([('name', '王四'), ('sex', 'male'), ('age', 40), ('high', 180), ('city', 'Beijing')]) keys of dict1： dict_keys(['name', 'sex', 'age', 'high', 'city', 'school']) values of dict1： dict_values(['王四', 'male', 40, 180, 'Beijing', 'szu']) items of dict1： dict_items([('name', '王四'), ('sex', 'male'), ('age', 40), ('high', 180), ('city', 'Beijing'), ('school', 'szu')]) -------------------------------------- 遍历字典元素 键: name 值: 王四 键: sex 值: male 键: age 值: 40 键: high 值: 180 键: city 值: Beijing 键: school 值: szu ------------- 键: name 值: 王四 键: sex 值: male 键: age 值: 40 键: high 值: 180 键: city 值: Beijing 键: school 值: szu ------------- 键: name 值: 王四 键: sex 值: male 键: age 值: 40 键: high 值: 180 键: city 值: Beijing 键: school 值: szu -------------------------------------- 集合 集合是一组无序的、不重复的元素，它的特性包括：
+用大括号将元素括起来，元素之间有逗号隔开。 集合和字典的区别在于没有存储对应的value。 集合中各元素的值不可重复，所以集合可用于数据剔重。 集合中的元素只能是不可变的数据类型，包括整型、浮点型、字符串、元组，无法存储列表、字典、集合这些可变的数据类型。 样例代码：
+# 创建集合/不可变集合 set1 = {'Beijing', 'Shanghai', 'Shenzhen', 'HongKong'} print('set1:', set1) set2 = set('hello') print('set2:', set2) set3 = set([1,2,3,4,5,6,5,3]) print('set3:', set3) set4 = set((1,2,3,4,5,6,6,1)) print('set4:', set4) fzset1 = frozenset('python') print('fset1:', fzset1) print('--------------------------------------') # 获取set的元素个数 print('length of set1：', len(set1)) print('--------------------------------------') # 由于集合的无序性，访问集合只能遍历 print('访问集合只能遍历') for elem in set1: print(elem, end=',') print('\n--------------------------------------') # 集合中添加和修改元素 set1.add('Chengdu') set1.add((1, 2)) print('set1:', set1) set8 = set([2, 3, 4]) set1.update(set8) print('set1:', set1) print('--------------------------------------') # 删除集合元素 set1.remove(2) print('delete set1:', set1) set1.discard(2) print('delete set1:', set1) set1.discard((1, 2)) print('delete set1:', set1) aaa = set1.pop() print('after pop, aaa:', aaa) print('after pop, set1:', set1) set2.clear() print('clear set2:', set2) print('--------------------------------------') # 判断集合中是否包含某元素 print('Beijing is in set1:', ('Beijing' in set1)) print('beijing is in set1:', ('beijing' in set1)) print('--------------------------------------') # 比较两个集合的关系,判断集合关系的操作符：==、!=、&lt;、&lt;=、>、>= print('set1 > set8:', (set1 > set8)) print('set3 = set4:', (set3 == set4)) print('--------------------------------------') # 集合的并集 set5 = set1 | set8 print('union of set1 and set8:', set5) set5 = set1.union(set8) print('union of set1 and set8:', set5) print('--------------------------------------') # 集合的交集 set5 = set1 &amp; set8 print('intersection of set1 and set8:', set5) set5 = set1.intersection(set8) print('intersection of set1 and set8:', set5) print('--------------------------------------') # 集合的差集 set5 = set1 - set8 print('difference of set1 and set8:', set5) set5 = set1.difference(set8) print('difference of set1 and set8:', set5) print('--------------------------------------') # 集合的对称差分:有所有属于集合A和集合B，并且不同时属于集合A和集合B的元素组成。 set5 = set1 ^ set8 print('symmetric difference of set1 and set8:', set5) set5 = set1.symmetric_difference(set8) print('symmetric difference of set1 and set8:', set5) print('--------------------------------------') 测试结果：
+set1: {'Shenzhen', 'Shanghai', 'Beijing', 'HongKong'} set2: {'h', 'e', 'l', 'o'} set3: {1, 2, 3, 4, 5, 6} set4: {1, 2, 3, 4, 5, 6} fset1: frozenset({'y', 'h', 'n', 'p', 'o', 't'}) -------------------------------------- length of set1： 4 -------------------------------------- 访问集合只能遍历 Shenzhen,Shanghai,Beijing,HongKong, -------------------------------------- set1: {(1, 2), 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} set1: {2, (1, 2), 3, 4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} -------------------------------------- delete set1: {(1, 2), 3, 4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} delete set1: {(1, 2), 3, 4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} delete set1: {3, 4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} after pop, aaa: 3 after pop, set1: {4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} clear set2: set() -------------------------------------- Beijing is in set1: True beijing is in set1: False -------------------------------------- set1 > set8: False set3 = set4: True -------------------------------------- union of set1 and set8: {2, 3, 4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} union of set1 and set8: {2, 3, 4, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} -------------------------------------- intersection of set1 and set8: {4} intersection of set1 and set8: {4} -------------------------------------- difference of set1 and set8: {'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} difference of set1 and set8: {'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} -------------------------------------- symmetric difference of set1 and set8: {2, 3, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} symmetric difference of set1 and set8: {2, 3, 'Shanghai', 'Shenzhen', 'Beijing', 'HongKong', 'Chengdu'} --------------------------------------</content></entry><entry><title>定制个人博客</title><url>https://murphyhanxu.github.io/post/setup-blog/</url><categories><category>CS</category></categories><tags><tag>GitHub Pages</tag><tag>Hugo</tag></tags><content type="html"> 昨天使用Hugo部署的网站框架里部署的还是themes带的样例页面。今天进行个性化定制，包括修改页面上的图片、链接等，并放入自己的博文。
+需要修改的文件主要包括：
+博文内容文件，在“D:\Hugo\myblog”下content文件夹下。 网站配置文件，在“D:\Hugo\myblog”下config文件夹下。 发布网站是用到的静态资源（如siderbar使用的头像图片），在主题目录下的静态资源文件夹“D:\Hugo\myblog\themes\hugo-theme-next\static”下。 如果自己加入的图片和原图的命名不同，就还需要根据实际修改相关的html文件，在主题目录下的布局文件夹“D:\Hugo\myblog\themes\hugo-theme-next\layouts”下。 本机启动Hugo server，下面的修改基本可以立即生效，方便一边修改一边验证。修改过程记录如下：
+在“D:\Hugo\myblog\content”下放入自己写的博文。
+注意：中文和英文的文章是分目录存放的。例如，中文博文放在“D:\Hugo\myblog\content\zh-CN\post”下。
+post目录下原有的样例博文，可以直接删除，也可以通过设置draft属性为true来屏蔽。
+博文中用到的图，我暂时放在post目录下了，md文件中的路径写的github上的URL。
+逐一打开“D:\Hugo\myblog\config”下的配置文件，根据需要修改。
+我实际只修改了“config.toml”、“languages”、“params.en.toml”和“params.zh-CN.toml”。
+本地调试的时候，可以先改“development”子目录；调试完成需要同步修改“_default”子目录，否则Hugo发布的public站点文件还是错误的。
+在“D:\Hugo\myblog\themes\hugo-theme-next\static\img”替换自己的图片。
+该目录下是页面上的一些公共图片，例如siderbar的个人信息图片、博文下的QQ二维码、微信收款码等。
+static下还有css、js文件夹，如果不修改页面样式，无需修改。
+（可选）根据需要修改“D:\Hugo\myblog\themes\hugo-theme-next\layouts”下的页面组件html文件。
+主要关注“D:\Hugo\myblog\themes\hugo-theme-next\layouts\partials”下的文件，通常有两种情况需要修改：
+替换图片时，如果新文件和旧图片文件的名字不同，则将相关html中的link修改成新文件名。 修改页面显示内容。例如，我没有支付宝，就屏蔽了“D:\Hugo\myblog\themes\hugo-theme-next\layouts\partials\widgets\reward.html”中的支付宝收款二维码相关代码段。 将站点发布到GitHub。
+清空public目录，再重新发布生成。
+在站点根目录执行如下cmd命令：
+$ hugo 进入"D:\Hugo\myblog\public"文件夹，鼠标右键选择“Git Bash Here”，进入Git Bash窗口，执行后续命令。
+将文件提交到本机git库中。commit备注可以根据实际需要修改。
+$ git add --all $ git commit -m "commit my own articles" 将站点提交到远程：
+$ git push -u origin master</content></entry><entry><title>使用Hugo创建个人博客框架</title><url>https://murphyhanxu.github.io/post/setup-hugo/</url><categories><category>CS</category></categories><tags><tag>GitHub Pages</tag><tag>Hugo</tag></tags><content type="html">  在已经跑通了使用GitHub Pages建了自己的第一个hello world页面的前提下，今天尝试使用Hugo来建一个完整的静态网站框架。
+ 这里先介绍如何安装Hugo，使用Hugo创建站点，并引入一个主题。按照本文操作完，站点的页面还是themes带的样例页面。我将在下一篇文章中总结如何加入自己的博文，以及修改网站的其他个人信息。
+#前言
+ 为什么我们能够使用不同的电脑（客户端）成功地访问同一个网站？这是因为这个网站搭建在云服务器上，当使用不同的客户端访问时，服务器提供网页服务，将Web页面呈现到你的电脑上。 现在我们想要自己搭建一个网站需要什么？ 需要自己编写网页的HTML文件和一台云服务器以及提供上云的软件和管理云服务器的软件，这种搭建网站的方式详情见教程。
+ 这种搭建网站方式也有缺点，就是搭建云上服务太耗时，而且上传的网站页面生成很慢，维护网站时也有维护服务器、数据库的烦恼。以Wordpress作为博客的载体太笨重，对markdown格式的支持不是很好，且打开速度极慢。
+ 今天介绍一种快速简便的搭建静态网站的方式，不需要租云服务器，只需使用到Hugo和GitHub pages。其中Hugo提供静态网站的生成，包括主题、样式等。GitHub pages提供网站的托管服务
+Hugo是什么？ Hugo 是一个快速且现代的静态网站生成器，采用 Go 编程语言开发，Hugo 的设计目标是让创建网站重新变得有趣。 Hugo 是一个通用的网站框架。从技术上讲，Hugo是一个静态站点生成器。与动态构建页面的系统不同，Hugo在创建或更新内容时构建页面。由于网站的浏览频率远高于编辑频率，因此Hugo旨在为您的网站最终用户提供最佳的浏览体验，并为网站作者提供理想的写作体验。
+Hugo能干什么？ 从技术的角度来说，Hugo从源目录读取文件和模板，并将其作为输入来创建完整的网站。
+谁应该使用 Hugo ？ Hugo 适合那些喜欢用文本编辑器而不是浏览器来写作的人。 Hugo 是为那些想手工编写自己的网站代码而不必担心设置复杂的运行时、依赖项和数据库的人设计的。 Hugo 能够用于构建博客、公司网站、投资组合网站、文档、单一的登陆页面或有数千页面的网站。
+Hugo的特点 相比于使用Wordpress搭建网站，Hugo拥有惊人的速度，强大的内容管理和模板语言，非常适合各种静态网站。它的构建时间极快（每页&lt;1ms）。 使用Hugo搭建网站的HTML文件都呈现在你自己的计算机上。在将文件复制到承载HTTP服务器的计算机之前，因为HTML文件不是动态生成的，你可以在本地查看这些万件。
+GitHub是什么？ GitHub是一个面向开源及私有软件项目的托管平台，因为只支持Git作为唯一的版本库格式进行托管，故名GitHub。GitHub于2008年4月10日正式上线，除了Git代码仓库托管及基本的Web管理界面以外，还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱（报表）、代码片段分享（Gist）等功能。目前，其注册用户已经超过350万，托管版本数量也是非常之多，其中不乏知名开源项目Ruby on Rails、jQuery、python等。
+GitHub功能特点 GitHub可以托管各种git库，并提供一个web界面，但它与外国的SourceForge、Google Code或中国的coding的服务不同，GitHub的独特卖点在于从另外一个项目进行分支的简易性。为一个项目贡献代码非常简单：首先点击项目站点的“fork”的按钮，然后将代码检出并将修改加入到刚才分出的代码库中，最后通过内建的“pull request”机制向项目负责人申请代码合并。已经有人将GitHub称为代码玩家的MySpace。 #搭建步骤
+####1. 打开Hugo下载页面，获取与本机环境相匹配的安装包。 例如，我下载的是：“hugo_0.89.4_Windows-64bit.zip”。
+####2. 安装Hugo 1. 在本机建一个Hugo文件夹，为方便后续管理，在其下再建一个bin目录。 例如，我建的目录是“D:\works\Hugo\bin”。
+ 2. 将安装包拷贝到bin目录下并解压。 解压成功后，可以在bin目录下看到“hugo.exe”。
+ 3. 配置系统环境变量，为变量Path添加“hugo.exe”所在目录。 对于我来说，添加的是“D:\works\Hugo\bin”。  4. 执行如下命令，如果能显示版本号，则说明安装成功。
+```shell $ hugo version hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio ``` ####3. 建立站点。 1. 在Windows cmd窗口下进入Hugo文件夹。 （注意这里是“D:\works\Hugo”，不是“D:\works\Hugo\bin”。）
+ 2. 假设要创建的站点目录为“myblog”，则执行如下命令：
+>$ hugo new site myblog Congratulations! Your new Hugo site is created in D:\works\Hugo\myblog. Just a few more steps and you are ready to go: 1. Download a theme into the same-named folder. Choose a theme from https://themes.gohugo.io/ orcreate your own with the "hugo new theme &lt;THEMENAME>" command. 2. Perhaps you want to add some content. You can add single files with "hugo new &lt;SECTIONNAME>\&lt;FILENAME>.&lt;FORMAT>". 3. Start the built-in live server via "hugo server". Visit https://gohugo.io/ for quickstart guide and full documentation.  3. 加入主题并预览，下载themes。 访问Hugo主题页面，找一个自己喜欢的主题下载到上一步创建的“themes”文件夹下，并解压。
+我这次下载的是NexT主题，它支持多设备显示自适应，同时支持评论、转发等博客需要的功能。
+下载完成后，需要按照themes的说明做一些配置。对于我下载的主题，我按照要求把hugo-theme-next(-main)目录下的两个子目录config和content到站点根目录（即“D:\works\Hugo\myblog”）下。
+ 4. 在本地启动站点。在站点根目录执行如下cmd命令：
+>$ hugo server Start building sites … hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio | ZH-CN | EN -------------------+-------+----- Pages | 28 | 34 Paginator pages | 0 | 0 Non-page files | 8 | 0 Static files | 25 | 25 Processed images | 0 | 0 Aliases | 9 | 12 Sitemaps | 2 | 1 Cleaned | 0 | 0 Built in 42196 ms Watching for changes inD:\Hugo\myblog\{archetypes,content,data,layouts,static,themes} Watching for config changes in D:\Hugo\myblog\config.toml, D:\Hugo\myblog\config\_default, D:\Hugo\myblog\config\development Environment: "development" Serving pages from memory Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender Web Server is available at http://localhost:1313/ (bind address 127.0.0.1) Press Ctrl+C to stop  5. hugo服务启动完成时，将出现与上面相类似的响应。
+ 6. 在浏览器中访问“http://localhost:1313/”，检查本地站点效果。
+ 7. 在cmd窗口中按Ctrl+C，停止Hugo服务。
+####4. 发布需要提交到到GitHub的站点文件。 1. 将站点的BaseURL配置为GitHub Pages主页地址。待修改的文件包括“D:\works\Hugo\myblog\config.toml”、“D:\works\Hugo\myblog\config\development\config.toml”和“D:\works\Hugo\myblog\config_default\config.toml”，将BaseURL的值修改为“https://MurphyHanxu.github.io/”。
+ 2. 发布站点。 在站点根目录执行如下cmd命令：
+$ hugo hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio | ZH-CN | EN -------------------+-------+----- Pages | 28 | 34 Paginator pages | 0 | 0 Non-page files | 8 | 0 Static files | 25 | 25 Processed images | 0 | 0 Aliases | 9 | 12 Sitemaps | 2 | 1 Cleaned | 0 | 0 Total in 42190 ms 发布成功，可以在“D:\works\Hugo\myblog\”下看到public文件夹。将这个文件夹发布到GitHub即可。
+####5. 将站点发布到GitHub,详细参考廖雪峰git教程。 1. 进入上一步创建的"D:\works\Hugo\myblog\public"文件夹，鼠标右键选择“Git Bash Here”，进入Git Bash窗口，执行后续命令。
+ 2. 初始化git库：
+$ git init Reinitialized existing Git repository in D:/Hugo/myblog/public/.git/  3. 将文件提交到本机git库中。commit备注可以根据实际需要修改。
+$ git add --all $ git commit -m "first commit of Hugo site"  4. 检查本机git库是否已经提交成功。下例中的系统响应代表本地git库当前的分支名是master，并且本地已经没有需要commit的文件了。
+$ git status On branch master Your branch is ahead of 'origin/master' by 1 commit. (use "git push" to publish your local commits) nothing to commit, working tree clean  5. 使用如下命令，与远程GitHub公仓建立连接，并将站点提交到远程： 请根据自己的情况，修改GitHub仓库地址和本地分支名。
+$ git remote add origin https://github.com/MurphyHanxu/MurphyHanxu.github.io.git $ git push -u origin master Enumerating objects: 206, done. Counting objects: 100% (206/206), done. Delta compression using up to 8 threads Compressing objects: 100% (64/64), done. Writing objects: 100% (205/205), 194.83 KiB | 32.47 MiB/s, done. Total 205 (delta 90), reused 190 (delta 83), pack-reused 0 remote: Resolving deltas: 100% (90/90), done. To https://github.com/Jasmine617/jasmine617.github.io.git 5e8f0dc..8850953 master -> master Branch 'master' set up to track remote branch 'master' from 'origin'. 如果git操作不熟练，这里可能会出现关联远程仓库失败或者推送失败的情况。请根据错误提示，搜索解决方法。 到此就完成了网页的上传，托管到了GitHub上。再根据上一篇blog的方法查看自己的网站页面。</content></entry><entry><title>Python中print小结</title><url>https://murphyhanxu.github.io/post/python-print/</url><categories><category>CS</category></categories><tags><tag>Python</tag></tags><content type="html"> 对Python中print函数的使用进行总结。包括：
+print方法的基本语法格式。 使用多种方式进行打印格式化。 print语法格式 print()函数具有丰富的功能，详细语法格式如下：
+print(value, ..., sep=' ', end='\n', file=sys.stdout, flush=False) 除了待打印输出的value，其他可选关键字参数如下：
+file：类文件对象（stream），默认为当前的sys.stdout，即打印到屏幕上。如果指定一个文件，则打印输出到文件中。 sep：打印多个value时，在值之间插入的分隔字符串，默认为空格。 end：在最后一个值后附加的字符串，默认为换行符。 flush：控制输出缓存，一般为了可以获得较好的性能，保持为False即可。 样例代码：
+# 在屏幕上打印一个字符串 print('hello world') # 打印输出到文件中 fp=open('D:/PycharmProjects/testfile.txt', 'a+') print('hello world', file=fp) fp.close() #打印多个字符串，用逗号分隔 print('hello world', 'python') #打印多个字符串，并设置参数间的分隔符 print('hello world', 'python', sep='|') # 使用加号，打印一个计算公式计算结果 print(3+1) # 使用加号，连接打印多个字符串 print('hello world'+'python') # 打印后不换行，设置和下一次打印间的分隔符 print('春风得意马蹄疾', end=' ') print('一夜看尽长安花') print('行到水穷处', end='\t') print('坐看云起时') print('--------------------------------------') # 待打印字符串中包含转义符 print('hello\tworld') print('hello\nworld') print('\'aaa\'') # 待打印字符串中包含字体颜色设置 print('\033[0:31:47m试试颜色\033[0m') print('\033[4;31m试试颜色\033[0m') print('--------------------------------------') 测试结果：
+hello world hello world python hello world|python 4 hello worldpython 春风得意马蹄疾 一夜看尽长安花 行到水穷处 坐看云起时 -------------------------------------- hello world hello world 'aaa' 使用%进行数据格式化 print() 函数使用以%开头的转换说明符，对各种类型的数据进行格式化输出。
+符号 描述 %c 格式化字符及其ASCII码 %s 格式化字符串 %d 格式化整数 %u 格式化无符号整型 %o 格式化无符号八进制数 %x 格式化无符号十六进制数 %X 格式化无符号十六进制数（大写） %f 格式化浮点数字，可指定小数点后的精度 %e 用科学计数法格式化浮点数 %E 作用同%e，用科学计数法格式化浮点数 %g %f和%e的简写 %G %f 和 %E 的简写 %p 用十六进制数格式化变量的地址 在使用上述转换说明符时，还可以添加辅助指令：
+符号 功能 * 定义宽度或者小数点精度 - 用做左对齐 + 在正数前面显示加号( + ) 在正数前面显示空格 # 在八进制数前面显示零(&lsquo;0&rsquo;)，在十六进制前面显示'0x&rsquo;或者'0X&rsquo; 0 显示的数字前面填充'0&rsquo;而不是默认的空格 % &lsquo;%%&lsquo;输出一个单一的&rsquo;%&rsquo; m.n m 是显示的最小总宽度,n 是小数点后的位数 样例代码（格式化整数）：
+# 格式化整数 num = 9855 print('这里有一个整数：%d'%num) #未定义数字宽度，按实际位数显示 print('这里有一个整数：%8d'%num) #定义数据宽度为8，不足的在左侧留空格 print('这里有一个整数：%08d'%num) #定义数据宽度为8，不足的在左侧用0补齐 print('这里有一个整数：%-08d'%num) #左对齐，数字后空格补齐8位 print('这里有一个整数：%03d'%num) #实际位数大于3，则按实际显示 print('这里有一个整数：%0*d'%(6,num)) #用*从后面的元组中获取宽度 print('这里有一个整数：%+08d'%num) #显示正负号 print('--------------------------------------') 测试结果：
+这里有一个整数：9855 这里有一个整数： 9855 这里有一个整数：00009855 这里有一个整数：9855 这里有一个整数：9855 这里有一个整数：009855 这里有一个整数：+0009855 样例代码（转换整数的进制）：
+# 显示整数的其他进制 print('它的八进制是：%o'%num) #显示八进制格式 print('它的八进制是：%#o'%num) #在八进制前显示0o print('它的十六进制是：%x'%num) #显示小写十六进制 print('它的十六进制是：%#X'%num) #显示大写十六进展，并在前面表示0X print('-------------') # 未使用格式化时，还可以使用函数进行进制转换 print('它的二进制是：',bin(num)) print('它的八进制是：',oct(num)) print('它的十六进制是：',hex(num)) print('--------------------------------------') 测试结果：
+它的八进制是：23177 它的八进制是：0o23177 它的十六进制是：267f 它的十六进制是：0X267F ------------- 它的二进制是： 0b10011001111111 它的八进制是： 0o23177 它的十六进制是： 0x267f 样例代码（格式化浮点数）：
+# 格式化浮点数 pi = 3.141592653 print('这是一个浮点数：%10.3f' % pi) #数字宽度为10，精度3 print("这是一个浮点数：%*.*f" % (8,3,pi)) #用*从后面的元组中读取字段宽度和精度 print("这是一个浮点数：%.*f" % (3,pi)) #用*从后面的元组中读取字段精度 print('这是一个浮点数：%010.3f' % pi) #用0填充空白 print('这是一个浮点数：%-10.3f' % pi) #左对齐，数字后面有5个占位的空格 print('这是一个浮点数：%+f' % pi) #显示正负号 测试结果：
+这是一个浮点数： 3.142 这是一个浮点数： 3.142 这是一个浮点数：3.142 这是一个浮点数：000003.142 这是一个浮点数：3.142 这是一个浮点数：+3.141593 样例代码（格式化字符串）：
+# 格式化字符串 name = "Jasmine" print('My name is：%s'%name) print('My name is：%10s'%name) 测试结果：
+My name is：Jasmine My name is： Jasmine 使用format函数进行格式化 相对基本格式化输出采用‘%’的方法，format()功能更强大。
+格式为：
+print('{&lt;参数序号>:&lt;格式控制标记>}xxxxx{}xxxxxxxxx{}'.format(参数1, 参数2, 参数3)) 上述示例中：
+xxxxx为静态内容，print直接输出。 每对{}对应一个参数，print输出时，将被format后定义的参数的值替换。 每对{}可以定义序号（例如{0}、{1}），也可以不定义。不定义时默认依次定义为{0}，{1}。 每对{}内可以定义辅助指令，辅助指令放置在:后，其格式为&lt;填充>&lt;对齐>&lt;宽度>&lt;,>&lt;.精度>&lt;类型> &lt;填充>：当输出宽度大于参数宽度时，显示的填充符号。如果不设置，则默认用空格填充。 &lt;对齐>：&lt;左对齐，>右对齐，^居中。默认为右对齐。 &lt;宽度>：参数输出时的总占位宽度。 &lt;,>：对于整数和浮点数，是否显示千位分隔符。 &lt;.精度>：浮点数的小数点后位数。 &lt;类型>：c、s、d、f等，对应输出参数的数据类型。 样例代码：
+# 使用format格式化 name = '小明' age = 12 height = 1.5678 print('他是{}，今年{}岁，身高是{}米。'.format(name, age, height)) #{}中未定义参数序号，直接依次与format中的参数匹配 print('他是{0}，今年{2}岁，身高是{1}米。'.format(name, height, age)) #{}中标识参数序号，即为format中的参数顺序 print('他是{:^6}，今年{:04}岁，身高是{:.2f}米。'.format(name, age, height)) #name占10位并居中显示，age占4位空位用0填充，height保留2位小数 print('--------------------------------------') 测试结果：
+他是小明，今年12岁，身高是1.5678米。 他是小明，今年12岁，身高是1.5678米。 他是 小明 ，今年0012岁，身高是1.57米。 使用f-string进行格式化 在print中使用f加字符串的方式，则在打印输出时，会将字符串中{}中的内容替换为对应的变量名的值。相比前面两种格式化方式，这种写法代码最简洁。
+格式为：
+print(f'xxxx{&lt;参数名>:&lt;格式控制标记>}xxxxx{参数名}xxxxxxxxx{参数名}') 上述示例中：
+xxxxx为静态内容，print直接输出。 每对{}对应一个参数，需要定义参数名；print输出时，将显示为该参数的值。 每对{}内可以定义辅助指令，辅助指令放置在:后，其格式为&lt;填充>&lt;对齐>&lt;宽度>&lt;,>&lt;.精度>&lt;类型>，具体规则和format方法一致。 样例代码：
+# 使用f-string格式化 print(f'他是{name}，今年{age}岁，身高是{height}米。') #{}中定义参数名 print(f'他是{name:^6}，今年{age:04d}岁，身高是{height:.2f}米。') print('--------------------------------------') 测试结果：
+他是小明，今年12岁，身高是1.5678米。 他是 小明 ，今年0012岁，身高是1.57米。</content></entry><entry><title>创建第一个GitHub Page</title><url>https://murphyhanxu.github.io/post/setup-helloworld/</url><categories><category>CS</category></categories><tags><tag>GitHub Pages</tag></tags><content type="html"> 如果想把自己日常的学习心得记录下来，可以创建一个个人博客网站。经过几天的研究比较，发现使用GitHub提供的Pages功能，可以满足基本要求。
+参照网上的多个总结，今天完成了我自己个人博客首页的创建（虽然只是一个hello world）。
+建议先花半天时间，看看廖雪峰大神的git总结和GitHub Pages官方文档，系统了解一下git、GitHub等的关系，以及GitHub Pages的创建方法，搞清楚背景知识，实际动手会更顺利。
+我的创建过程还比较顺利，基本过程记录如下：
+访问GitHub官网，注册账号并登录。
+注册仅需要个人邮箱。
+在Github上创建仓库。
+这个仓库是计划给GitHub Pages用的，所以注意仓库名要和用户名一致。
+例如：MurphyHanxu.github.io
+在本机安装git。
+参考：廖雪峰博客-安装git
+注意：安装完git后，一定要配置用户名和邮箱，否则后续commit会报错。
+在Git Bash中执行如下命令，name和email请根据实际情况替换：
+$ git config --global user.name "Murphy" $ git config --global user.email "123456@qq.com" 在本机生成SSH密钥，并配置到GitHub上。
+配置密钥，是为了GitHub确认本机上传文件合法；如果不配置，后续将无法将文件push到GitHub上。
+参考：廖雪峰博客-对接远程仓库
+检查用户主目录（Windows环境为"C:\Users\yourusername"目录下是否存在".ssh"文件夹。如果不存在，需要生成公钥文件。
+使用Git Bash执行，注意替换email：
+$ ssh-keygen -t rsa -C "123456@qq.com" 再将公钥内容配置到GitHub中。
+将GitHub上的仓库克隆到本地。
+先在GitHub上获取仓库地址：
+在本机创建一个文件夹，用于保存从公仓获取的文件，例如"D:\myplog"。打开该目录后鼠标右键选择“Git Bash Here”，进入Git Bash窗口，执行后续命令。
+推荐使用SSH协议进行clone（请用从GitHub中拷贝的git仓库地址替换下例中的地址）：
+$ git clone git@github.com:MurphyHanxu/MurphyHanxu.github.io.git Cloning into 'MurphyHanxu.github.io'... warning: You appear to have cloned an empty repository. 因为步骤2中创建的是一个空仓库，没有任何文件，上例的系统响应中有一个warning，无需理会。 如果使用HTTP协议，则为：
+$ git clone https://github.com/Jasmine617/jasmine617.github.io.git 创建主页文件index.html，并提交到本机git库。
+检查上一步中的"D:\myplog"文件夹，可以看到克隆成功后新增了一个文件夹"MurphyHanxu.github.io"。
+在新增的"MurphyHanxu.github.io"文件夹下创建一个网页文件index.html，按html语法随便写一点内容。html样例如下：
+&lt;!DOCTYPE html> &lt;html lang="en"> &lt;head> &lt;meta charset="UTF-8"> &lt;title>my first blog&lt;/title> &lt;/head> &lt;body> &lt;p>hello world&lt;/p> &lt;/body> &lt;/html> 在Git Bash中进入git库目录。将文件提交到本机git库中。commit备注可以根据实际需要修改。
+$ cd MurphyHanxu.github.io $ git add --all $ git commit -m "test commit index.html" 将index.html推送到GitHub公仓。
+检查本机git库是否已经提交成功。下例中的系统响应代表本地git库当前的分支名是main，并且本地已经没有需要commit的文件了（即新创建的index.html已经成功提交到本机git版本库）。
+$ git status On branch main Your branch is up to date with 'origin/main'. nothing to commit, working tree clean 使用如下命令将新增的index.html提交到GitHub公仓，其中main是上个命令中查询到的本机git分支名：
+$ git push origin main Enumerating objects: 3, done. Counting objects: 100% (3/3), done. Delta compression using up to 8 threads Compressing objects: 100% (2/2), done. Writing objects: 100% (3/3), 338 bytes | 338.00 KiB/s, done. Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 To https://github.com/MurphyHanxu/MurphyHanxu.github.io.git * [new branch] main -> main 检查GitHub Page。
+首先在GitHub仓库中检查index.html文件是否已经存在。
+再检查Pages设置是否正确。本例中index.html是上传仓库根目录下的，所以这里设置为root并保存。
+打开GitHub Pages页面，如图显示则说明整个配置成功。</content></entry><entry><title>关于我</title><url>https://murphyhanxu.github.io/about.html</url><categories/><tags/><content type="html"> Hugo是用Go编写的一个开放源代码静态站点生成器，可在Apache许可证2.0下使用。 Hugo支持TOML, YAML和JSON数据文件类型，Markdown和HTML内容文件，并使用短代码添加丰富的内容。其他值得注意的功能包括分类法、多语言模式、图像处理、自定义输出格式、HTML/CSS/JS缩小和对Sass SCSS工作流的支持。
+Hugo使用了多种开源项目，包括:
+https://github.com/yuin/goldmark https://github.com/alecthomas/chroma https://github.com/muesli/smartcrop https://github.com/spf13/cobra https://github.com/spf13/viper Hugo是博客、企业网站、创意作品集、在线杂志、单页应用程序甚至是数千页的网站的理想选择。
+Hugo适合那些想要手工编写自己的网站代码，而不用担心设置复杂的运行时、依赖关系和数据库的人。
+使用Hugo建立的网站非常快速、安全，可以部署在任何地方，包括AWS、GitHub Pages、Heroku、Netlify和任何其他托管提供商。
+更多信息请访问GitHub.</content></entry></search>
