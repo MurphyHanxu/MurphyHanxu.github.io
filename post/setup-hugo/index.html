@@ -15,37 +15,27 @@
 <span>|
 <i class="fa fa-file-word-o fa-fw"></i>
 <span class=post-meta-item-text>字数：</span>
-<span class=leancloud-world-count>3341 字</span></span>
+<span class=leancloud-world-count>3548 字</span></span>
 <span>|
 <i class="fa fa-eye fa-fw"></i>
 <span class=post-meta-item-text>阅读：</span>
-<span class=leancloud-view-count>7分钟</span></span>
+<span class=leancloud-view-count>8分钟</span></span>
 <span id=/post/setup-hugo/ class=leancloud_visitors data-flag-title=使用Hugo创建个人博客框架>|
 <i class="fa fa-binoculars fa-fw"></i>
 <span class=post-meta-item-text>阅读次数：</span>
 <span class=leancloud-visitors-count></span></span></div></header><div class=post-body itemprop=articleBody><p>       在已经跑通了<a href=https://murphyhanxu.github.io/post/setup-helloworld/>使用GitHub Pages建了自己的第一个hello world页面</a>的前提下，今天尝试使用Hugo来建一个完整的静态网站框架。</p><p>       这里先介绍如何安装Hugo，使用Hugo创建站点，并引入一个主题。按照本文操作完，站点的页面还是themes带的样例页面。我将在下一篇文章中总结如何加入自己的博文，以及修改网站的其他个人信息。</p><h1 id=前言>前言</h1><p>       为什么我们能够使用不同的电脑（客户端）成功地访问同一个网站？这是因为这个网站搭建在云服务器上，当使用不同的客户端访问时，服务器提供网页服务，将Web页面呈现到你的电脑上。
-![setup-hugo-1][//MurphyHanxu.github.io/post/a_image/setup-hugo-1.png]</p><p>现在我们想要自己搭建一个网站需要什么？
-       需要自己编写网页的HTML文件和一台云服务器以及提供上云的软件和管理云服务器的软件，这种搭建网站的方式详情见<a href="https://www.bilibili.com/video/BV1rU4y1J785/?spm_id_from=pageDriver&vd_source=b3b5aca8a2675b381887886fba026f67">教程</a>。</p><p>       这种搭建网站方式也有缺点，就是搭建云上服务太耗时，而且上传的网站页面生成很慢，维护网站时也有维护服务器、数据库的烦恼。以Wordpress作为博客的载体太笨重，对markdown格式的支持不是很好，且打开速度极慢。</p><p>       今天介绍一种快速简便的搭建静态网站的方式，不需要租云服务器，只需使用到Hugo和GitHub pages。其中Hugo提供静态网站的生成，包括主题、样式等。GitHub pages提供网站的托管服务</p><p>Hugo是什么？
-       Hugo 是一个快速且现代的静态网站生成器，采用 Go 编程语言开发，Hugo 的设计目标是让创建网站重新变得有趣。
-       Hugo 是一个通用的网站框架。从技术上讲，Hugo是一个静态站点生成器。与动态构建页面的系统不同，Hugo在创建或更新内容时构建页面。由于网站的浏览频率远高于编辑频率，因此Hugo旨在为您的网站最终用户提供最佳的浏览体验，并为网站作者提供理想的写作体验。</p><p>Hugo能干什么？
-       从技术的角度来说，Hugo从源目录读取文件和模板，并将其作为输入来创建完整的网站。</p><p>谁应该使用 Hugo ？
-       Hugo 适合那些喜欢用文本编辑器而不是浏览器来写作的人。
-       Hugo 是为那些想手工编写自己的网站代码而不必担心设置复杂的运行时、依赖项和数据库的人设计的。
-       Hugo 能够用于构建博客、公司网站、投资组合网站、文档、单一的登陆页面或有数千页面的网站。</p><p>Hugo的特点
-       相比于使用Wordpress搭建网站，Hugo拥有惊人的速度，强大的内容管理和模板语言，非常适合各种静态网站。它的构建时间极快（每页&lt;1ms）。
-       使用Hugo搭建网站的HTML文件都呈现在你自己的计算机上。在将文件复制到承载HTTP服务器的计算机之前，因为HTML文件不是动态生成的，你可以在本地查看这些万件。</p><p>GitHub是什么？
-       GitHub是一个面向开源及私有软件项目的托管平台，因为只支持Git作为唯一的版本库格式进行托管，故名GitHub。GitHub于2008年4月10日正式上线，除了Git代码仓库托管及基本的Web管理界面以外，还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱（报表）、代码片段分享（Gist）等功能。目前，其注册用户已经超过350万，托管版本数量也是非常之多，其中不乏知名开源项目Ruby on Rails、jQuery、python等。</p><p>GitHub功能特点
-       GitHub可以托管各种git库，并提供一个web界面，但它与外国的SourceForge、Google Code或中国的coding的服务不同，GitHub的独特卖点在于从另外一个项目进行分支的简易性。为一个项目贡献代码非常简单：首先点击项目站点的“fork”的按钮，然后将代码检出并将修改加入到刚才分出的代码库中，最后通过内建的“pull request”机制向项目负责人申请代码合并。已经有人将GitHub称为代码玩家的MySpace。
+![setup-hugo-1]（//MurphyHanxu.github.io/post/a_image/setup-hugo-1.png）</p><p>现在我们想要自己搭建一个网站需要什么？
+       需要自己编写网页的HTML文件和一台云服务器以及提供上云的软件和管理云服务器的软件，这种搭建网站的方式详情见<a href="https://www.bilibili.com/video/BV1rU4y1J785/?spm_id_from=pageDriver&vd_source=b3b5aca8a2675b381887886fba026f67">教程</a>。</p><p>       这种搭建网站方式也有缺点，就是搭建云上服务太耗时，而且上传的网站页面生成很慢，维护网站时也有维护服务器、数据库的烦恼。以Wordpress作为博客的载体太笨重，对markdown格式的支持不是很好，且打开速度极慢。</p><p>       今天介绍一种快速简便的搭建静态网站的方式，不需要租云服务器，只需使用到Hugo和GitHub pages。其中Hugo提供静态网站的生成，包括主题、样式等。GitHub pages提供网站的托管服务</p><p>Hugo是什么？<br>       Hugo 是一个快速且现代的静态网站生成器，采用 Go 编程语言开发，Hugo 的设计目标是让创建网站重新变得有趣。<br>       Hugo 是一个通用的网站框架。从技术上讲，Hugo是一个静态站点生成器。与动态构建页面的系统不同，Hugo在创建或更新内容时构建页面。由于网站的浏览频率远高于编辑频率，因此Hugo旨在为您的网站最终用户提供最佳的浏览体验，并为网站作者提供理想的写作体验。</p><p>Hugo能干什么？<br>       从技术的角度来说，Hugo从源目录读取文件和模板，并将其作为输入来创建完整的网站。</p><p>谁应该使用 Hugo ？<br>       Hugo 适合那些喜欢用文本编辑器而不是浏览器来写作的人。<br>       Hugo 是为那些想手工编写自己的网站代码而不必担心设置复杂的运行时、依赖项和数据库的人设计的。<br>       Hugo 能够用于构建博客、公司网站、投资组合网站、文档、单一的登陆页面或有数千页面的网站。</p><p>Hugo的特点<br>       相比于使用Wordpress搭建网站，Hugo拥有惊人的速度，强大的内容管理和模板语言，非常适合各种静态网站。它的构建时间极快（每页&lt;1ms）。<br>       使用Hugo搭建网站的HTML文件都呈现在你自己的计算机上。在将文件复制到承载HTTP服务器的计算机之前，因为HTML文件不是动态生成的，你可以在本地查看这些万件。</p><p>GitHub是什么？<br>       GitHub是一个面向开源及私有软件项目的托管平台，因为只支持Git作为唯一的版本库格式进行托管，故名GitHub。GitHub于2008年4月10日正式上线，除了Git代码仓库托管及基本的Web管理界面以外，还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱（报表）、代码片段分享（Gist）等功能。目前，其注册用户已经超过350万，托管版本数量也是非常之多，其中不乏知名开源项目Ruby on Rails、jQuery、python等。</p><p>GitHub功能特点<br>       GitHub可以托管各种git库，并提供一个web界面，但它与外国的SourceForge、Google Code或中国的coding的服务不同，GitHub的独特卖点在于从另外一个项目进行分支的简易性。为一个项目贡献代码非常简单：首先点击项目站点的“fork”的按钮，然后将代码检出并将修改加入到刚才分出的代码库中，最后通过内建的“pull request”机制向项目负责人申请代码合并。已经有人将GitHub称为代码玩家的MySpace。
 #搭建步骤</p><h4 id=1-打开hugo下载页面httpsgithubcomgohugoiohugoreleases获取与本机环境相匹配的安装包>1. 打开<a href=https://github.com/gohugoio/hugo/releases>Hugo下载页面</a>，获取与本机环境相匹配的安装包。</h4><p>例如，我下载的是：“hugo_0.89.4_Windows-64bit.zip”。</p><h4 id=2-安装hugo>2. 安装Hugo</h4><p>       1. 在本机建一个Hugo文件夹，为方便后续管理，在其下再建一个bin目录。
-例如，我建的目录是“D:\works\Hugo\bin”。</p><p>       2. 将安装包拷贝到bin目录下并解压。
-解压成功后，可以在bin目录下看到“hugo.exe”。</p><p>       3. 配置系统环境变量，为变量Path添加“hugo.exe”所在目录。
+例如，我建的目录是“D:\works\Hugo\bin”。<br>       2. 将安装包拷贝到bin目录下并解压。
+解压成功后，可以在bin目录下看到“hugo.exe”。<br>       3. 配置系统环境变量，为变量Path添加“hugo.exe”所在目录。
 对于我来说，添加的是“D:\works\Hugo\bin”。
-![setup-hugo-2][//MurphyHanxu.github.io/post/a_image/setup-hugo-2.png]</p><p>       4. 执行如下命令，如果能显示版本号，则说明安装成功。</p><pre><code>  ```shell
+![setup-hugo-2]（//MurphyHanxu.github.io/post/a_image/setup-hugo-2.png）<br>       4. 执行如下命令，如果能显示版本号，则说明安装成功。</p><pre><code>  ```shell
   $ hugo version
   hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio
   ```
 </code></pre><h4 id=3-建立站点>3. 建立站点。</h4><p>       1. 在Windows cmd窗口下进入Hugo文件夹。
-（注意这里是“D:\works\Hugo”，不是“D:\works\Hugo\bin”。）</p><p>       2. 假设要创建的站点目录为“myblog”，则执行如下命令：</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>&gt;$ hugo new site myblog
+（注意这里是“D:\works\Hugo”，不是“D:\works\Hugo\bin”。）<br>       2. 假设要创建的站点目录为“myblog”，则执行如下命令：</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>&gt;$ hugo new site myblog
 </span></span><span style=display:flex><span>Congratulations! Your new Hugo site is created in D:<span style=color:#b62;font-weight:700>\w</span>orks<span style=color:#b62;font-weight:700>\H</span>ugo<span style=color:#b62;font-weight:700>\m</span>yblog.  
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>Just a few more steps and you are ready to go:  
@@ -59,8 +49,8 @@
 </span></span><span style=display:flex><span>3. Start the built-in live server via <span style=color:#b44>&#34;hugo server&#34;</span>.
 </span></span><span style=display:flex><span>Visit https://gohugo.io/ <span style=color:#a2f;font-weight:700>for</span> quickstart guide and full documentation.
 </span></span></code></pre></div><p>       3. 加入主题并预览，下载themes。
-访问<a href=https://themes.gohugo.io/>Hugo主题页面</a>，找一个自己喜欢的主题下载到上一步创建的“themes”文件夹下，并解压。<br>我这次下载的是<a href=https://themes.gohugo.io/themes/hugo-theme-next/>NexT主题</a>，它支持多设备显示自适应，同时支持评论、转发等博客需要的功能。<br>![setup-hugo-3][//MurphyHanxu.github.io/post/a_image/setup-hugo-3.png]
-下载完成后，需要按照themes的说明做一些配置。对于我下载的主题，我按照要求把hugo-theme-next(-main)目录下的两个子目录config和content到站点根目录（即“D:\works\Hugo\myblog”）下。</p><p>       4. 在本地启动站点。在站点根目录执行如下cmd命令：</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>&gt;$ hugo server
+访问<a href=https://themes.gohugo.io/>Hugo主题页面</a>，找一个自己喜欢的主题下载到上一步创建的“themes”文件夹下，并解压。<br>我这次下载的是<a href=https://themes.gohugo.io/themes/hugo-theme-next/>NexT主题</a>，它支持多设备显示自适应，同时支持评论、转发等博客需要的功能。<br>![setup-hugo-3]（//MurphyHanxu.github.io/post/a_image/setup-hugo-3.png）
+下载完成后，需要按照themes的说明做一些配置。对于我下载的主题，我按照要求把hugo-theme-next(-main)目录下的两个子目录config和content到站点根目录（即“D:\works\Hugo\myblog”）下。<br>       4. 在本地启动站点。在站点根目录执行如下cmd命令：</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>&gt;$ hugo server
 </span></span><span style=display:flex><span>Start building sites …
 </span></span><span style=display:flex><span>hugo v0.89.4-AB01BA6E windows/amd64 <span style=color:#b8860b>BuildDate</span><span style=color:#666>=</span>2021-11-17T08:24:09Z <span style=color:#b8860b>VendorInfo</span><span style=color:#666>=</span>gohugoio
 </span></span><span style=display:flex><span>                 | ZH-CN | EN
@@ -82,7 +72,7 @@
 </span></span><span style=display:flex><span>Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
 </span></span><span style=display:flex><span>Web Server is available at http://localhost:1313/ <span style=color:#666>(</span><span style=color:#a2f>bind</span> address 127.0.0.1<span style=color:#666>)</span>
 </span></span><span style=display:flex><span>Press Ctrl+C to stop
-</span></span></code></pre></div><p>       5. hugo服务启动完成时，将出现与上面相类似的响应。</p><p>       6. 在浏览器中访问“http://localhost:1313/”，检查本地站点效果。</p><p>       7. 在cmd窗口中按Ctrl+C，停止Hugo服务。</p><h4 id=4-发布需要提交到到github的站点文件>4. 发布需要提交到到GitHub的站点文件。</h4><p>       1. 将站点的BaseURL配置为GitHub Pages主页地址。待修改的文件包括“D:\works\Hugo\myblog\config.toml”、“D:\works\Hugo\myblog\config\development\config.toml”和“D:\works\Hugo\myblog\config_default\config.toml”，将BaseURL的值修改为“https://MurphyHanxu.github.io/”。</p><p>       2. 发布站点。
+</span></span></code></pre></div><p>       5. hugo服务启动完成时，将出现与上面相类似的响应。<br>       6. 在浏览器中访问“http://localhost:1313/”，检查本地站点效果。<br>       7. 在cmd窗口中按Ctrl+C，停止Hugo服务。</p><h4 id=4-发布需要提交到到github的站点文件>4. 发布需要提交到到GitHub的站点文件。</h4><p>       1. 将站点的BaseURL配置为GitHub Pages主页地址。待修改的文件包括“D:\works\Hugo\myblog\config.toml”、“D:\works\Hugo\myblog\config\development\config.toml”和“D:\works\Hugo\myblog\config_default\config.toml”，将BaseURL的值修改为“https://MurphyHanxu.github.io/”。<br>       2. 发布站点。
 在站点根目录执行如下cmd命令：</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ hugo
 </span></span><span style=display:flex><span>hugo v0.89.4-AB01BA6E windows/amd64 <span style=color:#b8860b>BuildDate</span><span style=color:#666>=</span>2021-11-17T08:24:09Z <span style=color:#b8860b>VendorInfo</span><span style=color:#666>=</span>gohugoio
 </span></span><span style=display:flex><span>                   | ZH-CN | EN
