@@ -297,8 +297,7 @@ $ hugo 进入"D:\Hugo\myblog\public"文件夹，鼠标右键选择“Git Bash He
 $ git add --all $ git commit -m "commit my own articles" 将站点提交到远程：
 $ git push -u origin master</content></entry><entry><title>使用Hugo创建个人博客框架</title><url>https://murphyhanxu.github.io/post/setup-hugo/</url><categories><category>CS</category></categories><tags><tag>GitHub Pages</tag><tag>Hugo</tag></tags><content type="html">  在已经跑通了使用GitHub Pages建了自己的第一个hello world页面的前提下，今天尝试使用Hugo来建一个完整的静态网站框架。
  这里先介绍如何安装Hugo，使用Hugo创建站点，并引入一个主题。按照本文操作完，站点的页面还是themes带的样例页面。我将在下一篇文章中总结如何加入自己的博文，以及修改网站的其他个人信息。
-前言  为什么我们能够使用不同的电脑（客户端）成功地访问同一个网站？这是因为这个网站搭建在云服务器上，当使用不同的客户端访问时，服务器提供网页服务，将Web页面呈现到你的电脑上。 ![setup-hugo-1]（//MurphyHanxu.github.io/post/a_image/setup-hugo-1.png）
-现在我们想要自己搭建一个网站需要什么？ 需要自己编写网页的HTML文件和一台云服务器以及提供上云的软件和管理云服务器的软件，这种搭建网站的方式详情见教程。
+前言  为什么我们能够使用不同的电脑（客户端）成功地访问同一个网站？这是因为这个网站搭建在云服务器上，当使用不同的客户端访问时，服务器提供网页服务，将Web页面呈现到你的电脑上。 现在我们想要自己搭建一个网站需要什么？ 需要自己编写网页的HTML文件和一台云服务器以及提供上云的软件和管理云服务器的软件，这种搭建网站的方式详情见教程。
  这种搭建网站方式也有缺点，就是搭建云上服务太耗时，而且上传的网站页面生成很慢，维护网站时也有维护服务器、数据库的烦恼。以Wordpress作为博客的载体太笨重，对markdown格式的支持不是很好，且打开速度极慢。
  今天介绍一种快速简便的搭建静态网站的方式，不需要租云服务器，只需使用到Hugo和GitHub pages。其中Hugo提供静态网站的生成，包括主题、样式等。GitHub pages提供网站的托管服务
 Hugo是什么？
@@ -320,13 +319,12 @@ GitHub可以托管各种git库，并提供一个web界面，但它与外国的So
 1. 打开Hugo下载页面，获取与本机环境相匹配的安装包。 例如，我下载的是：“hugo_0.89.4_Windows-64bit.zip”。
 2. 安装Hugo  1. 在本机建一个Hugo文件夹，为方便后续管理，在其下再建一个bin目录。 例如，我建的目录是“D:\works\Hugo\bin”。
 2. 将安装包拷贝到bin目录下并解压。 解压成功后，可以在bin目录下看到“hugo.exe”。
-3. 配置系统环境变量，为变量Path添加“hugo.exe”所在目录。 对于我来说，添加的是“D:\works\Hugo\bin”。 ![setup-hugo-2]（//MurphyHanxu.github.io/post/a_image/setup-hugo-2.png）
-4. 执行如下命令，如果能显示版本号，则说明安装成功。
+3. 配置系统环境变量，为变量Path添加“hugo.exe”所在目录。 对于我来说，添加的是“D:\works\Hugo\bin”。 4. 执行如下命令，如果能显示版本号，则说明安装成功。
 ```shell $ hugo version hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio ``` 3. 建立站点。  1. 在Windows cmd窗口下进入Hugo文件夹。 （注意这里是“D:\works\Hugo”，不是“D:\works\Hugo\bin”。）
 2. 假设要创建的站点目录为“myblog”，则执行如下命令：
 >$ hugo new site myblog Congratulations! Your new Hugo site is created in D:\works\Hugo\myblog. Just a few more steps and you are ready to go: 1. Download a theme into the same-named folder. Choose a theme from https://themes.gohugo.io/ orcreate your own with the "hugo new theme &lt;THEMENAME>" command. 2. Perhaps you want to add some content. You can add single files with "hugo new &lt;SECTIONNAME>\&lt;FILENAME>.&lt;FORMAT>". 3. Start the built-in live server via "hugo server". Visit https://gohugo.io/ for quickstart guide and full documentation.  3. 加入主题并预览，下载themes。 访问Hugo主题页面，找一个自己喜欢的主题下载到上一步创建的“themes”文件夹下，并解压。
 我这次下载的是NexT主题，它支持多设备显示自适应，同时支持评论、转发等博客需要的功能。
-![setup-hugo-3]（//MurphyHanxu.github.io/post/a_image/setup-hugo-3.png） 下载完成后，需要按照themes的说明做一些配置。对于我下载的主题，我按照要求把hugo-theme-next(-main)目录下的两个子目录config和content到站点根目录（即“D:\works\Hugo\myblog”）下。
+下载完成后，需要按照themes的说明做一些配置。对于我下载的主题，我按照要求把hugo-theme-next(-main)目录下的两个子目录config和content到站点根目录（即“D:\works\Hugo\myblog”）下。
 4. 在本地启动站点。在站点根目录执行如下cmd命令：
 >$ hugo server Start building sites … hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio | ZH-CN | EN -------------------+-------+----- Pages | 28 | 34 Paginator pages | 0 | 0 Non-page files | 8 | 0 Static files | 25 | 25 Processed images | 0 | 0 Aliases | 9 | 12 Sitemaps | 2 | 1 Cleaned | 0 | 0 Built in 42196 ms Watching for changes inD:\Hugo\myblog\{archetypes,content,data,layouts,static,themes} Watching for config changes in D:\Hugo\myblog\config.toml, D:\Hugo\myblog\config\_default, D:\Hugo\myblog\config\development Environment: "development" Serving pages from memory Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender Web Server is available at http://localhost:1313/ (bind address 127.0.0.1) Press Ctrl+C to stop  5. hugo服务启动完成时，将出现与上面相类似的响应。
 6. 在浏览器中访问“http://localhost:1313/”，检查本地站点效果。
