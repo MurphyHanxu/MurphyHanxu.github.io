@@ -320,7 +320,7 @@ GitHub可以托管各种git库，并提供一个web界面，但它与外国的So
 2. 安装Hugo  1. 在本机建一个Hugo文件夹，为方便后续管理，在其下再建一个bin目录。 例如，我建的目录是“D:\works\Hugo\bin”。
  2. 将安装包拷贝到bin目录下并解压。 解压成功后，可以在bin目录下看到“hugo.exe”。
  3. 配置系统环境变量，为变量Path添加“hugo.exe”所在目录。 对于我来说，添加的是“D:\works\Hugo\bin”。  4. 执行如下命令，如果能显示版本号，则说明安装成功。
-$ hugo version hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio 3. 建立站点。  1. 在Windows cmd窗口下进入Hugo文件夹。 （注意这里是“D:\works\Hugo”，不是“D:\works\Hugo\bin”。）
+$ hugo version hugo v0.89.4-AB01BA6E windows/amd64 BuildDate=2021-11-17T08:24:09Z VendorInfo=gohugoio 3. 建立站点。  1. 在Windows cmd窗口下进入Hugo文件夹。 （注意这里是“D:\works\Hugo”，不是“D:\works\Hugo\bin”。)
  2. 假设要创建的站点目录为“myblog”，则执行如下命令：
 >$ hugo new site myblog Congratulations! Your new Hugo site is created in D:\works\Hugo\myblog. Just a few more steps and you are ready to go: 1. Download a theme into the same-named folder. Choose a theme from https://themes.gohugo.io/ orcreate your own with the "hugo new theme &lt;THEMENAME>" command. 2. Perhaps you want to add some content. You can add single files with "hugo new &lt;SECTIONNAME>\&lt;FILENAME>.&lt;FORMAT>". 3. Start the built-in live server via "hugo server". Visit https://gohugo.io/ for quickstart guide and full documentation.  3. 加入主题并预览，下载themes。 访问Hugo主题页面，找一个自己喜欢的主题下载到上一步创建的“themes”文件夹下，并解压。
 我这次下载的是NexT主题，它支持多设备显示自适应，同时支持评论、转发等博客需要的功能。
