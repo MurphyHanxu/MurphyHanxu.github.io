@@ -15,24 +15,15 @@
 <span>|
 <i class="fa fa-file-word-o fa-fw"></i>
 <span class=post-meta-item-text>字数：</span>
-<span class=leancloud-world-count>2842 字</span></span>
+<span class=leancloud-world-count>3413 字</span></span>
 <span>|
 <i class="fa fa-eye fa-fw"></i>
 <span class=post-meta-item-text>阅读：</span>
-<span class=leancloud-view-count>6分钟</span></span>
+<span class=leancloud-view-count>7分钟</span></span>
 <span id=/post/montecarlo/ class=leancloud_visitors data-flag-title=蒙特卡洛算法基于python的简单实现>|
 <i class="fa fa-binoculars fa-fw"></i>
 <span class=post-meta-item-text>阅读次数：</span>
-<span class=leancloud-visitors-count></span></span></div></header><div class=post-body itemprop=articleBody><p>基于python用蒙特卡洛方法解决几道简单的数学建模问题。</p><h4 id=前言>前言</h4><h5 id=什么是蒙特卡洛算法>什么是蒙特卡洛算法？</h5><p>蒙特·卡罗（ Monte Carlo method），又称统计模拟方法，是二十世纪四十年代中叶由于科学技术的发展和电子计算机的发明，而被提出的一种以概率统计理论为指导的一类非常重要的数值计算方法。是指使用随机数（或更常见的伪随机数）来解决很多计算问题的方法。</p><h5 id=起源>起源</h5><p>蒙特卡洛方法于20世纪40年代美国在第二次世界大战中研制原子弹的“曼哈顿计划”计划成员S.M.乌拉姆和J.冯·诺依曼首先提出。数学家冯·诺依曼用驰名世界的赌城——摩纳哥的Monte Carlo——来命名这种方法，为它蒙上一层神秘色彩。公认的蒙特卡洛方法的起源是1777年法国数学家布丰提出用投针实验的方法求圆周率π。</p><h5 id=基本思想>基本思想</h5><p>当所求解问题是某种随机事件出现的概率，或者是某个随机变量的期望值时，通过某种“实验”的方法，以这种事件出现的频率估计这一随机事件的概率，或者得到这个随机变量的某些数字特征，并将其作为问题的解。</p><h5 id=工作步骤>工作步骤</h5><p>构造或描述概率过程
-实现从已知概率分布抽样
-建立各种估计量</p><h4 id=例1>例1</h4><p>Buffon&rsquo;s needle problem</p><p>18世纪，蒲丰提出以下问题：设我们有一个以平行且等距木纹铺成的地板法国数学家布丰（1707-1788）最早设计了投针试验。
-这一方法的步骤是：
-1） 取一张白纸，在上面画上许多条间距为a的平行线。
-2） 取一根长度为l（l≤a） 的针，随机地向画有平行直线的纸上掷n次，观察针与直线相交的次数，记为m。
-3）计算针与直线相交的概率．
-18世纪，法国数学家布丰提出的“投针问题”，记载于布丰1777年出版的著作中：“在平面上画有一组间距为a的平行线，将一根长度为l（l≤a）的针任意掷在这个平面上，求此针与平行线中任一条相交的概率。”
-布丰本人证明了，这个概率是：
-(其中π为圆周率）</p><p>布丰本人证明了，这个概率是：</p><p><img src=https://raw.githubusercontent.com/MurphyHanxu/blogs-images/master/images/MonteCarlo1.png alt="Monte Carlo1"></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#080;font-style:italic>#  布丰投针实验用于估计pi的精确值</span>
+<span class=leancloud-visitors-count></span></span></div></header><div class=post-body itemprop=articleBody><p>基于python用蒙特卡洛方法解决几道简单的数学建模问题。</p><h4 id=前言>前言</h4><h5 id=什么是蒙特卡洛算法>什么是蒙特卡洛算法？</h5><p>蒙特·卡罗（ Monte Carlo method），又称统计模拟方法，是二十世纪四十年代中叶由于科学技术的发展和电子计算机的发明，而被提出的一种以概率统计理论为指导的一类非常重要的数值计算方法。是指使用随机数（或更常见的伪随机数）来解决很多计算问题的方法。</p><h5 id=起源>起源</h5><p>蒙特卡洛方法于20世纪40年代美国在第二次世界大战中研制原子弹的“曼哈顿计划”计划成员S.M.乌拉姆和J.冯·诺依曼首先提出。数学家冯·诺依曼用驰名世界的赌城——摩纳哥的Monte Carlo——来命名这种方法，为它蒙上一层神秘色彩。公认的蒙特卡洛方法的起源是1777年法国数学家布丰提出用投针实验的方法求圆周率π。</p><h5 id=基本思想>基本思想</h5><p>当所求解问题是某种随机事件出现的概率，或者是某个随机变量的期望值时，通过某种“实验”的方法，以这种事件出现的频率估计这一随机事件的概率，或者得到这个随机变量的某些数字特征，并将其作为问题的解。</p><h5 id=工作步骤>工作步骤</h5><p>构造或描述概率过程</p><p>实现从已知概率分布抽样</p><p>建立各种估计量</p><h4 id=例1>例1</h4><p>Buffon&rsquo;s needle problem</p><p>18世纪，蒲丰提出以下问题：设我们有一个以平行且等距木纹铺成的地板法国数学家布丰（1707-1788）最早设计了投针试验。</p><p>这一方法的步骤是：</p><p>1） 取一张白纸，在上面画上许多条间距为a的平行线。</p><p>2） 取一根长度为l（l≤a） 的针，随机地向画有平行直线的纸上掷n次，观察针与直线相交的次数，记为m。</p><p>3）计算针与直线相交的概率。</p><p>18世纪，法国数学家布丰提出的“投针问题”，记载于布丰1777年出版的著作中：“在平面上画有一组间距为a的平行线，将一根长度为l（l≤a）的针任意掷在这个平面上，求此针与平行线中任一条相交的概率。”</p><p>布丰本人证明了，这个概率是：</p><p><img src=https://raw.githubusercontent.com/MurphyHanxu/blogs-images/master/images/MonteCarlo1.png alt="Monte Carlo1"></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#080;font-style:italic>#  布丰投针实验用于估计pi的精确值</span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>random</span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>math</span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>numpy</span> <span style=color:#a2f;font-weight:700>as</span> <span style=color:#00f;font-weight:700>np</span>
@@ -48,9 +39,7 @@
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  画图</span>
 </span></span><span style=display:flex><span>fig <span style=color:#666>=</span> plt<span style=color:#666>.</span>figure()
 </span></span><span style=display:flex><span>ax <span style=color:#666>=</span> fig<span style=color:#666>.</span>add_subplot(<span style=color:#666>111</span>)
-</span></span><span style=display:flex><span>ax<span style=color:#666>.</span>set(xlim<span style=color:#666>=</span>[<span style=color:#666>0</span>, math<span style=color:#666>.</span>pi], ylim<span style=color:#666>=</span>[<span style=color:#666>0</span>, a<span style=color:#666>/</span><span style=color:#666>2</span>], title<span style=color:#666>=</span><span style=color:#b44>&#39;An Example Axes&#39;</span>,
-</span></span><span style=display:flex><span>       ylabel<span style=color:#666>=</span><span style=color:#b44>&#39;Y-Axis&#39;</span>, xlabel<span style=color:#666>=</span><span style=color:#b44>&#39;X-Axis&#39;</span>)
-</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ax<span style=color:#666>.</span>set(xlim<span style=color:#666>=</span>[<span style=color:#666>0</span>, math<span style=color:#666>.</span>pi], ylim<span style=color:#666>=</span>[<span style=color:#666>0</span>, a<span style=color:#666>/</span><span style=color:#666>2</span>], title<span style=color:#666>=</span><span style=color:#b44>&#39;An Example Axes&#39;</span>, ylabel<span style=color:#666>=</span><span style=color:#b44>&#39;Y-Axis&#39;</span>, xlabel<span style=color:#666>=</span><span style=color:#b44>&#39;X-Axis&#39;</span>)
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>0</span>, n):
 </span></span><span style=display:flex><span>    temp <span style=color:#666>=</span> np<span style=color:#666>.</span>random<span style=color:#666>.</span>random() <span style=color:#666>*</span> a <span style=color:#666>/</span> <span style=color:#666>2</span>
 </span></span><span style=display:flex><span>    x<span style=color:#666>.</span>append(temp)
@@ -86,7 +75,6 @@
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic># r = 0.666817</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  2.计算函数y = ln(1+x)/1+x^2 在[0,1]区间的定积分</span>
-</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  绘制函数图像</span>
 </span></span><span style=display:flex><span>x <span style=color:#666>=</span> np<span style=color:#666>.</span>linspace(<span style=color:#666>0</span>, <span style=color:#666>1</span>, num<span style=color:#666>=</span><span style=color:#666>50</span>)
 </span></span><span style=display:flex><span>y <span style=color:#666>=</span> np<span style=color:#666>.</span>log(<span style=color:#666>1</span> <span style=color:#666>+</span> x) <span style=color:#666>/</span> (<span style=color:#666>1</span> <span style=color:#666>+</span> x<span style=color:#666>**</span><span style=color:#666>2</span>)
@@ -101,13 +89,8 @@
 </span></span><span style=display:flex><span>        n <span style=color:#666>+=</span> <span style=color:#666>1</span>
 </span></span><span style=display:flex><span>ans <span style=color:#666>=</span> n <span style=color:#666>/</span> m
 </span></span><span style=display:flex><span><span style=color:#a2f>print</span>(ans)
-</span></span></code></pre></div><h4 id=例3>例3</h4><p>三门问题</p><p>三门问题（Monty Hall probelm）亦称为蒙提霍尔问题，出自美国电视游戏节目Let’s Make a Deal。
-参赛者会看见三扇关闭了的门，其中一扇的后面有一辆汽车，选中后面有车的那扇门可赢得该汽车，另外两扇门则各藏有一只山羊。
-当参赛者选定了一扇门，但未去开启它的时候，节目主持人开启剩下两扇门的其中一扇，露出其中一只山羊。主持人其后问参赛者要不要换另一扇仍然关上的门。
-问题是：换另一扇门是否会增加参赛者赢得汽车的几率？</p><p>如果严格按照上述条件，即主持人清楚地知道，自己打开的那扇门后面是羊，那么答案是会。不换门的话，赢得汽车的几率是1/3,，换门的话，赢得汽车的几率是2/3。</p><p>蒙特卡洛思想的应用</p><p>应用蒙特卡洛重点在使用随机数来模拟类似于赌博问题的赢率问题，并且通过多次模拟得到所要计算值的模拟值。
+</span></span></code></pre></div><h4 id=例3>例3</h4><p>三门问题</p><p>三门问题（Monty Hall probelm）亦称为蒙提霍尔问题，出自美国电视游戏节目Let’s Make a Deal。</p><p>参赛者会看见三扇关闭了的门，其中一扇的后面有一辆汽车，选中后面有车的那扇门可赢得该汽车，另外两扇门则各藏有一只山羊。当参赛者选定了一扇门，但未去开启它的时候，节目主持人开启剩下两扇门的其中一扇，露出其中一只山羊。主持人其后问参赛者要不要换另一扇仍然关上的门。</p><p>问题是：换另一扇门是否会增加参赛者赢得汽车的几率？</p><p>如果严格按照上述条件，即主持人清楚地知道，自己打开的那扇门后面是羊，那么答案是会。不换门的话，赢得汽车的几率是1/3,，换门的话，赢得汽车的几率是2/3。</p><p>蒙特卡洛思想的应用</p><p>应用蒙特卡洛重点在使用随机数来模拟类似于赌博问题的赢率问题，并且通过多次模拟得到所要计算值的模拟值。
 在三门问题中，用0、1、2分代表三扇门的编号，在[0,2]之间随机生成一个整数代表奖品所在门的编号prize，再次在[0,2]之间随机生成一个整数代表参赛者所选择的门的编号guess。用变量change代表游戏中的换门（true）与不换门（false）。</p><p><img src=https://raw.githubusercontent.com/MurphyHanxu/blogs-images/master/images/MonteCarlo2.png alt="Monte Carlo2"></p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>random</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>def</span> <span style=color:#00a000>play</span>(change):
 </span></span><span style=display:flex><span>    prize <span style=color:#666>=</span> random<span style=color:#666>.</span>randint(<span style=color:#666>0</span>, <span style=color:#666>2</span>)
 </span></span><span style=display:flex><span>    guess <span style=color:#666>=</span> random<span style=color:#666>.</span>randint(<span style=color:#666>0</span>, <span style=color:#666>2</span>)
@@ -122,14 +105,12 @@
 </span></span><span style=display:flex><span>        <span style=color:#a2f;font-weight:700>else</span>:
 </span></span><span style=display:flex><span>            <span style=color:#a2f;font-weight:700>return</span> <span style=color:#a2f;font-weight:700>False</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>def</span> <span style=color:#00a000>winRate</span>(change, N):
 </span></span><span style=display:flex><span>    win <span style=color:#666>=</span> <span style=color:#666>0</span>
 </span></span><span style=display:flex><span>    <span style=color:#a2f;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(N):
 </span></span><span style=display:flex><span>        <span style=color:#a2f;font-weight:700>if</span> (play(change)):
 </span></span><span style=display:flex><span>            win <span style=color:#666>+=</span> <span style=color:#666>1</span>
 </span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(<span style=color:#b44>&#34;中奖率为</span><span style=color:#b68;font-weight:700>{}</span><span style=color:#b44>&#34;</span><span style=color:#666>.</span>format(win <span style=color:#666>/</span> N))
-</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>N <span style=color:#666>=</span> <span style=color:#666>1000000</span>
 </span></span><span style=display:flex><span>
@@ -138,14 +119,12 @@
 </span></span><span style=display:flex><span>    winRate(<span style=color:#a2f;font-weight:700>True</span>, N)
 </span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(<span style=color:#b44>&#34;每次都不换门的中奖概率：&#34;</span>)
 </span></span><span style=display:flex><span>    winRate(<span style=color:#a2f;font-weight:700>False</span>, N)
-</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 理论换门2/3 不换门1/3</span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 每次换门的中奖概率：</span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 中奖率为0.665769</span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 每次都不换门的中奖概率：</span>
 </span></span><span style=display:flex><span><span style=color:#080;font-style:italic># 中奖率为0.33292</span>
-</span></span></code></pre></div><h4 id=例4>例4</h4><p>M&M豆贝叶斯统计问题</p><p>M&M豆是有各种颜色的糖果巧克力豆。制造M&M豆的Mars公司会不时变更不同颜色巧克力豆之间的混合比例。
-1995年，他们推出了蓝色的M&M豆。在此前一袋普通的M&M豆中，颜色的搭配为：30%褐色，20%黄色，20%红色，10%绿色，10%橙色，10%黄褐色。这之后变成了：24%蓝色，20%绿色，16%橙色，14%黄色，13%红色，13%褐色。</p><p>假设我的一个朋友有两袋M&M豆，他告诉我一袋是1994年，一带是1996年。但他没告诉我具体那个袋子是哪一年的，他从每个袋子里各取了一个M&M豆给我。一个是黄色，一个是绿色的。那么黄色豆来自1994年的袋子的概率是多少？</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>time</span>
+</span></span></code></pre></div><h4 id=例4>例4</h4><p>M&M豆贝叶斯统计问题</p><p>M&M豆是有各种颜色的糖果巧克力豆。制造M&M豆的Mars公司会不时变更不同颜色巧克力豆之间的混合比例。</p><p>在此前一袋普通的M&M豆中，颜色的搭配为：30%褐色，20%黄色，20%红色，10%绿色，10%橙色，10%黄褐色。</p><p>这之后变成了：24%蓝色，20%绿色，16%橙色，14%黄色，13%红色，13%褐色。</p><p>假设已知两袋M&M豆，一袋是1994年，一袋是1996年。但不知道具体哪个袋子是哪一年的，现从每个袋子里各取了一个M&M豆，一个是黄色，一个是绿色的。那么黄色豆来自1994年的袋子的概率是多少？</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>time</span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>random</span>
 </span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>10</span>):
 </span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(time<span style=color:#666>.</span>strftime(<span style=color:#b44>&#34;%Y-%m-</span><span style=color:#b68;font-weight:700>%d</span><span style=color:#b44> </span><span style=color:#b68;font-weight:700>%X</span><span style=color:#b44>&#34;</span>,time<span style=color:#666>.</span>localtime()))
@@ -166,10 +145,45 @@
 </span></span><span style=display:flex><span>            count_all <span style=color:#666>+=</span> <span style=color:#666>1</span>
 </span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(count_key <span style=color:#666>/</span> count_all,<span style=color:#666>20</span><span style=color:#666>/</span><span style=color:#666>27</span>)
 </span></span><span style=display:flex><span>    <span style=color:#a2f>print</span>(time<span style=color:#666>.</span>strftime(<span style=color:#b44>&#34;%Y-%m-</span><span style=color:#b68;font-weight:700>%d</span><span style=color:#b44> </span><span style=color:#b68;font-weight:700>%X</span><span style=color:#b44>&#34;</span>,time<span style=color:#666>.</span>localtime()))
-</span></span><span style=display:flex><span>    
-</span></span><span style=display:flex><span>    <span style=color:#080;font-style:italic># ...</span>
 </span></span><span style=display:flex><span>    <span style=color:#080;font-style:italic># 0.7407064573459715 0.7407407407407407</span>
 </span></span><span style=display:flex><span>    <span style=color:#080;font-style:italic># 20/27是理论答案</span>
+</span></span></code></pre></div><h4 id=例5>例5</h4><p>书店购书问题（0-1规划问题）</p><p>某同学从六家线上商场选购五本书籍，B1、B2、B3、B4、B5，每本书籍在不同商家的售价以及每个商家的单次运费如下表所示，请给该同学制定最省钱的选购方案。（注：在同一家店购买多本书也只会收取一次运费）</p><table><thead><tr><th></th><th>B1</th><th>B2</th><th>B3</th><th>B4</th><th>B5</th><th>运费</th></tr></thead><tbody><tr><td><strong>A商城</strong></td><td>18</td><td>39</td><td>29</td><td>48</td><td>59</td><td>10</td></tr><tr><td><strong>B商城</strong></td><td>24</td><td>45</td><td>23</td><td>54</td><td>44</td><td>15</td></tr><tr><td><strong>C商城</strong></td><td>22</td><td>45</td><td>23</td><td>53</td><td>53</td><td>15</td></tr><tr><td><strong>D商城</strong></td><td>28</td><td>47</td><td>17</td><td>57</td><td>47</td><td>10</td></tr><tr><td><strong>E商城</strong></td><td>24</td><td>42</td><td>24</td><td>47</td><td>59</td><td>10</td></tr><tr><td><strong>F商城</strong></td><td>27</td><td>48</td><td>20</td><td>55</td><td>53</td><td>15</td></tr></tbody></table><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>numpy</span> <span style=color:#a2f;font-weight:700>as</span> <span style=color:#00f;font-weight:700>np</span>
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>import</span> <span style=color:#00f;font-weight:700>random</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  用于去掉列表中的重复元素</span>
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>def</span> <span style=color:#00a000>func1</span>(data_list):
+</span></span><span style=display:flex><span>    <span style=color:#a2f;font-weight:700>return</span> <span style=color:#a2f>list</span>(<span style=color:#a2f>set</span>(data_list))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>min_money <span style=color:#666>=</span> <span style=color:#a2f>float</span>(<span style=color:#b44>&#39;inf&#39;</span>)  <span style=color:#080;font-style:italic># 初始化最小的花费为无穷大，后续只要找到比它小的就更新</span>
+</span></span><span style=display:flex><span>min_result <span style=color:#666>=</span> np<span style=color:#666>.</span>random<span style=color:#666>.</span>randint(<span style=color:#666>1</span>, <span style=color:#666>7</span>, size<span style=color:#666>=</span><span style=color:#666>5</span>)  <span style=color:#080;font-style:italic># 初始化五本书都在哪一家书店购买，后续我们不断对其更新</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  若min_result = [5 3 6 2 3]，则解释为：第1本书在第5家店买，第2本书在第3家店买，第3本书在第6家店买，第4本书在第2家店买，第5本书在第3家店买</span>
+</span></span><span style=display:flex><span>n <span style=color:#666>=</span> <span style=color:#666>800000</span>  <span style=color:#080;font-style:italic># 蒙特卡罗模拟的次数</span>
+</span></span><span style=display:flex><span>M <span style=color:#666>=</span> np<span style=color:#666>.</span>array([[<span style=color:#666>18</span>, <span style=color:#666>39</span>, <span style=color:#666>29</span>, <span style=color:#666>48</span>, <span style=color:#666>59</span>],
+</span></span><span style=display:flex><span>              [<span style=color:#666>24</span>, <span style=color:#666>45</span>, <span style=color:#666>23</span>, <span style=color:#666>54</span>, <span style=color:#666>44</span>],
+</span></span><span style=display:flex><span>              [<span style=color:#666>22</span>, <span style=color:#666>45</span>, <span style=color:#666>23</span>, <span style=color:#666>53</span>, <span style=color:#666>53</span>],
+</span></span><span style=display:flex><span>              [<span style=color:#666>28</span>, <span style=color:#666>47</span>, <span style=color:#666>17</span>, <span style=color:#666>57</span>, <span style=color:#666>47</span>],
+</span></span><span style=display:flex><span>              [<span style=color:#666>24</span>, <span style=color:#666>42</span>, <span style=color:#666>24</span>, <span style=color:#666>47</span>, <span style=color:#666>59</span>],
+</span></span><span style=display:flex><span>              [<span style=color:#666>27</span>, <span style=color:#666>48</span>, <span style=color:#666>20</span>, <span style=color:#666>55</span>, <span style=color:#666>53</span>]])  <span style=color:#080;font-style:italic># m_ij  第j本书在第i家店的售价</span>
+</span></span><span style=display:flex><span>freight <span style=color:#666>=</span> [<span style=color:#666>10</span>, <span style=color:#666>15</span>, <span style=color:#666>15</span>, <span style=color:#666>10</span>, <span style=color:#666>10</span>, <span style=color:#666>15</span>]  <span style=color:#080;font-style:italic># 第i家店的运费</span>
+</span></span><span style=display:flex><span><span style=color:#a2f;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>0</span>, n):
+</span></span><span style=display:flex><span>    result <span style=color:#666>=</span> np<span style=color:#666>.</span>random<span style=color:#666>.</span>randint(<span style=color:#666>0</span>, <span style=color:#666>6</span>, size<span style=color:#666>=</span><span style=color:#666>5</span>)  <span style=color:#080;font-style:italic># 在1-6这些整数中随机抽取一个1*5的向量，表示这五本书分别在哪家书店购买</span>
+</span></span><span style=display:flex><span>    index <span style=color:#666>=</span> func1(result)  <span style=color:#080;font-style:italic># 在哪些商店购买了商品，因为我们等下要计算运费</span>
+</span></span><span style=display:flex><span>    <span style=color:#080;font-style:italic># print(index)</span>
+</span></span><span style=display:flex><span>    money <span style=color:#666>=</span> <span style=color:#666>0</span>
+</span></span><span style=display:flex><span>    <span style=color:#a2f;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> index:
+</span></span><span style=display:flex><span>        money <span style=color:#666>=</span> money <span style=color:#666>+</span> freight[j]
+</span></span><span style=display:flex><span>        <span style=color:#080;font-style:italic># print(money)</span>
+</span></span><span style=display:flex><span>    <span style=color:#080;font-style:italic># 计算总花费：刚刚计算出来的运费 + 五本书的售价</span>
+</span></span><span style=display:flex><span>    <span style=color:#a2f;font-weight:700>for</span> k <span style=color:#a2f;font-weight:700>in</span> <span style=color:#a2f>range</span>(<span style=color:#666>0</span>, <span style=color:#666>5</span>):
+</span></span><span style=display:flex><span>        money <span style=color:#666>=</span> money <span style=color:#666>+</span> M[result[k] <span style=color:#666>-</span> <span style=color:#666>1</span>, k]
+</span></span><span style=display:flex><span>    <span style=color:#a2f;font-weight:700>if</span> money <span style=color:#666>&lt;</span> min_money:  <span style=color:#080;font-style:italic># 判断刚刚随机生成的这组数据的花费是否小于最小花费，如果小于的话</span>
+</span></span><span style=display:flex><span>        min_money <span style=color:#666>=</span> money  <span style=color:#080;font-style:italic># 我们更新最小的花费</span>
+</span></span><span style=display:flex><span>        min_result <span style=color:#666>=</span> result  <span style=color:#080;font-style:italic># 用这组数据更新最小花费的结果</span>
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(min_result)
+</span></span><span style=display:flex><span><span style=color:#a2f>print</span>(min_money)
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  最优情况为： [1 1 4 1 4]</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-style:italic>#  最少花费为: 194</span>
 </span></span></code></pre></div></div><footer class=post-footer><div class=post-tags><a href=/tags/mathematical-modeling rel=tag title="Mathematical Modeling">#Mathematical Modeling#</a></div><div class=addthis_inline_share_toolbox></div><div class=post-nav><div class=article-copyright><div class=article-copyright-img><img src=/img/qq_qrcode.jpg width=129px height=129px><div style=text-align:center>QQ扫一扫交流</div></div><div class=article-copyright-info><p><span>声明：</span>蒙特卡洛算法基于python的简单实现</p><p><span>链接：</span>https://murphyhanxu.github.io/post/montecarlo/</p><p><span>作者：</span>Murphy</p><p><span>声明： </span>本博客文章除特别声明外，均采用 <a href=https://creativecommons.org/licenses/by-nc-sa/3.0/ target=_blank style=text-decoration:underline>CC BY-NC-SA 3.0</a>许可协议，转载请注明出处！</p></div></div><div class=clear></div></div><div class=reward-qr-info><div>创作实属不易，如有帮助，那就打赏博主些许茶钱吧 ^_^</div><button id=rewardButton disable=enable onclick='var qr=document.getElementById("QR");qr.style.display==="none"?qr.style.display="block":qr.style.display="none"'>
 <span>赏</span></button><div id=QR style=display:none><div id=wechat style=display:inline-block><img id=wechat_qr src=/img/wechat-pay.png alt="WeChat Pay"><p>微信打赏</p></div></div></div><div class=post-nav><div class="post-nav-next post-nav-item"></div><div class="post-nav-prev post-nav-item"><a href=https://murphyhanxu.github.io/post/mysql-use/ rel=prev title="Mysql-use notes">Mysql-use notes
 <i class="fa fa-chevron-right"></i></a></div></div><div id=wcomments></div></footer></article></section></div></div><div class=sidebar-toggle><div class=sidebar-toggle-line-wrap><span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
