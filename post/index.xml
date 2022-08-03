@@ -1,97 +1,45 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 奔赴下一场山海</title><link>https://murphyhanxu.github.io/post/</link><description>Recent content in Posts on 奔赴下一场山海</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 31 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://murphyhanxu.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>蒙特卡洛算法基于python的简单实现</title><link>https://murphyhanxu.github.io/post/montecarlo/</link><pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/montecarlo/</guid><description>&lt;p>基于python用蒙特卡洛方法解决几道简单的数学建模问题。&lt;/p></description></item><item><title>Mysql-use notes</title><link>https://murphyhanxu.github.io/post/mysql-use/</link><pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/mysql-use/</guid><description>&lt;p>学习Mysql&lt;a href="https://www.bilibili.com/video/BV12b411K7Zu?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=b3b5aca8a2675b381887886fba026f67">视频&lt;/a>记录的笔记
-整理MySQL最常用的SQL语句（增删改查CRUD）。
-更多的命令可参考：https://www.runoob.com/mysql/mysql-select-database.html&lt;/p></description></item><item><title>Win 10环境下安装MySQL 5.7</title><link>https://murphyhanxu.github.io/post/mysql-install/</link><pubDate>Mon, 23 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/mysql-install/</guid><description>&lt;p>记录在Win 10下安装、配置MySQL 5.7的过程。&lt;/p></description></item><item><title>Python中list、tuple、dict和set的对比小结</title><link>https://murphyhanxu.github.io/post/python-list/</link><pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-list/</guid><description>&lt;p>对Python中list、turple、dict和set这四种数据类型进行对比总结。&lt;/p>
-&lt;h2 id="概览">概览&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 奔赴下一场山海</title><link>https://murphyhanxu.github.io/post/</link><description>Recent content in Posts on 奔赴下一场山海</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 01 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://murphyhanxu.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Python(xlrd,xlwt)对于excel的操作</title><link>https://murphyhanxu.github.io/post/autoexcel/</link><pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/autoexcel/</guid><description>&lt;p>总结xlrd，xlwt，pandas对于excel的常用操作。&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>&lt;/th>
-&lt;th>列表list&lt;/th>
-&lt;th>元组tuple&lt;/th>
-&lt;th>字典dict&lt;/th>
-&lt;th>集合set&lt;/th>
+&lt;th>库&lt;/th>
+&lt;th>.xls&lt;/th>
+&lt;th>.xlsx&lt;/th>
+&lt;th>读取&lt;/th>
+&lt;th>消耗时间（以10MB.xlsx文件为例）&lt;/th>
+&lt;th>写入&lt;/th>
+&lt;th>修改&lt;/th>
+&lt;th>保存&lt;/th>
+&lt;th>样式调整&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>读写要求&lt;/td>
-&lt;td>读写&lt;/td>
-&lt;td>只读&lt;/td>
-&lt;td>只读&lt;/td>
-&lt;td>读写&lt;/td>
+&lt;td>xlrd&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>12.38s&lt;/td>
+&lt;td>×&lt;/td>
+&lt;td>×&lt;/td>
+&lt;td>×&lt;/td>
+&lt;td>×&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>读取方式&lt;/td>
-&lt;td>索引&lt;/td>
-&lt;td>索引&lt;/td>
-&lt;td>键key&lt;/td>
-&lt;td>只能遍历&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>值是否重复&lt;/td>
-&lt;td>是&lt;/td>
-&lt;td>是&lt;/td>
-&lt;td>键不能重复，值可以&lt;/td>
-&lt;td>否&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>数据存储&lt;/td>
-&lt;td>连续、静态&lt;/td>
-&lt;td>连续、静态&lt;/td>
-&lt;td>不连续、动态&lt;/td>
-&lt;td>不连续、动态&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>是否有序&lt;/td>
-&lt;td>是&lt;/td>
-&lt;td>是&lt;/td>
-&lt;td>否（自动正序）&lt;/td>
-&lt;td>否&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>初始化&lt;/td>
-&lt;td>[lvalue1, lvalue2]&lt;/td>
-&lt;td>(tvalue1, tvalue2)&lt;/td>
-&lt;td>{key1:value1, key2:value2}&lt;/td>
-&lt;td>{svalue1, svalue2}&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>增&lt;/td>
-&lt;td>list.append(value)&lt;/td>
-&lt;td>只读&lt;/td>
-&lt;td>dict[key1] = value1&lt;/td>
-&lt;td>set.add(value1)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>删&lt;/td>
-&lt;td>del list[2]&lt;/td>
-&lt;td>只读&lt;/td>
-&lt;td>del dict[key]&lt;/td>
-&lt;td>set.remove(value1)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>改&lt;/td>
-&lt;td>list[2]=newValue&lt;/td>
-&lt;td>只读&lt;/td>
-&lt;td>dict[key1] = newValue&lt;/td>
-&lt;td>set.update(value)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>查&lt;/td>
-&lt;td>list[2:]&lt;/td>
-&lt;td>tuple[1:5]&lt;/td>
-&lt;td>dict[key]&lt;/td>
-&lt;td>value in set&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>应用场景&lt;/td>
-&lt;td>非结构化数据存储&lt;/td>
-&lt;td>稳定的数据存储&lt;/td>
-&lt;td>结构化数据存储&lt;/td>
-&lt;td>数据剔重&lt;/td>
+&lt;td>xlwt&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>×&lt;/td>
+&lt;td>×&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>√&lt;/td>
+&lt;td>√&lt;/td>
 &lt;/tr>
 &lt;/tbody>
-&lt;/table></description></item><item><title>定制个人博客</title><link>https://murphyhanxu.github.io/post/setup-blog/</link><pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-blog/</guid><description>&lt;p>昨天&lt;a href="https://murphyhanxu.github.io/post/setup-hugo/">使用Hugo部署的网站框架&lt;/a>里部署的还是themes带的样例页面。今天进行个性化定制，包括修改页面上的图片、链接等，并放入自己的博文。&lt;/p></description></item><item><title>使用Hugo创建个人博客框架</title><link>https://murphyhanxu.github.io/post/setup-hugo/</link><pubDate>Sun, 24 Apr 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-hugo/</guid><description>&lt;p>       在已经跑通了&lt;a href="https://murphyhanxu.github.io/post/setup-helloworld/">使用GitHub Pages建了自己的第一个hello world页面&lt;/a>的前提下，今天尝试使用Hugo来建一个完整的静态网站框架。&lt;/p>
+&lt;/table></description></item><item><title>蒙特卡洛算法基于python的简单实现</title><link>https://murphyhanxu.github.io/post/montecarlo/</link><pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/montecarlo/</guid><description>&lt;p>基于python用蒙特卡洛方法解决几道简单的数学建模问题。&lt;/p></description></item><item><title>Mysql-use notes</title><link>https://murphyhanxu.github.io/post/mysql-use/</link><pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/mysql-use/</guid><description>&lt;p>学习Mysql&lt;a href="https://www.bilibili.com/video/BV12b411K7Zu?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=b3b5aca8a2675b381887886fba026f67">视频&lt;/a>记录的笔记
+整理MySQL最常用的SQL语句（增删改查CRUD）。
+更多的命令可参考：https://www.runoob.com/mysql/mysql-select-database.html&lt;/p></description></item><item><title>Win 10环境下安装MySQL 5.7</title><link>https://murphyhanxu.github.io/post/mysql-install/</link><pubDate>Mon, 23 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/mysql-install/</guid><description>&lt;p>记录在Win 10下安装、配置MySQL 5.7的过程。&lt;/p></description></item><item><title>Python中list、tuple、dict和set的对比小结</title><link>https://murphyhanxu.github.io/post/python-list/</link><pubDate>Thu, 12 May 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-list/</guid><description>&lt;p>对Python中list、turple、dict和set这四种数据类型进行对比总结。&lt;/p></description></item><item><title>定制个人博客</title><link>https://murphyhanxu.github.io/post/setup-blog/</link><pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-blog/</guid><description>&lt;p>昨天&lt;a href="https://murphyhanxu.github.io/post/setup-hugo/">使用Hugo部署的网站框架&lt;/a>里部署的还是themes带的样例页面。今天进行个性化定制，包括修改页面上的图片、链接等，并放入自己的博文。&lt;/p></description></item><item><title>使用Hugo创建个人博客框架</title><link>https://murphyhanxu.github.io/post/setup-hugo/</link><pubDate>Sun, 24 Apr 2022 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/setup-hugo/</guid><description>&lt;p>       在已经跑通了&lt;a href="https://murphyhanxu.github.io/post/setup-helloworld/">使用GitHub Pages建了自己的第一个hello world页面&lt;/a>的前提下，今天尝试使用Hugo来建一个完整的静态网站框架。&lt;/p>
 &lt;p>       这里先介绍如何安装Hugo，使用Hugo创建站点，并引入一个主题。按照本文操作完，站点的页面还是themes带的样例页面。我将在下一篇文章中总结如何加入自己的博文，以及修改网站的其他个人信息。&lt;/p></description></item><item><title>Python中print小结</title><link>https://murphyhanxu.github.io/post/python-print/</link><pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate><guid>https://murphyhanxu.github.io/post/python-print/</guid><description>&lt;p>对Python中print函数的使用进行总结。包括：&lt;/p>
 &lt;ul>
 &lt;li>print方法的基本语法格式。&lt;/li>
