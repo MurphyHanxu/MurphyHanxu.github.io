@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><search><entry><title>k近邻算法--2.示例：使用k近邻算法改进约会网站的配对效果</title><url>https://murphyhanxu.github.io/post/k-nearest-neighbor-algorithm2/</url><categories><category>CS</category></categories><tags><tag>Machine Learning</tag></tags><content type="html"> 2.2 示例：使用k近邻算法改进约会网站的配对效果 我的朋友海伦一直使用在线约会网站寻找适合自己的约会对象。尽管约会网站会推荐不同的人选，但她没有从中找到喜欢的人。经过一番总结，她发现曾交往过三种类型的人：(1)不喜欢的人、(2)魅力一般的人、(3)极具魅力的人。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><search><entry><title>DIDL3.2 Notes</title><url>https://murphyhanxu.github.io/post/dide3.2_notes/</url><categories><category>CS</category></categories><tags><tag>DIDL</tag></tags><content type="html"> 3.2
+线性回归的从零开始实现
+1.生成数据集 为了简单起见，我们将根据带有噪声的线性模型构造一个人造数据集。我们的任务是使用这个有限样本的数据集来恢复这个模型的参数。我们将使用低维数据，这样可以很容易地将其可视化。在下面的代码中，我们生成一个包含1000个样本的数据集，每个样本包含从标准正态分布中采样的2个特征。我们合成的数据集是一个矩阵$\mathbf{X}\in\mathbb{R}^{1000\times2}$。
+我们使用线性模型参数$\mathbf{w}=[2,-3.4]^{T}$、$b=4.2$和噪声项$\epsilon$生成数据集及其标签： $$ \mathbf{y}=\mathbf{Xw}+b+\epsilon \tag{3.2.1} $$
+你可以将$\epsilon$视为模型预测和标签时的潜在观测误差。在这里我们认为标准假设成立，即$\epsilon$服从均值为$0$的正太分布。为了简化问题，我们将标准差设为$0.01$。下面的代码生成合成数据集。
+def synthetic_data(w, b, num_examples): #@save """生成y=Xw+b+噪声""" X = torch.normal(0, 1, (num_examples, len(w))) # X的形状是num_examples x len(w) y = torch.matmul(X, w) + b # y的形状是1 x num_examples y += torch.normal(0, 0.01, y.shape) # 将y加上epsilon return X, y.reshape((-1, 1)) # 返回噪声集x,y # torch.normal(mean, std, (number of samples, dimension)) # torch.matmul(A, B)指矩阵乘法 # .reshape((-1,1))转换成一列 true_w = torch.tensor([2, -3.4]) # w的形状为1 x 2 true_b = 4.2 features, labels = synthetic_data(true_w, true_b, 1000) 则features中的每一行都包含一个二维数据样本，labels中的每一行都包含一维标签值（一个标量）。
+通过生成第二个特征features[:,1]和labels的散点图，可以直观观察到两者之间的线性关系。
+d2l.set_figsize() d2l.plt.scatter(features[:, (1)].detach().numpy(), labels.detach().numpy(), 1) # 1表示的是样本点在图像上的大小 # .detach() 返回一个新的tensor，从当前计算图中分离下来的，但是仍指向原变量的存放位置,不同之处只是requires_grad为false，得到的这个tensor永远不需要计算其梯度，不具有grad。 d2l.plt.show() 2.读取数据集 回想一下，训练模型时要对数据集进行遍历，每次抽取一小批量样本，并使用它们来更新我们的模型。由于这个过程是训练机器学习算法的基础，所以有必要定义一个函数，该函数能打乱数据集中的样本并以小批量方式获取数据。
+在下面的代码中，我们定义一个data_iter函数，该函数接收批量大小、特征矩阵和标签向量作为插入，生成大小为batch_size的小批量。每个小批量包含一组特征和标签。
+def data_iter(batch_size, features, labels): num_examples = len(features) indices = list(range(num_examples)) # 这些样本是随机读取的，没有特定的顺序 random.shuffle(indices) # 将列表所有的元素随机排列 for i in range(0, num_examples, batch_size): batch_indices = torch.tensor( indices[i: min(i + batch_size, num_examples)]) yield features[batch_indices], labels[batch_indices] # 迭代器生成随机顺序的features和labels 通常，我们利用GPU并行运算的优势，处理合理大小的“小批量”。每个样本都可以并行地进行模型计算，且每个样本损失函数的梯度也可以被并行计算。GPU可以在处理几百个样本时，所花费的时间不比处理一个样本时间多太多。
+我们直观感受一下小批量运算：读取第一个小批量数据样本并打印。每个批量的特征维度显示批量大小和输入特征数。同样的，批量的标签形状与batch_size相等。
+batch_size = 10 for X, y in data_iter(batch_size, features, labels): print(X, '\n', y) break 当我们运行迭代时，我们会连续地获得不同的小批量，直至遍历完整个数据集。上面实现的迭代对于教学来说很好，但它的执行效率很低，可能会在实际问题上陷入麻烦。例如，它要求我们将所有数据加载到内存中，并执行大量的随机内存访问。在深度学习框架中实现的内置迭代器效率要高得多，它可以处理存储在文件中的数据和数据流提供的数据。
+3.初始化模型参数 在我们开始用小批量随机梯度下降优化我们的模型参数之前，我们需要先有一些参数。在下面的代码中，我们通过从均值为0、标准差为0.01的正态分布中采样随机数来初始化权重，并将偏置初始化为0。
+w = torch.normal(0, 0.01, size=(2,1), requires_grad=True) b = torch.zeros(1, requires_grad=True) 在初始化参数之后，我们的任务是更新这些参数，直到这些参数足够拟合我们的数据。每次更新都需要计算损失函数关于模型参数的梯度。有了这个梯度，我们就可以向减小损失的方向更新每个参数。因为手动计算梯度很枯燥而且容易出错，所以没有人会手动计算梯度。我们使用2.5节中引入的自动微分来计算梯度。
+4.定义模型 接下来，我们必须定义模型，将模型的输入和参数同模型的输出关联起来。回想一下，要计算线性模型的输出，我们只需计算输入特征$\mathbf{X}$和模型权重$\mathbf{w}$的矩阵-向量乘法后向上偏置$b$。注意，上面的$\mathbf{Xw}$是一个向量，而$b$是一个标量。回想广播机制：当我们用一个向量加一个标量时，标量会被加到向量的每个分量上。
+def linreg(X, w, b): #@save """线性回归模型""" return torch.matmul(X, w) + b 5.定义损失函数 因为需要计算损失函数的梯度，所以我们应该先定义损失函数。这里我们使用平方损失函数。在实现中，我们需要将真实值y的形状转换为和预测值y_hat的形状相同。
+def squared_loss(y_hat, y): #@save """均方损失""" return (y_hat - y.reshape(y_hat.shape)) ** 2 / 2 6.定义优化算法 尽管线性回归有解析解，但本书中的其他模型却没有。这里我们介绍小批量随机梯度下降。
+在每一步中，使用从数据集中随机抽取的一个小批量，然后根据参数计算损失的梯度。接下来，朝着减少损失的方向更新我们的参数。下面的函数实现小批量随机梯度下降更新。该函数接受模型参数集合、学习速率和批量大小作为输入。每一步更新的大小由学习速率lr决定。因为我们计算的损失是一个批量样本的总和，所以我们用批量大小(batch_size)来规范化步长，这样步长大小就不会取决于我们对批量大小的选择。
+def sgd(params, lr, batch_size): #@save """小批量随机梯度下降""" with torch.no_grad(): # 更新的时候不参与梯度计算 for param in params: param -= lr * param.grad / batch_size param.grad.zero_() # 将梯度重新归零，以便下一次计算梯度 7.训练 现在我们已经准备好了模型训练所有需要的要素，可以实现主要的训练过程部分了。理解这段代码至关重要，因为从事深度学习后，你会一遍又一遍地看到几乎相同的训练过程。在每次迭代中，我们读取一小批量训练样本，并通过我们的模型来获得一组预测。计算完损失后，我们开始反向传播，存储每个参数的梯度。最后，我们调用优化算法sgd来更新模型参数。
+概括一下，我们将执行一下循环：
+初始化参数 重复一下训练，直到完成 计算梯度$\mathbf{g}\leftarrow\partial_{(\mathbf{w},b)}\frac{1}{\vert\mathbf{B}\vert}\sum_{i\in\mathbf{B}}l(X^{(i)},y{(i)},\mathbf{w},b)$ 更新参数$(\mathbf{w},b)\leftarrow(\mathbf{w},b)-\eta\mathbf{g}$ 在每个迭代周期(epoch)中，我们使用data_iter函数遍历整个数据集，并将训练数据集中所有样本都使用一次（假设样本数能够被批量大小整除）。这里的迭代周期个数num_epochs和学习率lr都是超参数，分别设为$3$和$0.03$。设置超参数很棘手，需要通过反复试验进行调整。我们现在忽略这些细节，以后会在11节中详细介绍。
+lr = 0.03 # 学习率 num_epochs = 3 # 迭代次数（周期） net = linreg loss = squared_loss for epoch in range(num_epochs): for X, y in data_iter(batch_size, features, labels): l = loss(net(X, w, b), y) # X和y的小批量损失 # 因为l形状是(batch_size,1)，而不是一个标量。l中的所有元素被加到一起， # 并以此计算关于[w,b]的梯度 l.sum().backward() sgd([w, b], lr, batch_size) # 使用参数的梯度更新参数 with torch.no_grad(): train_l = loss(net(features, w, b), labels) print(f'epoch {epoch + 1}, loss {float(train_l.mean()):f}') 因为我们使用的是自己合成的数据集，所以我们知道真正的参数是什么。因此，我们可以通过比较真实参数和通过训练学到的参数来评估训练的成功程度。事实上，真实参数和通过训练学到的参数确实非常接近。
+print(f'w的估计误差: {true_w - w.reshape(true_w.shape)}') print(f'b的估计误差: {true_b - b}') 注意，我们不应该想当然地认为我们能够完美地求解参数。在机器学习中，我么通常不太关心恢复真正的参数，而更关心如何高度准确预测参数。幸运的是，即使是在复杂的优化问题上，随机梯度下降通常也能找到非常好的解。其中一个原因是，在深度学习网络中存在许多参数组合能够实现高度精确的预测。</content></entry><entry><title>k近邻算法--2.示例：使用k近邻算法改进约会网站的配对效果</title><url>https://murphyhanxu.github.io/post/k-nearest-neighbor-algorithm2/</url><categories><category>CS</category></categories><tags><tag>Machine Learning</tag></tags><content type="html"> 2.2 示例：使用k近邻算法改进约会网站的配对效果 我的朋友海伦一直使用在线约会网站寻找适合自己的约会对象。尽管约会网站会推荐不同的人选，但她没有从中找到喜欢的人。经过一番总结，她发现曾交往过三种类型的人：(1)不喜欢的人、(2)魅力一般的人、(3)极具魅力的人。
 尽管发现了上述规律，但海伦依然无法将约会网站推荐的匹配对象归入恰当的分类。她觉得可以在周一到周五约会那些魅力一般的人，而周末则更喜欢与那些极具魅力的人为伴。海伦希望我们的分类软件可以更好地帮助她将匹配对象划分到确切的分类中。此外海伦还收集了一些约会网站未曾记录的数据信息，她认为这些数据更有助于匹配对象的归类。
 示例：在约会网站上使用k近邻算法
 收集数据：提供文本文件
@@ -572,4 +594,27 @@ Hugo使用了多种开源项目，包括:
 https://github.com/yuin/goldmark https://github.com/alecthomas/chroma https://github.com/muesli/smartcrop https://github.com/spf13/cobra https://github.com/spf13/viper Hugo是博客、企业网站、创意作品集、在线杂志、单页应用程序甚至是数千页的网站的理想选择。
 Hugo适合那些想要手工编写自己的网站代码，而不用担心设置复杂的运行时、依赖关系和数据库的人。
 使用Hugo建立的网站非常快速、安全，可以部署在任何地方，包括AWS、GitHub Pages、Heroku、Netlify和任何其他托管提供商。
-更多信息请访问GitHub.</content></entry></search>
+更多信息请访问GitHub.</content></entry><entry><title/><url>https://murphyhanxu.github.io/post/dide3.3_notes/</url><categories/><tags/><content type="html"> author = &ldquo;Murphy&rdquo; title = &ldquo;DIDL3.2 Notes&rdquo; date = &ldquo;2022-09-07&rdquo;
+description = "" tags = [ &ldquo;DIDL&rdquo;, ]
+categories = [ &ldquo;CS&rdquo;, ]
+math= true
+toc= true
++++
+3.3
+线性回归的简洁实现
+1.生成数据集 与3.2节相同，我们首先生成数据集。
+import numpy as np import torch from torch.utils import data from d2l import torch as d2l true_w = torch.tensor([2, -3.4]) true_b = 4.2 features, labels = d2l.synthetic_data(true_w, true_b, 1000) 2.读取数据集 我们可以调用框架中现有的API来读取数据。我们将features和labels作为API的参数传递，并通过数据迭代器制定batch_size。此外，布尔值is_train表示是否希望数据迭代器对象在每个迭代周期内打乱数据。
+def load_array(data_arrays, batch_size, is_train=True): #@save """构造一个PyTorch数据迭代器""" dataset = data.TensorDataset(*data_arrays) return data.DataLoader(dataset, batch_size, shuffle=is_train) batch_size = 10 data_iter = load_array((features, labels), batch_size) 使用data_iter的方式与我们在3.2节中使用data_iter函数的方式相同。为了验证是否正常工作，让我们读取并打印第一个小批量样本。与3.2节不同，这里我们使用iter构造Python迭代器，并使用next从迭代器中获取第一项。
+next(iter(data_iter)) print(next(iter(data_iter))) 3.定义模型 当我们在3.2节中实现线性回归时，我们明确定义了模型参数变量，并编写了计算的代码，这样通过基本的线性代数运算得到输出。但是，如果模型变得更加复杂，且当你几乎每天都需要实现模型时，你会想简化这个过程。这种情况类似于为自己的博客从零开始编写网页。做一两次是有益的，但如果每个新博客你就花一个月的时间重新开始编写网页，那并不高效。
+对于标准深度学习模型，我们可以使用框架的预定义好的层。这使我们只需关注使用哪些层来构造模型，而不必关注层的实现细节。我们首先定义一个模型变量net，它是一个Sequential类的实例。Sequential类将多个层串联在一起。当给定输入数据时，Sequential实例将数据传入到第一层，然后将第一层的输出作为第二层的输入，以此类推。在下面的例子中，我们的模型只包含一个层，因此实际上不需要Sequential。但是由于以后几乎所有的模型都是多层的，在这里使用Sequential会让你熟悉“标准的流水线”。
+回顾单层网络架构，这一单层被称为全连接层(fully-connected layer)，因为它的每一个输入都通过矩阵-向量乘法得到它的每个输出。
+在PyTorch中，全连接层在Linear类中定义。值得注意的是，我们将两个参数传递到nn.Linear中。第一个指定输入特征形状，即2。第二个指定输出特征形状，输出特征形状为单个标量，因此为1。
+# nn是神经网络的缩写 from torch import nn net = nn.Sequential(nn.Linear(2, 1)) 4.初始化模型参数 在使用net之前，我们需要初始化模型参数。如在线性回归模型中的权重和偏置。深度学习框架通常有预定义的方法来初始化参数。在这里，我们指定每个权重参数应该从均值为0，标准差为0.01的正太分布中随机采样，偏置参数将初始化为零。
+正如我们在构造nn.Linear时指定输入和输出尺寸一样，现在我们能直接访问参数以设定它们的初始值。我们通过net[0]选择网络中的第一个图层，然后使用weight.data和bias.data方法访问参数。我们还可以使用替换方法normal_和fill_来重写参数值。
+net[0].weight.data.normal_(0, 0.01) net[0].bias.data.fill_(0) 5.定义损失函数 计算均方误差使用的是MSELoss类，也称为平方$L_2$范数。默认情况下，它返回所有样本损失的平均值。
+loss = nn.MSELoss() 6.定义优化算法 小批量随机梯度下降算法是一种优化神经网络的标准工具，PyTorch在optim模块中实现了该算法的许多变种。当我们实例化一个SGD实例时，我们要指定优化的参数（可通过net.parameters()从我们的模型中获得）以及优化算法所需的超参数字典。小批量随机梯度下降只需要设置lr值，这里设置为0.03。
+trainer = torch.optim.SGD(net.parameters(), lr=0.03) 7.训练 通过深度学习框架的高级API来实现我们的模型只需要相对较少的代码。我们不必单独分配参数、不必定义我们的损失函数，也不必手动实现小批量随机梯度下降。当我们需要更复杂的模型时，高级API的优势将大大增加。当我们有了所有的基本组件，训练过程代码与我们从零开始实现时所做的非常相似。
+回顾一下：在每个迭代周期里，我们将完整遍历一次数据集(train_data)，不停地从中获取一个小批量的输入和相应的标签。对于每一个小批量，我们会进行以下步骤：
+通过调用net(X)生成预测并计算损失l(前向传播)。 通过进行反向传播来计算梯度 通过调用优化器来更新模型参数。 为了更好的衡量训练效果，我们计算每个迭代周期后的损失，并打印它来监控训练过程。
+num_epochs = 3 for epoch in range(num_epochs): for X, y in data_iter: l = loss(net(X) ,y) trainer.zero_grad() l.backward() trainer.step() l = loss(net(features), labels) print(f'epoch {epoch + 1}, loss {l:f}') 下面我们比较生成数据集的真实参数和通过有限数据训练获得的模型参数。要访问参数，我们首先从net访问所需的层，然后读取该层的权重和偏置。正如在3.2节中一样，我们估计得到的参数与生成数据的真实参数非常接近。
+w = net[0].weight.data print('w的估计误差：', true_w - w.reshape(true_w.shape)) b = net[0].bias.data print('b的估计误差：', true_b - b)</content></entry></search>
