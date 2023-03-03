@@ -15,7 +15,7 @@
 <span>|
 <i class="fa fa-file-word-o fa-fw"></i>
 <span class=post-meta-item-text>字数：</span>
-<span class=leancloud-world-count>2985 字</span></span>
+<span class=leancloud-world-count>3001 字</span></span>
 <span>|
 <i class="fa fa-eye fa-fw"></i>
 <span class=post-meta-item-text>阅读：</span>
@@ -38,9 +38,9 @@ r(x)=b-Ax\tag{1.2}
 $$
 其中
 $$
-A=\begin{pmatrix}\psi_1(t_1)&\cdots&\psi_n(t_1)\
-\vdots& &\vdots\
-\psi_1(t_m) &\cdots&\psi_n(t_m)\end{pmatrix},
+A=\begin{pmatrix} \psi _1(t_1) & \cdots & \psi _n(t_1)\
+\vdots & & \vdots \
+\psi_1(t_m) & \cdots & \psi_n(t_m) \end{pmatrix},
 \quad
 b=(y_1,\cdots,y_n)^T,\
 x=(x_1,\cdots,x_n)^T,\quad
@@ -68,7 +68,7 @@ $$
 它的维数记为$\text{null}(A)$</p><p>一个子空间$S\subset\R^n$的正交补定义为：
 $$
 S^{\bot}={y\in\R^n|y^{T}x=0,\forall x\in S}
-$$</p><h5 id=定理11最小二乘问题的解存在>定理1.1：最小二乘问题的解存在</h5><p>下面从三个不同的视角证明最小二乘问题解的存在性。</p><p>视角1(数分视角)</p><p>设$f(x)=\frac{1}{2}\Vert b-Ax\Vert_2^2=\frac{1}{2}x^TA^TAx-x^TA^Tb+\frac{1}{2}\Vert b\Vert_2^2$</p><p>则$f&rsquo;(x)=A^TAx-A^Tb$，当$A$列满秩时$A^TA$对称正定，$A^TA$可逆。</p><p>因此$x^{\ast}=(A^TA)^{-1}A^Tb$。</p><p>视角2(代数视角)：$\text{rank}(A)=\text{rank}([A,b])$</p><p>若$\text{rank}(A)=\text{rank}([A,b])$成立，则$b\in \text{Im}(A)$，即$b$可表示为$b=\sum_{i=1}^nx_ia_i$。这里$A=[a_1,a_2,\cdots,a_n]$。于是，令$x=(x_1,x_2,\cdots,x_n)^T$，即有$Ax=b$，从而解存在性得证。</p><p>视角3(泛函视角)</p><p>由题意即求$\text{min}\Vert b-Ax\Vert_2$一个泛函极小问题，在Hilbert空间上，$\text{min}\Vert b-Ax\Vert_2\ge \Vert b-Pb\Vert_2$，其中$P$为到$\text{Im}(A)$上的正交投影算子。而$Pb\in \text{A}$，则$\exist x^{\ast}$使得$Pb=Ax^{\ast}$，从而$P=A(A^TA)^{-1}A^T$，易于验证是幂等自伴的。</p><h5 id=定理12假定方程组13的解存在并且假定x是其任意给定的解则方程组13的全部解的集合是>定理1.2：假定方程组$(1.3)$的解存在，并且假定$x$是其任意给定的解，则方程组$(1.3)$的全部解的集合是</h5><p>$$
+$$</p><h5 id=定理11最小二乘问题的解存在>定理1.1：最小二乘问题的解存在</h5><p>下面从三个不同的视角证明最小二乘问题解的存在性。</p><p>视角1(数分视角)</p><p>设$f(x)=\frac{1}{2}\Vert b-Ax\Vert_2^2=\frac{1}{2}x^TA^TAx-x^TA^Tb+\frac{1}{2}\Vert b\Vert_2^2$</p><p>则$f&rsquo;(x)=A^TAx-A^Tb$，当$A$列满秩时$A^TA$对称正定，$A^TA$可逆。</p><p>因此$x^{\ast}=(A^TA)^{-1}A^Tb$。</p><p>视角2(代数视角)：$\text{rank}(A)=\text{rank}([A,b])$</p><p>若$\text{rank}(A)=\text{rank}([A,b])$成立，则$b\in \text{Im}(A)$，即$b$可表示为$b=\sum_{i=1}^nx_ia_i$。这里$A=[a_1,a_2,\cdots,a_n]$。于是，令$x=(x_1,x_2,\cdots,x_n)^T$，即有$Ax=b$，从而解存在性得证。</p><p>视角3(泛函视角)</p><p>由题意即求$\text{min}\Vert b-Ax\Vert_2$一个泛函极小问题，在Hilbert空间上，$\text{min}\Vert b-Ax\Vert_2\ge \Vert b-Pb\Vert_2$，其中$P$为到$\text{Im}(A)$上的正交投影算子。而$Pb\in \text{A}$，则$\exists x^{\ast}$使得$Pb=Ax^{\ast}$，从而$P=A(A^TA)^{-1}A^T$，易于验证是幂等自伴的。</p><h5 id=定理12假定方程组13的解存在并且假定x是其任意给定的解则方程组13的全部解的集合是>定理1.2：假定方程组$(1.3)$的解存在，并且假定$x$是其任意给定的解，则方程组$(1.3)$的全部解的集合是</h5><p>$$
 x+\text{ker}(A)
 $$</p><p>证明：如果$y$满足方程组$(1.3)$，则$A(y-x)=0$，即$y-x\in \text{ker}(A)$，于是有$y=x+(y-x)\in x+\text{ker}(A)$。反之，如果$y\in x+\text{ker}(A)$，则存在$z\in \text{A}$，使得$y=x+z$，从而有$Ay=Ax+Az=Ax=b$。</p><p>定理1.2告诉我们，只要知道了方程组$(1.3)$的一个解，便可以用它与$\text{ker}(A)$中的向量的和得到方程组$(1.3)$的全部解。由此可知，方程组$(3.14)$的解想要唯一，只有当$\text{ker}(A)$中仅有零向量才行。</p><h5 id=推论13方程组13的解唯一的充分必要条件是>推论1.3：方程组$(1.3)$的解唯一的充分必要条件是</h5><p>$$
 \text{ker}(A)={0}
@@ -80,7 +80,7 @@ $$
 $$
 \mathcal{X}</em>{LS}={x\in\R^n:x\text{是LS问题(1.3)的解}}
 $$
-则由定理1.4知，$\mathcal{X}<em>{LS}$总是非空的，而且它仅有一个元素的充分必要条件是$A$的列线性无关。此外，不难证明解集中有且仅有一个解其$2$范数最小，我们用$x</em>{LS}$表示之，并称其为最小$2$范数解。</p><h5 id=定理15>定理1.5</h5><p>$x\in \mathcal{X}<em>{LS}$当且仅当
+则由定理1.4知，$\mathcal{X}<em>{LS}$总是非空的，而且它仅有一个元素的充分必要条件是$A$的列线性无关。此外，不难证明解集中有且仅有一个解其$2$范数最小，我们用$x</em>{LS}$表示之，并称其为最小$2$范数解。</p><h5 id=定理15>定理1.5</h5><p>$x \in \mathcal{X}<em>{LS}$当且仅当
 $$
 A^TAx=A^Tb\tag{1.4}
 $$
